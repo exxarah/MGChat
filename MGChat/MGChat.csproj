@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <TieredCompilation>false</TieredCompilation>
+        <UseWindowsForms>true</UseWindowsForms>
+        <TargetFramework>net5.0-windows</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>Icon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.*" />
+        <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <MonoGameContentReference Include="Content\Content.mgcb" />
+    </ItemGroup>
+
+</Project>
+
