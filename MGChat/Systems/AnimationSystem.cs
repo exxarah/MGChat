@@ -30,11 +30,13 @@ namespace MGChat.Systems
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            var components = Manager.Instance.Fetch<AnimatedSpriteComponent>();
-            foreach (var component in components)
+            var components = Manager.Instance.Fetch<AnimatedSpriteComponent, TransformComponent>();
+            foreach (var entity in components)
             {
-                var sprite = (AnimatedSpriteComponent) component;
-                Vector2 location = new Vector2(50, 50);
+                var sprite = (AnimatedSpriteComponent) entity[0];
+                var transform = (TransformComponent) entity[1];
+                
+                Vector2 location = transform.Position;
                 int width = sprite.Texture.Width / sprite.Columns;
                 int height = sprite.Texture.Height / sprite.Rows;
                 int row = (int) ((float) sprite.CurrentFrame / (float) sprite.Columns);

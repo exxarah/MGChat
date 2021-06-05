@@ -38,14 +38,8 @@ namespace MGChat
             _texture = Content.Load<Texture2D>("Character/walk_down");
             
             int fakeEntity = ECS.Manager.Instance.CreateEntity();
-            var component = new AnimatedSpriteComponent(fakeEntity, _texture, 1, 6);
-            var lines = ECS.Manager.Instance.Components.Select(kvp => kvp.Key + ": " + kvp.Value.ToString());
-            Debug.WriteLine(lines);
-            var type = typeof(AnimatedSpriteComponent);
-            var compList = ECS.Manager.Instance.Components[type][0];
-            System.Console.WriteLine(((AnimatedSpriteComponent)compList).Rows);
-            //ECS.Manager.Instance.DestroyEntity(fakeEntity);
-            Debug.WriteLine("Removed Entity");
+            new AnimatedSpriteComponent(fakeEntity, _texture, 1, 6);
+            new TransformComponent(fakeEntity, 100, 100);
         }
 
         protected override void Update(GameTime gameTime)

@@ -126,6 +126,23 @@ namespace MGChat.ECS
         {
             var list = _components[typeof(T)];
             return list;
-        } 
+        }
+
+        // TODO: Unclear if it works on more than 2 (in a different function obviously. Needs testing
+        // https://stackoverflow.com/questions/4488054/merge-two-or-more-lists-into-one-in-c-sharp-net
+        // https://stackoverflow.com/a/2697280
+        public List<List<Component>> Fetch<T1, T2>()
+        {
+            var list1 = _components[typeof(T1)];
+            var list2 = _components[typeof(T2)];
+
+            var listCombined = list1.Concat(list2).ToList();
+
+            // var finalList = list1.Intersect(list2, new ComponentEqualityComparer()).ToList();
+
+            var finalList = listCombined.GroupBy(component => component.Parent).Select(group => group.ToList()).ToList();
+
+            return finalList;
+        }
     }
 }
