@@ -37,9 +37,9 @@ namespace MGChat
             // TODO: use this.Content to load your game content here
             _texture = Content.Load<Texture2D>("Character/walk_down");
             
-            int fakeEntity = ECS.Manager.Instance.CreateEntity();
-            new AnimatedSpriteComponent(fakeEntity, _texture, 1, 6);
-            new TransformComponent(fakeEntity, 100, 100);
+            int player = ECS.Manager.Instance.CreateEntity();
+            new AnimatedSpriteComponent(player, _texture, 1, 6);
+            new TransformComponent(player, 100, 100);
         }
 
         protected override void Update(GameTime gameTime)

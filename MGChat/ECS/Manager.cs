@@ -122,7 +122,26 @@ namespace MGChat.ECS
             return true;
         }
 
-        public List<Component> Fetch<T>()
+        public List<Component> Fetch(int entity)
+        {
+            List<Component> list = new List<Component>();
+            
+            for (int i = _components.Count - 1; i >= 0; i--)
+            {
+                KeyValuePair<Type, List<Component>> KeyValue = _components.ElementAt(i);
+                for (int j = KeyValue.Value.Count - 1; j >= 0; j--)
+                {
+                    if (KeyValue.Value[j].Parent == entity)
+                    {
+                        list.Add(KeyValue.Value.ElementAt(j));
+                        break;
+                    }
+                }
+            }
+            return list;
+        }
+
+        public List<Component> Query<T>()
         {
             var list = _components[typeof(T)];
             return list;
@@ -131,7 +150,7 @@ namespace MGChat.ECS
         // TODO: Unclear if it works on more than 2 (in a different function obviously. Needs testing
         // https://stackoverflow.com/questions/4488054/merge-two-or-more-lists-into-one-in-c-sharp-net
         // https://stackoverflow.com/a/2697280
-        public List<List<Component>> Fetch<T1, T2>()
+        public List<List<Component>> Query<T1, T2>()
         {
             var list1 = _components[typeof(T1)];
             var list2 = _components[typeof(T2)];

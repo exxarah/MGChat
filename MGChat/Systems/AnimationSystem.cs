@@ -9,7 +9,7 @@ namespace MGChat.Systems
     {
         public override void Update(GameTime gameTime)
         {
-            var components = Manager.Instance.Fetch<AnimatedSpriteComponent>();
+            var components = Manager.Instance.Query<AnimatedSpriteComponent>();
             foreach (var component in components)
             {
                 var sprite = (AnimatedSpriteComponent) component;
@@ -30,7 +30,7 @@ namespace MGChat.Systems
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            var components = Manager.Instance.Fetch<AnimatedSpriteComponent, TransformComponent>();
+            var components = Manager.Instance.Query<AnimatedSpriteComponent, TransformComponent>();
             foreach (var entity in components)
             {
                 var sprite = (AnimatedSpriteComponent) entity[0];
