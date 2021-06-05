@@ -8,6 +8,9 @@ namespace MGChat
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D _texture;
+        private Vector2 _position;
+        private Sprite _sprite;
 
         public Game1()
         {
@@ -18,7 +21,7 @@ namespace MGChat
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            _position = new Vector2(0, 0);
 
             base.Initialize();
         }
@@ -28,15 +31,25 @@ namespace MGChat
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            _texture = Content.Load<Texture2D>("Character/walk_down");
+            _sprite = new Sprite(_texture, 1, 6);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            var delta = (float) gameTime.ElapsedGameTime.TotalSeconds;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 Exit();
+            }
 
-            // TODO: Add your update logic here
+            _position.X += 60 * delta;
+            if (_position.X > this.GraphicsDevice.Viewport.Width)
+            {
+                _position.X = 0;
+            }
+            _sprite.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -45,8 +58,11 @@ namespace MGChat
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
+            var fps = 1 / gameTime.ElapsedGameTime.TotalSeconds;
+            Window.Title = fps.ToString();
+            
+            _sprite.Draw(_spriteBatch, _position);
+            
             base.Draw(gameTime);
         }
     }
