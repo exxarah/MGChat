@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Components
 {
-    // Stores information for RenderingSystem. Is changed by systems (ie, changing what part of the texture to draw)
+    // Stores information for SpriteRenderingSystem. Is changed by systems (ie, changing what part of the texture to draw)
     public class SpriteComponent : ECS.Component
     {
         public Texture2D Texture;
@@ -17,6 +18,7 @@ namespace MGChat.Components
             Columns = columns;
             SpriteWidth = Texture.Width / Columns;
             SpriteHeight = Texture.Height / Rows;
+            Debug.WriteLine(SpriteHeight);
             SpriteX = 0;
             SpriteY = 0;
         }

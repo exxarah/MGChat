@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Systems
 {
-    public class RenderingSystem : ECS.System
+    public class SpriteRenderingSystem : ECS.System
     {
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -22,10 +22,11 @@ namespace MGChat.Systems
                     sprite.SpriteWidth, sprite.SpriteHeight);
                 Rectangle destinationRectangle = new Rectangle(
                     (int)transform.Position.X, (int) transform.Position.Y,
-                    sprite.SpriteWidth, sprite.SpriteHeight);
+                    sprite.SpriteWidth * (int)transform.Scale.X, sprite.SpriteHeight * (int)transform.Scale.Y);
                 
-                spriteBatch.Begin();
-                spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                //spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White);
+                spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White, transform.Rotation, transform.RotOrigin, SpriteEffects.None, 0f);
                 spriteBatch.End();
             }
         }
