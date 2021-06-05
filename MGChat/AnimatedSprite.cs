@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat
 {
-    public class Sprite
+    public class AnimatedSprite : ECS.Component
     {
         public Texture2D Texture;
         public int Rows;
@@ -15,7 +16,7 @@ namespace MGChat
         private int _currentFrame;
         private int _totalFrames;
 
-        public Sprite(Texture2D texture, int rows, int columns, int fps=0)
+        public AnimatedSprite(int parent, Texture2D texture, int rows=1, int columns=1, int fps=0) : base(parent)
         {
             Texture = texture;
             Rows = rows;
@@ -33,20 +34,19 @@ namespace MGChat
             var gameFrameTime = (float) gameTime.ElapsedGameTime.TotalSeconds;
             _timeUntilNextFrame -= gameFrameTime;
 
-            if (_timeUntilNextFrame <= 0)
+            if (!(_timeUntilNextFrame <= 0)) return;
+            _currentFrame++;
+            if (_currentFrame >= _totalFrames)
             {
-                _currentFrame++;
-                if (_currentFrame >= _totalFrames)
-                {
-                    _currentFrame = 0;
-                }
-
-                _timeUntilNextFrame += _frameTime;
+                _currentFrame = 0;
             }
+
+            _timeUntilNextFrame += _frameTime;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location)
+        public void Draw(SpriteBatch spriteBatch)
         {
+            Vector2 location = new Vector2(50, 50);
             int width = Texture.Width / Columns;
             int height = Texture.Height / Rows;
             int row = (int) ((float) _currentFrame / (float) Columns);

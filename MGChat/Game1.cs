@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using MGChat.ECS;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,8 +13,6 @@ namespace MGChat
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _texture;
-        private Vector2 _position;
-        private Sprite _sprite;
 
         public Game1()
         {
@@ -21,8 +23,6 @@ namespace MGChat
 
         protected override void Initialize()
         {
-            _position = new Vector2(0, 0);
-
             base.Initialize();
         }
 
@@ -32,24 +32,32 @@ namespace MGChat
 
             // TODO: use this.Content to load your game content here
             _texture = Content.Load<Texture2D>("Character/walk_down");
-            _sprite = new Sprite(_texture, 1, 6);
+            
+            int fakeEntity = ECS.Manager.Instance.CreateEntity();
+            var component = new AnimatedSprite(fakeEntity, _texture, 1, 6);
+            var lines = ECS.Manager.Instance.Components.Select(kvp => kvp.Key + ": " + kvp.Value.ToString());
+            Debug.WriteLine(lines);
+            var type = typeof(AnimatedSprite);
+            var compList = ECS.Manager.Instance.Components[type][0];
+            System.Console.WriteLine(((AnimatedSprite)compList).Rows);
+            //ECS.Manager.Instance.DestroyEntity(fakeEntity);
+            Debug.WriteLine("Removed Entity");
         }
 
         protected override void Update(GameTime gameTime)
         {
-            var delta = (float) gameTime.ElapsedGameTime.TotalSeconds;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
-
-            _position.X += 60 * delta;
-            if (_position.X > this.GraphicsDevice.Viewport.Width)
+            
+            var sprites = Manager.Instance.Fetch<AnimatedSprite>();
+            foreach (var sprite in sprites)
             {
-                _position.X = 0;
+
+                ((AnimatedSprite) sprite).Update(gameTime);
             }
-            _sprite.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -60,9 +68,14 @@ namespace MGChat
 
             var fps = 1 / gameTime.ElapsedGameTime.TotalSeconds;
             Window.Title = fps.ToString();
-            
-            _sprite.Draw(_spriteBatch, _position);
-            
+
+            var sprites = Manager.Instance.Fetch<AnimatedSprite>();
+            foreach (var sprite in sprites)
+            {
+
+                ((AnimatedSprite) sprite).Draw(_spriteBatch);
+            }
+
             base.Draw(gameTime);
         }
     }
