@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using MGChat.Components;
 using MGChat.ECS;
+using MGChat.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,6 +15,7 @@ namespace MGChat
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _texture;
+        private AnimationSystem _animationSystem;
 
         public Game1()
         {
@@ -23,6 +26,7 @@ namespace MGChat
 
         protected override void Initialize()
         {
+            _animationSystem = new AnimationSystem();
             base.Initialize();
         }
 
@@ -34,12 +38,12 @@ namespace MGChat
             _texture = Content.Load<Texture2D>("Character/walk_down");
             
             int fakeEntity = ECS.Manager.Instance.CreateEntity();
-            var component = new AnimatedSprite(fakeEntity, _texture, 1, 6);
+            var component = new AnimatedSpriteComponent(fakeEntity, _texture, 1, 6);
             var lines = ECS.Manager.Instance.Components.Select(kvp => kvp.Key + ": " + kvp.Value.ToString());
             Debug.WriteLine(lines);
-            var type = typeof(AnimatedSprite);
+            var type = typeof(AnimatedSpriteComponent);
             var compList = ECS.Manager.Instance.Components[type][0];
-            System.Console.WriteLine(((AnimatedSprite)compList).Rows);
+            System.Console.WriteLine(((AnimatedSpriteComponent)compList).Rows);
             //ECS.Manager.Instance.DestroyEntity(fakeEntity);
             Debug.WriteLine("Removed Entity");
         }
@@ -51,13 +55,8 @@ namespace MGChat
             {
                 Exit();
             }
-            
-            var sprites = Manager.Instance.Fetch<AnimatedSprite>();
-            foreach (var sprite in sprites)
-            {
 
-                ((AnimatedSprite) sprite).Update(gameTime);
-            }
+            _animationSystem.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -69,12 +68,7 @@ namespace MGChat
             var fps = 1 / gameTime.ElapsedGameTime.TotalSeconds;
             Window.Title = fps.ToString();
 
-            var sprites = Manager.Instance.Fetch<AnimatedSprite>();
-            foreach (var sprite in sprites)
-            {
-
-                ((AnimatedSprite) sprite).Draw(_spriteBatch);
-            }
+            _animationSystem.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
