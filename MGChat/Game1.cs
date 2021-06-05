@@ -15,8 +15,8 @@ namespace MGChat
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _texture;
+        private RenderingSystem _renderingSystem;
         private AnimationSystem _animationSystem;
-
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -26,7 +26,9 @@ namespace MGChat
 
         protected override void Initialize()
         {
+            _renderingSystem = new RenderingSystem();
             _animationSystem = new AnimationSystem();
+            
             base.Initialize();
         }
 
@@ -38,7 +40,8 @@ namespace MGChat
             _texture = Content.Load<Texture2D>("Character/walk_down");
             
             int player = ECS.Manager.Instance.CreateEntity();
-            new AnimatedSpriteComponent(player, _texture, 1, 6);
+            new SpriteComponent(player, _texture, 1, 6);
+            new AnimatedSpriteComponent(player, 6, 6);
             new TransformComponent(player, 100, 100);
         }
 
@@ -51,7 +54,7 @@ namespace MGChat
             }
 
             _animationSystem.Update(gameTime);
-
+            
             base.Update(gameTime);
         }
 
@@ -62,7 +65,7 @@ namespace MGChat
             var fps = 1 / gameTime.ElapsedGameTime.TotalSeconds;
             Window.Title = fps.ToString();
 
-            _animationSystem.Draw(_spriteBatch);
+            _renderingSystem.Draw(_spriteBatch);
 
             base.Draw(gameTime);
         }
