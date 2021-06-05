@@ -143,6 +143,8 @@ namespace MGChat.ECS
 
         public List<Component> Query<T>()
         {
+            if (!_components.ContainsKey(typeof(T))) { return null; }
+            
             var list = _components[typeof(T)];
             return list;
         }
@@ -152,6 +154,10 @@ namespace MGChat.ECS
         // https://stackoverflow.com/a/2697280
         public List<List<Component>> Query<T1, T2>()
         {
+            if (!_components.ContainsKey(typeof(T1)) || !_components.ContainsKey(typeof(T2)))
+            {
+                return null;
+            }
             var list1 = _components[typeof(T1)];
             var list2 = _components[typeof(T2)];
 

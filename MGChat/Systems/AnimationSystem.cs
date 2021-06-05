@@ -10,6 +10,8 @@ namespace MGChat.Systems
         public override void Update(GameTime gameTime)
         {
             var components = Manager.Instance.Query<AnimatedSpriteComponent, SpriteComponent>();
+            if (components == null) { return; }
+            
             foreach (var entity in components)
             {
                 var animatedSpriteComponent = (AnimatedSpriteComponent) entity[0];

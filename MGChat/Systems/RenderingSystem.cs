@@ -10,6 +10,8 @@ namespace MGChat.Systems
         public override void Draw(SpriteBatch spriteBatch)
         {
             var components = Manager.Instance.Query<SpriteComponent, TransformComponent>();
+            if (components == null) { return; }
+
             foreach (var entity in components)
             {
                 var sprite = (SpriteComponent) entity[0];
