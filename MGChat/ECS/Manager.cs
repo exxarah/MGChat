@@ -181,7 +181,6 @@ namespace MGChat.ECS
             return list;
         }
 
-        // TODO: Unclear if it works on more than 2 (in a different function obviously. Needs testing
         // https://stackoverflow.com/questions/4488054/merge-two-or-more-lists-into-one-in-c-sharp-net
         // https://stackoverflow.com/a/2697280
         public List<List<Component>> Query<T1, T2>()

@@ -29,7 +29,6 @@ namespace MGChat.Factories
 
         public static int CreatePlayerJson(string jsonPath)
         {
-            jsonPath = "../../../" + jsonPath;
             int player;
             using (StreamReader file = File.OpenText(jsonPath))
             using (JsonTextReader reader = new JsonTextReader(file))

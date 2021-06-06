@@ -15,6 +15,7 @@ namespace MGChat
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private string _contentPath;
 
         private InputSystem _inputSystem;
         private MovementSystem _movementSystem;
@@ -38,7 +39,11 @@ namespace MGChat
 
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 600;
+
+            _contentPath = "../../../Content/";
             
+            int player = Factories.PlayerFactory.CreatePlayerJson(_contentPath + "Data/Player.json");
+
             base.Initialize();
         }
 
@@ -46,12 +51,6 @@ namespace MGChat
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            //int player = Factories.PlayerFactory.CreatePlayer(this);
-            int player = Factories.PlayerFactory.CreatePlayerJson("Data/Player.json");
-
-            ECS.Manager.Instance.ExportEntity(player);
-            
             _spriteRenderingSystem.LoadContent(Content);
         }
 
