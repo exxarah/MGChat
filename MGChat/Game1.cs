@@ -14,7 +14,8 @@ namespace MGChat
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _texture;
+
+        private InputSystem _inputSystem;
         private SpriteRenderingSystem _spriteRenderingSystem;
         private AnimationSystem _animationSystem;
         public Game1()
@@ -26,6 +27,7 @@ namespace MGChat
 
         protected override void Initialize()
         {
+            _inputSystem = new InputSystem();
             _spriteRenderingSystem = new SpriteRenderingSystem();
             _animationSystem = new AnimationSystem();
 
@@ -40,12 +42,14 @@ namespace MGChat
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            _texture = Content.Load<Texture2D>("Char_One");
+            Texture2D _texture = Content.Load<Texture2D>("Char_One");
             
             int player = ECS.Manager.Instance.CreateEntity();
             new SpriteComponent(player, _texture, 9, 6);
             new AnimatedSpriteComponent(player, 8, 6);
             new TransformComponent(player, 100, 100);
+            new InputComponent(player);
+            new CommandComponent(player);
         }
 
         protected override void Update(GameTime gameTime)
@@ -56,6 +60,7 @@ namespace MGChat
                 Exit();
             }
 
+            _inputSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
             
             base.Update(gameTime);
