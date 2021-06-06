@@ -1,12 +1,25 @@
 ﻿using MGChat.Components;
 using MGChat.ECS;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Systems
 {
     public class SpriteRenderingSystem : ECS.System
     {
+        public void LoadContent(ContentManager Content)
+        {
+            var components = Manager.Instance.Query<SpriteComponent>();
+            if (components == null) { return; }
+
+            foreach (var component in components)
+            {
+                var sprite = (SpriteComponent) component;
+
+                sprite.Texture ??= Content.Load<Texture2D>(sprite.TexturePath);
+            }
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             var components = Manager.Instance.Query<SpriteComponent, TransformComponent>();

@@ -1,64 +1,94 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace MGChat.Components
 {
-    struct SpriteState
+    public struct SpriteState
     {
-        public string Id;
         public string State;
         public string Direction;
         public int Width;
         public int Height;
-        public bool Repeat;
+        public bool Animated;
+        public int Frames;
+        public int Fps;
 
-        public SpriteState(string id, int width=16, int height=16, bool repeat=true)
+        public SpriteState(string state, string direction, int width=16, int height=16, bool animated=true, int frames=6, int fps=8)
         {
-            Id = id;
-            State = id.Split('_')[0];
-            Direction = id.Split('_')[1];
+            State = state;
+            Direction = direction;
             Width = width;
             Height = height;
-            Repeat = repeat;
+            Animated = animated;
+            Frames = frames;
+            Fps = fps;
         }
     }
     
     public class SpriteStateComponent : ECS.Component
     {
+        [JsonProperty]
         private List<SpriteState> _animationStates;
         private int _state;
 
+        [JsonIgnore]
         public int SpriteY;
-        public string CurrentState => _animationStates[_state].Id;
+
+        [JsonIgnore] public int SpriteWidth => _animationStates[_state].Width;
+        [JsonIgnore] public int SpriteHeight => _animationStates[_state].Height;
+        
+        [JsonIgnore]
         public string State => _animationStates[_state].State;
+        [JsonIgnore]
         public string Direction => _animationStates[_state].Direction;
 
+        /**
         public SpriteStateComponent(int parent, params string[] args) : base(parent)
         {
             _animationStates = new List<SpriteState>();
             foreach (var s in args)
             {
-                _animationStates.Add(new SpriteState(s));
+                string state = s.Split('_')[0];
+                string direction = s.Split('_')[1];
+                _animationStates.Add(new SpriteState(state, direction));
             }
+            _state = 0;
+            SpriteY = 0;
+            
+            //SaveState(_animationStates[0]);
+        }
+        **/
+
+        public SpriteStateComponent(int parent, List<SpriteState> animationStates) : base(parent)
+        {
+            _animationStates = animationStates;
             _state = 0;
             SpriteY = 0;
         }
 
-        public bool ChangeState(string newState)
+        public void SaveState(SpriteState state)
         {
+            string json = JsonConvert.SerializeObject(this);
+            Debug.WriteLine(json);
+        }
+
+        public void ChangeState(string newDir="", string newState="")
+        {
+            if (newDir == "") { newDir = Direction; }
+            if (newState == "") { newState = State; }
+
             int spriteY = 0;
             for (int i = 0; i < _animationStates.Count; i++)
             {
-                if (_animationStates[i].Id == newState)
+                if (_animationStates[i].Direction == newDir && _animationStates[i].State == newState)
                 {
                     _state = i;
                     SpriteY = spriteY;
-                    return true;
+                    return;
                 }
                 spriteY += _animationStates[i].Height;
             }
-
-            return false;
         }
     }
 }

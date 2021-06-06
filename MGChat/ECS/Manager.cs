@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MGChat.ECS
 {
@@ -31,6 +32,37 @@ namespace MGChat.ECS
             }
             _entities.Add(newNumber);
             return newNumber;
+        }
+
+        public int CreateEntity(string json)
+        {
+            int newEntity = CreateEntity();
+            
+            var components = JsonConvert.DeserializeObject<List<Component>>(json, new JsonSerializerSettings()
+            {
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+
+            if (components != null)
+                foreach (var component in components)
+                {
+                    Debug.WriteLine("Initializing Entity");
+                    component.Init(newEntity);
+                }
+
+            return newEntity;
+        }
+
+        public string ExportEntity(int entity)
+        {
+            var components = Fetch(entity);
+            string json = JsonConvert.SerializeObject(components, Formatting.Indented, new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+            Debug.WriteLine(json);
+            return json;
         }
 
         public bool DestroyEntity(int entity)

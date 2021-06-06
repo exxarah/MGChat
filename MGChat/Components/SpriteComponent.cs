@@ -1,23 +1,27 @@
 ﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 
 namespace MGChat.Components
 {
     // Stores information for SpriteRenderingSystem. Is changed by systems (ie, changing what part of the texture to draw)
     public class SpriteComponent : ECS.Component
     {
+        [JsonIgnore]
         public Texture2D Texture;
+        public string TexturePath;
         public int Rows, Columns;
         public int SpriteWidth, SpriteHeight;
         public int SpriteX, SpriteY;
 
-        public SpriteComponent(int parent, Texture2D texture, int rows=1, int columns=1) : base(parent)
+        public SpriteComponent(int parent, string texturePath, int rows=1, int columns=1) : base(parent)
         {
-            Texture = texture;
+            TexturePath = texturePath;
             Rows = rows;
             Columns = columns;
-            SpriteWidth = Texture.Width / Columns;
-            SpriteHeight = Texture.Height / Rows;
+            SpriteWidth = 16;
+            SpriteHeight = 16;
             SpriteX = 0;
             SpriteY = 0;
         }

@@ -1,4 +1,5 @@
-﻿using MGChat.Commands;
+﻿using System.Diagnostics;
+using MGChat.Commands;
 using MGChat.Components;
 using Microsoft.Xna.Framework;
 
@@ -17,13 +18,28 @@ namespace MGChat.Systems
                 var _spriteState = (SpriteStateComponent) entity[1];
                 var _command = (CommandComponent) entity[2];
 
-                SpriteCommand currCommand = _command.GetCommand<SpriteCommand>();
-                if (currCommand is null) { continue; }
+                bool changed = false;
 
-                string newState = $"{(currCommand.State != "" ? currCommand.State : _spriteState.State)}_{(currCommand.Direction != "" ? currCommand.Direction : _spriteState.Direction)}";
-                _spriteState.ChangeState(newState);
+                ChangeDirectionCommand dirCommand = _command.GetCommand<ChangeDirectionCommand>();
+                if (dirCommand != null)
+                {
+                    _spriteState.ChangeState(newDir: dirCommand.Direction);
+                    changed = true;
+                }
+                
+                ChangeStateCommand stateCommand = _command.GetCommand<ChangeStateCommand>();
+                if (stateCommand != null)
+                {
+                    _spriteState.ChangeState(newState: stateCommand.State);
+                    changed = true;
+                }
 
-                _sprite.SpriteY = _spriteState.SpriteY;
+                if (changed)
+                {
+                    _sprite.SpriteY = _spriteState.SpriteY;
+                    _sprite.SpriteHeight = _spriteState.SpriteHeight;
+                    _sprite.SpriteWidth = _spriteState.SpriteWidth;
+                }
             }
             
             base.Update(gameTime);

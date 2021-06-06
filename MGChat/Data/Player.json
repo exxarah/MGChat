@@ -1,0 +1,111 @@
+﻿[
+  {
+    "$type": "MGChat.Components.CommandComponent, MGChat"
+  },
+  {
+    "$type": "MGChat.Components.MovableComponent, MGChat",
+    "Speed": 0.25
+  },
+  {
+    "$type": "MGChat.Components.InputComponent, MGChat"
+  },
+  {
+    "$type": "MGChat.Components.TransformComponent, MGChat",
+    "Position": "100, 100",
+    "Scale": "2, 2",
+    "RotOrigin": "0, 0",
+    "Rotation": 0.0
+  },
+  {
+    "$type": "MGChat.Components.SpriteStateComponent, MGChat",
+    "_animationStates": [
+      {
+        "State": "Idle",
+        "Direction": "Down",
+        "Width": 16,
+        "Height": 16,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      },
+      {
+        "State": "Idle",
+        "Direction": "Left",
+        "Width": 16,
+        "Height": 16,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      },
+      {
+        "State": "Idle",
+        "Direction": "Right",
+        "Width": 16,
+        "Height": 16,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      },
+      {
+        "State": "Idle",
+        "Direction": "Up",
+        "Width": 16,
+        "Height": 16,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      },
+      {
+        "State": "Walk",
+        "Direction": "Down",
+        "Width": 16,
+        "Height": 17,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      },
+      {
+        "State": "Walk",
+        "Direction": "Left",
+        "Width": 16,
+        "Height": 17,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      },
+      {
+        "State": "Walk",
+        "Direction": "Right",
+        "Width": 16,
+        "Height": 17,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      },
+      {
+        "State": "Walk",
+        "Direction": "Up",
+        "Width": 16,
+        "Height": 17,
+        "Animated": true,
+        "Frames": 6,
+        "Fps": 8
+      }
+    ]
+  },
+  {
+    "$type": "MGChat.Components.AnimatedSpriteComponent, MGChat",
+    "TotalFrames": 6,
+    "Fps": 8
+  },
+  {
+    "$type": "MGChat.Components.SpriteComponent, MGChat",
+    "TexturePath": "Char_One",
+    "Rows": 8,
+    "Columns": 6,
+    "SpriteWidth": 16,
+    "SpriteHeight": 16,
+    "SpriteX": 0,
+    "SpriteY": 0
+  }
+]

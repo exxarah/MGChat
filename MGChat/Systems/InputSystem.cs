@@ -37,6 +37,7 @@ namespace MGChat.Systems
                 
                 Vector2 newDir = Vector2.Zero;
                 int count = 0;
+                int pressed = 0;
 
                 foreach (var kvp in MOVE_KEYS)
                 {
@@ -44,6 +45,12 @@ namespace MGChat.Systems
                     {
                         newDir += kvp.Value;
                         count += 1;
+                        pressed = 1;
+                    }
+
+                    if (KeyReleased(kvp.Key))
+                    {
+                        pressed = -1;
                     }
                 }
 
@@ -51,7 +58,12 @@ namespace MGChat.Systems
                 {
                     newDir /= count;
                     _command.AddCommand(new MoveCommand(newDir));
-                    _command.AddCommand(new SpriteCommand(VectorToDirection(newDir)));
+                    _command.AddCommand(new ChangeDirectionCommand(VectorToDirection(newDir)));
+                }
+
+                if (pressed != 0)
+                {
+                    _command.AddCommand(new ChangeStateCommand(pressed == 1 ? "Walk" : "Idle"));
                 }
             }
 

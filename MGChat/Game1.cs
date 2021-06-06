@@ -5,6 +5,7 @@ using MGChat.Components;
 using MGChat.ECS;
 using MGChat.Systems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -46,16 +47,12 @@ namespace MGChat
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            Texture2D _texture = Content.Load<Texture2D>("Char_One");
+            //int player = Factories.PlayerFactory.CreatePlayer(this);
+            int player = Factories.PlayerFactory.CreatePlayerJson("Data/Player.json");
+
+            ECS.Manager.Instance.ExportEntity(player);
             
-            int player = ECS.Manager.Instance.CreateEntity();
-            new SpriteComponent(player, _texture, 9, 6);
-            new AnimatedSpriteComponent(player, 8, 6);
-            new SpriteStateComponent(player, "Idle_Down", "Idle_Left", "Idle_Right", "Idle_Up");
-            new TransformComponent(player, 100, 100);
-            new InputComponent(player);
-            new MovableComponent(player);
-            new CommandComponent(player);
+            _spriteRenderingSystem.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)
