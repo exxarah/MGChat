@@ -6,26 +6,26 @@ namespace MGChat.Components
 {
     public class CommandComponent : ECS.Component
     {
-        public List<Command> Commands;
+        private List<Command> _commands;
         // For Undoing
         private Stack<Command> _pastCommands;
         
         public CommandComponent(int parent) : base(parent)
         {
-            Commands = new List<Command>();
+            _commands = new List<Command>();
             _pastCommands = new Stack<Command>();
         }
 
         public void AddCommand(Command command)
         {
-            Commands.Add(command);
+            _commands.Add(command);
         }
 
         public T GetCommand<T>() where T: Command
         {
-            var command = Commands.OfType<T>().FirstOrDefault();
+            var command = _commands.OfType<T>().FirstOrDefault();
             _pastCommands.Push(command);
-            Commands.Remove(command);
+            _commands.Remove(command);
             return command;
         }
     }

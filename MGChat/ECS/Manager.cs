@@ -169,5 +169,24 @@ namespace MGChat.ECS
 
             return finalList;
         }
+        
+        public List<List<Component>> Query<T1, T2, T3>()
+        {
+            if (!_components.ContainsKey(typeof(T1)) || !_components.ContainsKey(typeof(T2)) || !_components.ContainsKey(typeof(T3)))
+            {
+                return null;
+            }
+            var list1 = _components[typeof(T1)];
+            var list2 = _components[typeof(T2)];
+            var list3 = _components[typeof(T3)];
+            
+            var listCombined = list1.Concat(list2).Concat(list3).ToList();
+
+            // var finalList = list1.Intersect(list2, new ComponentEqualityComparer()).ToList();
+
+            var finalList = listCombined.GroupBy(component => component.Parent).Select(group => group.ToList()).ToList();
+
+            return finalList;
+        }
     }
 }

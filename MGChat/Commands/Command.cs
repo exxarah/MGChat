@@ -1,8 +1,8 @@
 ﻿namespace MGChat.Commands
 {
-    public class Command
+    public abstract class Command
     {
-        public virtual void Execute(){}
-        public virtual void Undo(){}
+        public abstract void Execute();
+        public abstract void Undo();
     }
 }

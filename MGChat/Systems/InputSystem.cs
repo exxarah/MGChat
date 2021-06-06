@@ -29,13 +29,28 @@ namespace MGChat.Systems
             var components = ECS.Manager.Instance.Query<InputComponent, CommandComponent>();
             if (components == null) { return; }
 
-            foreach (var component in components)
+            foreach (var entity in components)
             {
-                var _input = (InputComponent) component[0];
-                var _command = (CommandComponent) component[1];
+                // var _input = (InputComponent) component[0];
+                var _command = (CommandComponent) entity[1];
                 
-                _command.AddCommand(new Command());
-                _command.GetCommand<Command>();
+                Vector2 newDir = Vector2.Zero;
+                int count = 0;
+
+                foreach (var kvp in MOVE_KEYS)
+                {
+                    if (KeyDown(kvp.Key) || KeyPressed(kvp.Key))
+                    {
+                        newDir += kvp.Value;
+                        count += 1;
+                    }
+                }
+
+                if (newDir != Vector2.Zero)
+                {
+                    newDir /= count;
+                    _command.AddCommand(new MoveCommand(newDir));
+                }
             }
 
             base.Update(gameTime);

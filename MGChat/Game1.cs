@@ -16,6 +16,7 @@ namespace MGChat
         private SpriteBatch _spriteBatch;
 
         private InputSystem _inputSystem;
+        private MovementSystem _movementSystem;
         private SpriteRenderingSystem _spriteRenderingSystem;
         private AnimationSystem _animationSystem;
         public Game1()
@@ -28,6 +29,7 @@ namespace MGChat
         protected override void Initialize()
         {
             _inputSystem = new InputSystem();
+            _movementSystem = new MovementSystem();
             _spriteRenderingSystem = new SpriteRenderingSystem();
             _animationSystem = new AnimationSystem();
 
@@ -49,6 +51,7 @@ namespace MGChat
             new AnimatedSpriteComponent(player, 8, 6);
             new TransformComponent(player, 100, 100);
             new InputComponent(player);
+            new MovableComponent(player);
             new CommandComponent(player);
         }
 
@@ -61,6 +64,7 @@ namespace MGChat
             }
 
             _inputSystem.Update(gameTime);
+            _movementSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
             
             base.Update(gameTime);
