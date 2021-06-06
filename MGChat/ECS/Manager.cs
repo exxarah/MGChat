@@ -179,7 +179,7 @@ namespace MGChat.ECS
             var list1 = _components[typeof(T1)];
             var list2 = _components[typeof(T2)];
             var list3 = _components[typeof(T3)];
-            
+             
             var listCombined = list1.Concat(list2).Concat(list3).ToList();
 
             // var finalList = list1.Intersect(list2, new ComponentEqualityComparer()).ToList();

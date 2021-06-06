@@ -9,15 +9,5 @@ namespace MGChat.Commands
         {
             Direction = direction;
         }
-        
-        public override void Execute()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void Undo()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MGChat.Commands;
@@ -50,10 +51,25 @@ namespace MGChat.Systems
                 {
                     newDir /= count;
                     _command.AddCommand(new MoveCommand(newDir));
+                    _command.AddCommand(new SpriteCommand(VectorToDirection(newDir)));
                 }
             }
 
             base.Update(gameTime);
+        }
+
+        private string VectorToDirection(Vector2 direction)
+        {
+            if (Math.Abs(direction.X) > Math.Abs(direction.Y))
+            {
+                // XDominant
+                return direction.X < 0 ? "Left" : "Right";
+            }
+            else
+            {
+                // YDominant
+                return direction.Y < 0 ? "Up" : "Down";
+            }
         }
 
         private bool KeyPressed(params Keys[] keysArray)

@@ -18,7 +18,6 @@ namespace MGChat.Components
             Columns = columns;
             SpriteWidth = Texture.Width / Columns;
             SpriteHeight = Texture.Height / Rows;
-            Debug.WriteLine(SpriteHeight);
             SpriteX = 0;
             SpriteY = 0;
         }
