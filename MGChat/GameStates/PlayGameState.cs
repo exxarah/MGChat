@@ -46,7 +46,7 @@ namespace MGChat.GameStates
 
         public override void UnloadContent()
         {
-            
+            ECS.Manager.Instance.Clear();
         }
     }
 }

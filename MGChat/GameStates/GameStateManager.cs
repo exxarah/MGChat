@@ -15,7 +15,6 @@ namespace MGChat.GameStates
 
         private Game _game;
         private SpriteBatch _spriteBatch;
-        private SpriteFont _defaultFont;
         
         private string _contentPath = "../../../Content/";
 
@@ -24,7 +23,6 @@ namespace MGChat.GameStates
         #region Properties
 
         public SpriteBatch SpriteBatch => _spriteBatch;
-        public SpriteFont DefaultFont => _defaultFont;
 
         #endregion
 
@@ -41,7 +39,6 @@ namespace MGChat.GameStates
             ContentManager content = _game.Content;
             
             _spriteBatch = new SpriteBatch(_game.GraphicsDevice);
-            _defaultFont = content.Load<SpriteFont>("Fipps_Regular_12");
         }
 
         #endregion
