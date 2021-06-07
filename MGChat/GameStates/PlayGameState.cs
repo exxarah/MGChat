@@ -13,7 +13,8 @@ namespace MGChat.GameStates
         private SpriteStateSystem _spriteStateSystem;
         private AnimationSystem _animationSystem;
         
-
+        public PlayGameState() : base("Play"){}
+        
         public override void Initialize()
         {
             _inputSystem = new InputSystem();

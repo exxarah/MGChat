@@ -31,6 +31,7 @@ namespace MGChat
             _graphics.PreferredBackBufferHeight = 600;
 
             _gameStateManager = new GameStateManager(this);
+            _gameStateManager.AddState(new MenuGameState());
             _gameStateManager.AddState(new PlayGameState());
             
             base.Initialize();

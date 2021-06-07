@@ -7,6 +7,13 @@ namespace MGChat.GameStates
     public abstract class GameState
     {
         public GameStateManager Manager;
+        public string Name;
+
+        protected GameState(string name="")
+        {
+            Name = name;
+        }
+
         public abstract void Initialize();
         public abstract void LoadContent(ContentManager content);
         public abstract void Update(GameTime gameTime);

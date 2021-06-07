@@ -16,7 +16,6 @@ namespace MGChat.GameStates
         private Game _game;
         private SpriteBatch _spriteBatch;
         private SpriteFont _defaultFont;
-        private Texture2D _defaultTexture;
         
         private string _contentPath = "../../../Content/";
 
@@ -42,8 +41,7 @@ namespace MGChat.GameStates
             ContentManager content = _game.Content;
             
             _spriteBatch = new SpriteBatch(_game.GraphicsDevice);
-            //_defaultFont = content.Load<SpriteFont>("defaultFont");
-            //_defaultTexture = content.Load<Texture2D>("defaultTexture");
+            _defaultFont = content.Load<SpriteFont>("Fipps_Regular_12");
         }
 
         #endregion
@@ -87,6 +85,18 @@ namespace MGChat.GameStates
             _activeState = state;
             _activeState.Initialize();
             _activeState.LoadContent(_game.Content);
+        }
+
+        public void ChangeState(string stateName)
+        {
+            foreach (var state in _states)
+            {
+                if (state.Name == stateName)
+                {
+                    ChangeState(state);
+                    return;
+                }
+            }
         }
 
         #endregion
