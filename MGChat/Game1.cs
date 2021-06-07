@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using MGChat.Components;
 using MGChat.ECS;
+using MGChat.GameStates;
 using MGChat.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -14,14 +15,8 @@ namespace MGChat
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private string _contentPath;
 
-        private InputSystem _inputSystem;
-        private MovementSystem _movementSystem;
-        private SpriteRenderingSystem _spriteRenderingSystem;
-        private SpriteStateSystem _spriteStateSystem;
-        private AnimationSystem _animationSystem;
+        private GameStateManager _gameStateManager;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -29,31 +24,25 @@ namespace MGChat
             IsMouseVisible = true;
         }
 
+        /// <inheritdoc/>
         protected override void Initialize()
         {
-            _inputSystem = new InputSystem();
-            _movementSystem = new MovementSystem();
-            _spriteRenderingSystem = new SpriteRenderingSystem();
-            _spriteStateSystem = new SpriteStateSystem();
-            _animationSystem = new AnimationSystem();
-
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 600;
 
-            _contentPath = "../../../Content/";
+            _gameStateManager = new GameStateManager(this);
+            _gameStateManager.AddState(new PlayGameState());
             
-            int player = Factories.PlayerFactory.CreatePlayerJson(_contentPath + "Data/Player.json");
-
             base.Initialize();
         }
 
+        /// <inheritdoc/>
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            _spriteRenderingSystem.LoadContent(Content);
+            _gameStateManager.LoadContent();
         }
-
+        
+        /// <inheritdoc/>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
@@ -62,22 +51,20 @@ namespace MGChat
                 Exit();
             }
 
-            _inputSystem.Update(gameTime);
-            _movementSystem.Update(gameTime);
-            _spriteStateSystem.Update(gameTime);
-            _animationSystem.Update(gameTime);
+            _gameStateManager.Update(gameTime);
             
             base.Update(gameTime);
         }
 
+        /// <inheritdoc/>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             var fps = 1 / gameTime.ElapsedGameTime.TotalSeconds;
             Window.Title = fps.ToString();
 
-            _spriteRenderingSystem.Draw(_spriteBatch);
+            _gameStateManager.Draw();
 
             base.Draw(gameTime);
         }

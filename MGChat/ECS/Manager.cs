@@ -154,6 +154,12 @@ namespace MGChat.ECS
             return true;
         }
 
+        public void Clear()
+        {
+            _components = new Dictionary<Type, List<Component>>();
+            _entities = new List<int>();
+        }
+
         public List<Component> Fetch(int entity)
         {
             List<Component> list = new List<Component>();
