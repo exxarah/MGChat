@@ -1,4 +1,5 @@
-﻿using MGChat.Components;
+﻿using System.Diagnostics;
+using MGChat.Components;
 using MGChat.ECS;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

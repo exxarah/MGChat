@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,7 +16,7 @@ namespace MGChat.GameStates
         public MenuGameState() : base("Menu"){}
         public override void Initialize()
         {
-            
+
         }
 
         public override void LoadContent(ContentManager content)

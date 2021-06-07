@@ -1,4 +1,8 @@
-﻿using MGChat.Systems;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+using MGChat.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +16,8 @@ namespace MGChat.GameStates
         private SpriteRenderingSystem _spriteRenderingSystem;
         private SpriteStateSystem _spriteStateSystem;
         private AnimationSystem _animationSystem;
+
+        public string playData;
         
         public PlayGameState() : base("Play"){}
         
@@ -24,6 +30,21 @@ namespace MGChat.GameStates
             _animationSystem = new AnimationSystem();
             
             int player = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/Player.json");
+            int remotePlayer = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/RemotePlayer.json");
+            
+            Action<object> action = (object obj) =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(1000);
+                    Debug.WriteLine("Task={0}, obj={1}, Thread={2}",
+                        Task.CurrentId, obj,
+                        Thread.CurrentThread.ManagedThreadId);
+                    playData = obj.ToString();
+                }
+            };
+
+            //Task netThread = Task.Factory.StartNew(action, "netThread");
         }
 
         public override void LoadContent(ContentManager content)
@@ -37,6 +58,8 @@ namespace MGChat.GameStates
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
+            
+            //Debug.WriteLine(playData);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

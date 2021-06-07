@@ -1,13 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using MGChat.Components;
-using MGChat.ECS;
-using MGChat.GameStates;
-using MGChat.Systems;
+﻿using MGChat.GameStates;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace MGChat

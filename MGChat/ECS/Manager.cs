@@ -110,17 +110,11 @@ namespace MGChat.ECS
             // Check if Component entry in Dict
             if (!_components.ContainsKey(currType))
             {
-                Debug.WriteLine($"Missing Component {currType} in Dictionary. Adding...");
                 _components.Add(currType, new List<Component>());
-                _components[currType].Add(component);
-                if (!_components.ContainsKey(currType))
-                {
-                    Debug.WriteLine($"Unexpected Error. Unable to register Component {currType}");
-                    return false;
-                }
-                return true;
+                Debug.WriteLine($"Missing Component {currType} in Dictionary. Adding...");
             }
 
+            _components[currType].Add(component);
             return true;
         }
 
@@ -202,8 +196,7 @@ namespace MGChat.ECS
 
             // var finalList = list1.Intersect(list2, new ComponentEqualityComparer()).ToList();
 
-            var finalList = listCombined.GroupBy(component => component.Parent).Select(group => group.ToList()).ToList();
-
+            var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 2).Select(group => group.ToList()).ToList();
             return finalList;
         }
         
@@ -221,7 +214,7 @@ namespace MGChat.ECS
 
             // var finalList = list1.Intersect(list2, new ComponentEqualityComparer()).ToList();
 
-            var finalList = listCombined.GroupBy(component => component.Parent).Select(group => group.ToList()).ToList();
+            var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 3).Select(group => group.ToList()).ToList();
 
             return finalList;
         }
