@@ -3,5 +3,5 @@
 - [X] Setup Readme Stuff
 - [ ] Setup Documentation
 - [X] Add Game States/Scene Manager
-- [ ] Make v simple Main Screen
+- [X] Make v simple Main Screen
 - [ ] How to networking?
