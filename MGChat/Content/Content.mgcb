@@ -25,10 +25,17 @@
 /processorParam:TextureFormat=Color
 /build:Char_One.png
 
-#begin File.spritefont
+#begin Fonts/Arcade_In_12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:File.spritefont;Fipps_Regular_12.spritefont
+/build:Fonts/Arcade_In_12.spritefont
+
+#begin Fonts/Arcade_Out_24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Arcade_Out_24.spritefont
 

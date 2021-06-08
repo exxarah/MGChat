@@ -21,7 +21,7 @@ namespace MGChat.GameStates
 
         public override void LoadContent(ContentManager content)
         {
-            _font = content.Load<SpriteFont>("Fipps_Regular_12");
+            _font = content.Load<SpriteFont>("Fonts/Arcade_Out_24");
         }
 
         public override void Update(GameTime gameTime)

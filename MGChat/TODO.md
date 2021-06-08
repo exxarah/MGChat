@@ -10,4 +10,6 @@
     - [X] Read jsonified input data from thread to game
     - [ ] Actually network it
     - [ ] Tidy up Code/Move to own namespace
-- [ ] 
+- [X] Nametag over local player
+- [ ] Enter name for tag at main menu
+

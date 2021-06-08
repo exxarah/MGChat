@@ -107,5 +107,10 @@
     "SpriteHeight": 16,
     "SpriteX": 0,
     "SpriteY": 0
+  },
+  {
+    "$type": "MGChat.Components.LabelComponent, MGChat",
+    "Text": "ss23",
+    "Centered": true
   }
 ]
