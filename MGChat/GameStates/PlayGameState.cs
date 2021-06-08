@@ -18,7 +18,7 @@ namespace MGChat.GameStates
         private SpriteStateSystem _spriteStateSystem;
         private AnimationSystem _animationSystem;
 
-        public string playData;
+        public string NetData = "";
         
         public PlayGameState() : base("Play"){}
         
@@ -36,17 +36,17 @@ namespace MGChat.GameStates
             
             Action<object> action = (object obj) =>
             {
+                int yPos = 0;
                 while (true)
                 {
-                    Thread.Sleep(1000);
-                    Debug.WriteLine("Task={0}, obj={1}, Thread={2}",
-                        Task.CurrentId, obj,
-                        Thread.CurrentThread.ManagedThreadId);
-                    playData = obj.ToString();
+                    Thread.Sleep(25);
+                    NetData = "[{\"NetId\": \"ss23\", \"Position\": \"20, " + yPos + "\"}]";
+                    Debug.WriteLine(NetData);
+                    yPos++;
                 }
             };
 
-            //Task netThread = Task.Factory.StartNew(action, "netThread");
+            Task netThread = Task.Factory.StartNew(action, "netThread");
         }
 
         public override void LoadContent(ContentManager content)
@@ -57,7 +57,7 @@ namespace MGChat.GameStates
         public override void Update(GameTime gameTime)
         {
             _inputSystem.Update(gameTime);
-            _remoteInputSystem.Update(gameTime);
+            _remoteInputSystem.Update(gameTime, NetData);
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);

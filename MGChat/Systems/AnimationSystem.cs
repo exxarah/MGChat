@@ -12,7 +12,6 @@ namespace MGChat.Systems
         {
             var components = Manager.Instance.Query<AnimatedSpriteComponent, SpriteComponent>();
             if (components == null) { return; }
-            Debug.WriteLine(components.Count);
             
             foreach (var entity in components)
             {

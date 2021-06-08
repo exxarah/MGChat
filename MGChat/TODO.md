@@ -6,6 +6,8 @@
 - [X] Make v simple Main Screen
 - [ ] Netwoking?
     - [X] Render second player
-    - [ ] Jsonify input data for second player
-    - [ ] Read jsonified input data from thread to game
+    - [X] Jsonify input data for second player
+    - [X] Read jsonified input data from thread to game
+    - [ ] Actually network it
+    - [ ] Tidy up Code/Move to own namespace
 - [ ] 
