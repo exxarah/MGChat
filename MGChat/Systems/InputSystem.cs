@@ -58,7 +58,7 @@ namespace MGChat.Systems
                 {
                     newDir /= count;
                     _command.AddCommand(new MoveCommand(newDir));
-                    _command.AddCommand(new ChangeDirectionCommand(VectorToDirection(newDir)));
+                    _command.AddCommand(new ChangeDirectionCommand(Util.Conversion.VectorToDirection(newDir)));
                 }
 
                 if (pressed != 0)
@@ -68,20 +68,6 @@ namespace MGChat.Systems
             }
 
             base.Update(gameTime);
-        }
-
-        private string VectorToDirection(Vector2 direction)
-        {
-            if (Math.Abs(direction.X) > Math.Abs(direction.Y))
-            {
-                // XDominant
-                return direction.X < 0 ? "Left" : "Right";
-            }
-            else
-            {
-                // YDominant
-                return direction.Y < 0 ? "Up" : "Down";
-            }
         }
 
         private bool KeyPressed(params Keys[] keysArray)

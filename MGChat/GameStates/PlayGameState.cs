@@ -12,6 +12,7 @@ namespace MGChat.GameStates
     public class PlayGameState : GameState
     {
         private InputSystem _inputSystem;
+        private RemoteInputSystem _remoteInputSystem;
         private MovementSystem _movementSystem;
         private SpriteRenderingSystem _spriteRenderingSystem;
         private SpriteStateSystem _spriteStateSystem;
@@ -24,6 +25,7 @@ namespace MGChat.GameStates
         public override void Initialize()
         {
             _inputSystem = new InputSystem();
+            _remoteInputSystem = new RemoteInputSystem();
             _movementSystem = new MovementSystem();
             _spriteRenderingSystem = new SpriteRenderingSystem();
             _spriteStateSystem = new SpriteStateSystem();
@@ -55,6 +57,7 @@ namespace MGChat.GameStates
         public override void Update(GameTime gameTime)
         {
             _inputSystem.Update(gameTime);
+            _remoteInputSystem.Update(gameTime);
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
