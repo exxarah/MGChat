@@ -109,8 +109,7 @@
     "SpriteY": 0
   },
   {
-    "$type": "MGChat.Components.LabelComponent, MGChat",
-    "Text": "exxarah",
-    "Centered": true
+    "$type": "MGChat.Components.InformationComponent, MGChat",
+    "Name": "exxarah"
   }
  ]

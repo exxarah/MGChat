@@ -173,6 +173,13 @@ namespace MGChat.ECS
             return list;
         }
 
+        public List<Component> Fetch<T>(int entity)
+        {
+            List<Component> list = Query<T>();
+            var listFinal = list.Where(comp => comp.Parent == entity).ToList();
+            return listFinal;
+        }
+
         public List<Component> Query<T>()
         {
             if (!_components.ContainsKey(typeof(T))) { return null; }
@@ -200,6 +207,13 @@ namespace MGChat.ECS
             return finalList;
         }
         
+        public List<Component> Fetch<T1, T2>(int entity)
+        {
+            var list = Query<T1, T2>();
+            var listFinal = list.Where(comp => comp[0].Parent == entity).ToList();
+            return listFinal[0];
+        }
+        
         public List<List<Component>> Query<T1, T2, T3>()
         {
             if (!_components.ContainsKey(typeof(T1)) || !_components.ContainsKey(typeof(T2)) || !_components.ContainsKey(typeof(T3)))
@@ -217,6 +231,13 @@ namespace MGChat.ECS
             var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 3).Select(group => group.ToList()).ToList();
 
             return finalList;
+        }
+        
+        public List<Component> Fetch<T1, T2, T3>(int entity)
+        {
+            var list = Query<T1, T2, T3>();
+            var listFinal = list.Where(comp => comp[0].Parent == entity).ToList();
+            return listFinal[0];
         }
     }
 }

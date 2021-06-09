@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MGChat.Systems;
+using MGChat.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,8 @@ namespace MGChat.GameStates
         private SpriteRenderingSystem _spriteRenderingSystem;
         private SpriteStateSystem _spriteStateSystem;
         private AnimationSystem _animationSystem;
-        private UiSystem _uiSystem;
+
+        private UiManager _uiManager;
 
         public string NetData = "";
         
@@ -31,11 +33,15 @@ namespace MGChat.GameStates
             _spriteRenderingSystem = new SpriteRenderingSystem();
             _spriteStateSystem = new SpriteStateSystem();
             _animationSystem = new AnimationSystem();
-            _uiSystem = new UiSystem();
+
+            _uiManager = new UiManager();
 
             int player = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/Player.json");
             int remotePlayer = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/RemotePlayer.json");
             
+            _uiManager.Add(new Label(player));
+            _uiManager.Add(new Label(remotePlayer));
+
             Action<object> action = (object obj) =>
             {
                 int yPos = 0;
@@ -54,7 +60,7 @@ namespace MGChat.GameStates
         public override void LoadContent(ContentManager content)
         {
             _spriteRenderingSystem.LoadContent(content);
-            _uiSystem.LoadContent(content);
+            _uiManager.LoadContent(content);
         }
 
         public override void Update(GameTime gameTime)
@@ -64,13 +70,14 @@ namespace MGChat.GameStates
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
-            _uiSystem.Update(gameTime);
+            
+            _uiManager.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             _spriteRenderingSystem.Draw(spriteBatch);
-            _uiSystem.Draw(spriteBatch);
+            _uiManager.Draw(spriteBatch);
         }
 
         public override void UnloadContent()

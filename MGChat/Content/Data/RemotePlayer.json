@@ -109,8 +109,7 @@
     "SpriteY": 0
   },
   {
-    "$type": "MGChat.Components.LabelComponent, MGChat",
-    "Text": "ss23",
-    "Centered": true
+    "$type": "MGChat.Components.InformationComponent, MGChat",
+    "Name": "ss23"
   }
 ]

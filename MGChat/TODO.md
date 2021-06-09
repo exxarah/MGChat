@@ -11,5 +11,11 @@
     - [ ] Actually network it
     - [ ] Tidy up Code/Move to own namespace
 - [X] Nametag over local player
+    - [X] Rewrite UI system stuff into non-ECS
 - [ ] Enter name for tag at main menu
-
+    - [ ] Draw a textbox
+    - [ ] Write in the textbox
+    - [ ] Use as character name
+- [ ] Setup Camera
+    - [ ] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)
+    - [ ] Can have multiple cameras (for minimaps etc)
