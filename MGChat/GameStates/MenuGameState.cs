@@ -25,9 +25,8 @@ namespace MGChat.GameStates
                 new Vector2(Manager.GameWidth/2, Manager.GameHeight/2 - 20)
                 ));
             _uiManager.Add(new Textbox(
-                200, 20,
-                new Vector2(Manager.GameWidth/2 - 65, Manager.GameHeight/2 + 20),
-                Util.UI.ObjAlign.Left
+                new Vector2(Manager.GameWidth/2 - 65, Manager.GameHeight/2 + 20), 
+                200, "Name "
                 ));
         }
 
@@ -42,6 +41,8 @@ namespace MGChat.GameStates
             {
                 Manager.ChangeState("Play");
             }
+            
+            _uiManager.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
