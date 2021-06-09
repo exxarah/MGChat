@@ -7,17 +7,13 @@ namespace MGChat.UI
     public class Label : UiElement
     {
         protected string _text;
-        protected Vector2 _position;
-        protected bool _centered;
         private string _fontPath;
         protected SpriteFont _font;
 
-        public Label(string fontPath, string text, Vector2 position, bool centered)
+        public Label(string fontPath, string text, Vector2 position, Util.UI.ObjAlign xAlign=Util.UI.ObjAlign.Center, Util.UI.ObjAlign yAlign=Util.UI.ObjAlign.Center) : base(position, xAlign, yAlign)
         {
             _fontPath = fontPath;
             _text = text;
-            _position = position;
-            _centered = centered;
         }
 
         public override void LoadContent(ContentManager content)
@@ -25,7 +21,11 @@ namespace MGChat.UI
             _font = content.Load<SpriteFont>(_fontPath);
             
             // Need Font to Center
-            if (_centered) { _position = Util.Text.CenterString(_position, _text, _font); }
+            if (_xAlign == Util.UI.ObjAlign.Center) { _position = Util.UI.CenterXAlign(_position, _text, _font); }
+            else if (_xAlign == Util.UI.ObjAlign.Right) { _position = Util.UI.RightXAlign(_position, _text, _font); }
+
+            if (_yAlign == Util.UI.ObjAlign.Center) { _position = Util.UI.CenterYAlign(_position, _text, _font); }
+            else if (_yAlign == Util.UI.ObjAlign.Top) { _position = Util.UI.TopYAlign(_position, _text, _font); }
 
             base.LoadContent(content);
         }

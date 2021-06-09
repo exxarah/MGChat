@@ -18,12 +18,17 @@ namespace MGChat.GameStates
         public MenuGameState() : base("Menu"){}
         public override void Initialize()
         {
-            _uiManager = new UiManager();
+            _uiManager = new UiManager(this);
             _uiManager.Add(new Label(
                 "Fonts/Arcade_Out_24",
                 "PRESS ENTER TO START",
-                new Vector2(Manager.GameWidth/2, Manager.GameHeight/2),
-                true));
+                new Vector2(Manager.GameWidth/2, Manager.GameHeight/2 - 20)
+                ));
+            _uiManager.Add(new Textbox(
+                200, 20,
+                new Vector2(Manager.GameWidth/2 - 65, Manager.GameHeight/2 + 20),
+                Util.UI.ObjAlign.Left
+                ));
         }
 
         public override void LoadContent(ContentManager content)

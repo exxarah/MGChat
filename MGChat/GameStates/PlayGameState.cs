@@ -34,7 +34,7 @@ namespace MGChat.GameStates
             _spriteStateSystem = new SpriteStateSystem();
             _animationSystem = new AnimationSystem();
 
-            _uiManager = new UiManager();
+            _uiManager = new UiManager(this);
 
             int player = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/Player.json");
             int remotePlayer = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/RemotePlayer.json");

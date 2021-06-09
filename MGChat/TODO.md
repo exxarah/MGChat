@@ -19,3 +19,5 @@
 - [ ] Setup Camera
     - [ ] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)
     - [ ] Can have multiple cameras (for minimaps etc)
+- [ ] Debug Menu
+    - [ ] FPS Counter etc

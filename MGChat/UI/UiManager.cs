@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MGChat.GameStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,11 +8,13 @@ namespace MGChat.UI
 {
     public class UiManager
     {
+        public GameState Parent { get; }
         private List<UiElement> _uiElements;
         
-        public UiManager()
+        public UiManager(GameState parent)
         {
             _uiElements = new List<UiElement>();
+            Parent = parent;
         }
 
         public void LoadContent(ContentManager content)
@@ -40,14 +43,14 @@ namespace MGChat.UI
 
         public void Add(UiElement element)
         {
-            element.Parent = this;
+            element.GameState = this;
             _uiElements.Add(element);
         }
 
         public void Remove(UiElement element)
         {
             var toRemove = _uiElements.IndexOf(element);
-            _uiElements[toRemove].Parent = null;
+            _uiElements[toRemove].GameState = null;
             _uiElements.RemoveAt(toRemove);
         }
     }

@@ -9,7 +9,7 @@ namespace MGChat.UI
     {
         private int _trackedEntity;
 
-        public EntityLabel(int entity, string fontPath="Fonts/Arcade_In_12") : base(fontPath, "", Vector2.Zero, true)
+        public EntityLabel(int entity, string fontPath="Fonts/Arcade_In_12") : base(fontPath, "", Vector2.Zero, Util.UI.ObjAlign.Center, Util.UI.ObjAlign.Top)
         {
             _trackedEntity = entity;
         }
@@ -22,18 +22,12 @@ namespace MGChat.UI
 
             
             // Realign EntityLabel
-            if (_centered)
-            {
-                var _sprite = (SpriteComponent) ECS.Manager.Instance.Fetch<SpriteComponent>(_trackedEntity)[0];
+            var _sprite = (SpriteComponent) ECS.Manager.Instance.Fetch<SpriteComponent>(_trackedEntity)[0];
+            
+            if (_xAlign == Util.UI.ObjAlign.Center) { _position = Util.UI.CenterXAlign(new Vector2(_position.X + _sprite.SpriteWidth, _position.Y), _text, _font); }
 
-                Vector2 labelPos = _position;
-                labelPos.Y -= _sprite.SpriteHeight;
-                Vector2 stringWidth = _font.MeasureString(_text);
-                float stringMiddle = stringWidth.X / 2;
-                float spriteMiddle = _position.X + _sprite.SpriteWidth;
-                labelPos.X = spriteMiddle - stringMiddle;
-                _position = labelPos;
-            }
+            if (_yAlign == Util.UI.ObjAlign.Center) { _position = Util.UI.CenterYAlign(_position, _text, _font); }
+            else if (_yAlign == Util.UI.ObjAlign.Top) { _position = Util.UI.TopYAlign(_position, _text, _font); }
 
             base.Update(gameTime);
         }
