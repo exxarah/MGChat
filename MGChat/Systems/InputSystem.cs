@@ -32,6 +32,7 @@ namespace MGChat.Systems
 
             foreach (var entity in components)
             {
+                // Get Relevant Components (no need to cast Input, it's just a flag)
                 // var _input = (InputComponent) component[0];
                 var _command = (CommandComponent) entity[1];
                 
@@ -39,6 +40,7 @@ namespace MGChat.Systems
                 int count = 0;
                 int pressed = 0;
 
+                // Figure out Vector2 of direction, multidirectional rather than strictly cardinal directions
                 foreach (var kvp in MOVE_KEYS)
                 {
                     if (KeyDown(kvp.Key) || KeyPressed(kvp.Key))
@@ -50,10 +52,13 @@ namespace MGChat.Systems
 
                     if (KeyReleased(kvp.Key))
                     {
+                        // Flag for Walk/Idle. If it's still this, then we've just stopped moving.
+                        // Will probably break to all hell if there's any more complex animations lmfao
                         pressed = -1;
                     }
                 }
 
+                //TODO: Be more like RemoteInputSystem -_-"
                 if (newDir != Vector2.Zero)
                 {
                     newDir /= count;

@@ -25,9 +25,7 @@ namespace MGChat.UI
             var _sprite = (SpriteComponent) ECS.Manager.Instance.Fetch<SpriteComponent>(_trackedEntity)[0];
             
             if (_xAlign == Util.UI.ObjAlign.Center) { _position = Util.UI.CenterXAlign(new Vector2(_position.X + _sprite.SpriteWidth, _position.Y), Text, _font); }
-
-            if (_yAlign == Util.UI.ObjAlign.Center) { _position = Util.UI.CenterYAlign(_position, Text, _font); }
-            else if (_yAlign == Util.UI.ObjAlign.Top) { _position = Util.UI.TopYAlign(_position, Text, _font); }
+            if (_yAlign == Util.UI.ObjAlign.Top) { _position = Util.UI.TopYAlign(_position, Text, _font); }
 
             base.Update(gameTime);
         }

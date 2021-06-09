@@ -18,12 +18,15 @@ namespace MGChat.GameStates
         public MenuGameState() : base("Menu"){}
         public override void Initialize()
         {
+            // Create UI Objects
             _uiManager = new UiManager(this);
+            // Title
             _uiManager.Add(new Label(
                 "Fonts/Arcade_Out_24",
                 "PRESS ENTER TO START",
                 new Vector2(Manager.GameWidth/2, Manager.GameHeight/2 - 20)
                 ));
+            // For entering username
             _uiManager.Add(new Textbox(
                 new Vector2(Manager.GameWidth/2 - 65, Manager.GameHeight/2 + 20), 
                 200, "Name "

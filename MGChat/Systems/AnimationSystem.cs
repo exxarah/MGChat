@@ -15,12 +15,15 @@ namespace MGChat.Systems
             
             foreach (var entity in components)
             {
+                // Get Relevant Components
                 var animatedSpriteComponent = (AnimatedSpriteComponent) entity[0];
                 var spriteComponent = (SpriteComponent) entity[1];
 
+                // Update animation timing counter
                 var gameFrameTime = (float) gameTime.ElapsedGameTime.TotalSeconds;
                 animatedSpriteComponent.TimeUntilNextFrame -= gameFrameTime;
-
+                
+                // Change frame (loop, or return to another animation here)
                 if (!(animatedSpriteComponent.TimeUntilNextFrame <= 0)) continue;
                 animatedSpriteComponent.CurrentFrame++;
                 if (animatedSpriteComponent.CurrentFrame >= animatedSpriteComponent.TotalFrames)
@@ -30,6 +33,7 @@ namespace MGChat.Systems
 
                 animatedSpriteComponent.TimeUntilNextFrame += animatedSpriteComponent.FrameTime;
                 
+                // Update actual drawn component
                 spriteComponent.SpriteX = (animatedSpriteComponent.CurrentFrame % spriteComponent.Columns) * spriteComponent.SpriteWidth;
             }
             base.Update(gameTime);

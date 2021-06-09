@@ -200,9 +200,6 @@ namespace MGChat.ECS
             var list2 = _components[typeof(T2)];
 
             var listCombined = list1.Concat(list2).ToList();
-
-            // var finalList = list1.Intersect(list2, new ComponentEqualityComparer()).ToList();
-
             var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 2).Select(group => group.ToList()).ToList();
             return finalList;
         }
@@ -225,11 +222,7 @@ namespace MGChat.ECS
             var list3 = _components[typeof(T3)];
              
             var listCombined = list1.Concat(list2).Concat(list3).ToList();
-
-            // var finalList = list1.Intersect(list2, new ComponentEqualityComparer()).ToList();
-
             var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 3).Select(group => group.ToList()).ToList();
-
             return finalList;
         }
         

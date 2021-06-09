@@ -1,7 +1,7 @@
 ﻿# TODO.md
 
 - [X] Setup Readme Stuff
-- [ ] Setup Documentation
+- [X] Setup Documentation/Comments
 - [X] Add Game States/Scene Manager
 - [X] Make v simple Main Screen
 - [ ] Netwoking?
@@ -13,8 +13,8 @@
 - [X] Nametag over local player
     - [X] Rewrite UI system stuff into non-ECS
 - [ ] Enter name for tag at main menu
-    - [ ] Draw a textbox
-    - [ ] Write in the textbox
+    - [X] Draw a textbox
+    - [X] Write in the textbox
     - [ ] Use as character name
 - [ ] Setup Camera
     - [ ] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)

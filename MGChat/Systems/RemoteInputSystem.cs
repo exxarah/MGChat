@@ -45,16 +45,6 @@ namespace MGChat.Systems
                 var oldNew = _remote.NewPosition;
                 _remote.NewPosition = _netInput.Position;
                 _remote.LastPosition = oldNew;
-                /**
-                if (timeCount >= timeBetween)
-                {
-                    var oldNew = _remote.NewPosition;
-                    _remote.NewPosition = _remote.LastPosition + new Vector2(0, 1);
-                    _remote.LastPosition = oldNew;
-                    timeCount = 0;
-                }
-                timeCount++;
-                **/
 
                 // Send Appropriate Commands
                 Vector2 newDir = _remote.NewDirection;

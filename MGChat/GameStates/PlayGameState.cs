@@ -42,6 +42,7 @@ namespace MGChat.GameStates
             _uiManager.Add(new EntityLabel(player));
             _uiManager.Add(new EntityLabel(remotePlayer));
 
+            // Fake network info
             Action<object> action = (object obj) =>
             {
                 int yPos = 0;
