@@ -39,8 +39,8 @@ namespace MGChat.GameStates
             int player = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/Player.json");
             int remotePlayer = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/RemotePlayer.json");
             
-            _uiManager.Add(new Label(player));
-            _uiManager.Add(new Label(remotePlayer));
+            _uiManager.Add(new EntityLabel(player));
+            _uiManager.Add(new EntityLabel(remotePlayer));
 
             Action<object> action = (object obj) =>
             {

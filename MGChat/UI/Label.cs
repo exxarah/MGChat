@@ -1,49 +1,39 @@
-﻿using MGChat.Components;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.UI
 {
     public class Label : UiElement
     {
-        private int _trackedEntity;
-        private string _text = "";
-        private Vector2 _position = Vector2.Zero;
-        private bool _centered = true;
+        protected string _text;
+        protected Vector2 _position;
+        protected bool _centered;
+        private string _fontPath;
+        protected SpriteFont _font;
 
-        public Label(int entity)
+        public Label(string fontPath, string text, Vector2 position, bool centered)
         {
-            _trackedEntity = entity;
+            _fontPath = fontPath;
+            _text = text;
+            _position = position;
+            _centered = centered;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void LoadContent(ContentManager content)
         {
-            var entity = ECS.Manager.Instance.Fetch<TransformComponent, InformationComponent>(_trackedEntity);
-            _position = ((TransformComponent) entity[0]).Position;
-            _text = ((InformationComponent) entity[1]).Name;
-
+            _font = content.Load<SpriteFont>(_fontPath);
             
-            // Realign Label
-            if (_centered)
-            {
-                var _sprite = (SpriteComponent) ECS.Manager.Instance.Fetch<SpriteComponent>(_trackedEntity)[0];
+            // Need Font to Center
+            if (_centered) { _position = Util.Text.CenterString(_position, _text, _font); }
 
-                Vector2 labelPos = _position;
-                labelPos.Y -= _sprite.SpriteHeight;
-                Vector2 stringWidth = Parent.Font.MeasureString(_text);
-                float stringMiddle = stringWidth.X / 2;
-                float spriteMiddle = _position.X + _sprite.SpriteWidth;
-                labelPos.X = spriteMiddle - stringMiddle;
-                _position = labelPos;
-            }
-
-            base.Update(gameTime);
+            base.LoadContent(content);
         }
-
+        
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(Parent.Font, _text, _position, Color.White);
+            spriteBatch.DrawString(_font, _text, _position, Color.White);
             spriteBatch.End();
 
             base.Draw(spriteBatch);

@@ -8,10 +8,7 @@ namespace MGChat.UI
     public class UiManager
     {
         private List<UiElement> _uiElements;
-        private SpriteFont _font;
-
-        public SpriteFont Font => _font;
-
+        
         public UiManager()
         {
             _uiElements = new List<UiElement>();
@@ -19,7 +16,10 @@ namespace MGChat.UI
 
         public void LoadContent(ContentManager content)
         {
-            _font = content.Load<SpriteFont>("Fonts/Arcade_In_12");
+            foreach (var uiElement in _uiElements)
+            {
+                uiElement.LoadContent(content);
+            }
         }
 
         public void Update(GameTime gameTime)
