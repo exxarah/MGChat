@@ -9,8 +9,6 @@ namespace MGChat.ECS
         [JsonIgnore]
         public bool Registered;
 
-        [JsonIgnore] private bool _allowInit = false;
-
         public Component(int parent)
         {
             Parent = parent;
@@ -25,7 +23,6 @@ namespace MGChat.ECS
             }
             Parent = parent;
             Registered = ECS.Manager.Instance.RegisterComponent(this);
-            _allowInit = false;
         }
         
     }

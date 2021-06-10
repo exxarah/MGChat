@@ -13,7 +13,7 @@ namespace MGChat.GameStates
     public class PlayGameState : GameState
     {
         private InputSystem _inputSystem;
-        private RemoteInputSystem _remoteInputSystem;
+        private RemoteSystem _remoteSystem;
         private MovementSystem _movementSystem;
         private SpriteRenderingSystem _spriteRenderingSystem;
         private SpriteStateSystem _spriteStateSystem;
@@ -21,14 +21,12 @@ namespace MGChat.GameStates
 
         private UiManager _uiManager;
 
-        public string NetData = "";
-        
         public PlayGameState() : base("Play"){}
         
         public override void Initialize()
         {
             _inputSystem = new InputSystem();
-            _remoteInputSystem = new RemoteInputSystem();
+            _remoteSystem = new RemoteSystem();
             _movementSystem = new MovementSystem();
             _spriteRenderingSystem = new SpriteRenderingSystem();
             _spriteStateSystem = new SpriteStateSystem();
@@ -36,26 +34,14 @@ namespace MGChat.GameStates
 
             _uiManager = new UiManager(this);
 
-            int player = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/Player.json");
-            int remotePlayer = Factories.PlayerFactory.CreatePlayerJson("../../../Content/" + "Data/RemotePlayer.json");
+            int player = Factories.PlayerFactory.CreatePlayerJson(Manager.ContentPath + "Data/Player.json");
+            int remotePlayer = Factories.PlayerFactory.CreatePlayerJson(Manager.ContentPath + "Data/RemotePlayer.json");
             
             _uiManager.Add(new EntityLabel(player));
             _uiManager.Add(new EntityLabel(remotePlayer));
 
             // Fake network info
-            Action<object> action = (object obj) =>
-            {
-                int yPos = 0;
-                while (true)
-                {
-                    Thread.Sleep(35);
-                    NetData = "[{\"NetId\": \"ss23\", \"Position\": \"20, " + yPos + "\"}]";
-                    Debug.WriteLine(NetData);
-                    yPos++;
-                }
-            };
-
-            Task netThread = Task.Factory.StartNew(action, "netThread");
+            Task test = Task.Factory.StartNew(Util.Network.NetThread, "netThread");
         }
 
         public override void LoadContent(ContentManager content)
@@ -67,7 +53,7 @@ namespace MGChat.GameStates
         public override void Update(GameTime gameTime)
         {
             _inputSystem.Update(gameTime);
-            _remoteInputSystem.Update(gameTime, NetData);
+            _remoteSystem.Update(gameTime);
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);

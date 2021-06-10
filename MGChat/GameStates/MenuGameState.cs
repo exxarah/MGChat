@@ -12,7 +12,6 @@ namespace MGChat.GameStates
 {
     public class MenuGameState : GameState
     {
-        private SpriteFont _font;
         private UiManager _uiManager;
         
         public MenuGameState() : base("Menu"){}

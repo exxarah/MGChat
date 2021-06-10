@@ -58,7 +58,7 @@ namespace MGChat.Systems
                     }
                 }
 
-                //TODO: Be more like RemoteInputSystem -_-"
+                //TODO: Be more like RemoteSystem -_-"
                 if (newDir != Vector2.Zero)
                 {
                     newDir /= count;

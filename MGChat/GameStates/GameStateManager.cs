@@ -22,6 +22,7 @@ namespace MGChat.GameStates
 
         #region Properties
 
+        public string ContentPath => _contentPath;
         public SpriteBatch SpriteBatch => _spriteBatch;
         public int GameWidth => _game.GraphicsDevice.Viewport.Width;
         public int GameHeight => _game.GraphicsDevice.Viewport.Height;
