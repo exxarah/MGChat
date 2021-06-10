@@ -8,7 +8,7 @@
     - [X] Render second player
     - [X] Jsonify input data for second player
     - [X] Read jsonified input data from thread to game
-    - [ ] Fake network input better (have local character export to thread, and remote player read that)
+    - [X] Fake network input better (have local character export to thread, and remote player read that)
     - [ ] Actually network it
     - [ ] Tidy up Code/Move to own namespace
 - [X] Nametag over local player

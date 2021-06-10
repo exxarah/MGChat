@@ -36,12 +36,10 @@ namespace MGChat.Util
 
         public static void NetThread(object? o)
         {
-            int yPos = 0;
             while (true)
             {
-                Thread.Sleep(35);
+                //Thread.Sleep(35);
                 NetDataIn = NetDataOut;
-                yPos++;
             }
         }
     }

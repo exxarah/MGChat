@@ -44,7 +44,7 @@ namespace MGChat.Systems
                     _remote.LastPosition = oldNew;
 
                     // Send Appropriate Commands
-                    Vector2 newDir = _remote.NewDirection;
+                    Vector2 newDir = Vector2.Normalize(_remote.NewDirection);
                     if (_remote.NewDirection != Vector2.Zero)
                     {
                         _command.AddCommand(new MoveCommand(newDir));
