@@ -18,12 +18,20 @@ namespace MGChat.Systems
                 var _movable = (MovableComponent) entity[1];
                 var _transform = (TransformComponent) entity[2];
 
-                MoveCommand currCommand = _command.GetCommand<MoveCommand>();
-                if (currCommand is null) { continue; }
+                MoveCommand _move = _command.GetCommand<MoveCommand>();
+                if (_move is not null)
+                {
+                    float delta = (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+                    _transform.Position.X += _move.Direction.X * _movable.Speed * delta;
+                    _transform.Position.Y += _move.Direction.Y * _movable.Speed * delta;
+                }
 
-                float delta = (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-                _transform.Position.X += currCommand.Direction.X * _movable.Speed * delta;
-                _transform.Position.Y += currCommand.Direction.Y * _movable.Speed * delta;
+                SetPositionCommand _setPos = _command.GetCommand<SetPositionCommand>();
+                if (_setPos is not null)
+                {
+                    _transform.Position.X = _setPos.Position.X;
+                    _transform.Position.Y = _setPos.Position.Y;
+                }
             }
             
             base.Update(gameTime);
