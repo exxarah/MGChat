@@ -9,6 +9,7 @@
     - [X] Jsonify input data for second player
     - [X] Read jsonified input data from thread to game
     - [X] Fake network input better (have local character export to thread, and remote player read that)
+    - [ ] Add new players on connect/etc. Spawn through the network
     - [ ] Actually network it
     - [ ] Tidy up Code/Move to own namespace
 - [X] Nametag over local player
@@ -22,3 +23,8 @@
     - [ ] Can have multiple cameras (for minimaps etc)
 - [ ] Debug Menu
     - [ ] FPS Counter etc
+- [ ] Physics \o/
+    - [X] Rewrite movement to be in PhysicsSystem
+    - [ ] Rewrite movement to use physics
+    - [ ] Discover Collisions
+    - [ ] Resolve Collisions

@@ -3,8 +3,7 @@
     "$type": "MGChat.Components.CommandComponent, MGChat"
   },
   {
-    "$type": "MGChat.Components.MovableComponent, MGChat",
-    "Speed": 0.25
+    "$type": "MGChat.Components.PhysicsComponent, MGChat"
   },
   {
     "$type": "MGChat.Components.RemoteInputComponent, MGChat"
