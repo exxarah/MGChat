@@ -20,8 +20,7 @@ namespace MGChat.Systems
                 SetPositionCommand _setPos = _command.GetCommand<SetPositionCommand>();
                 if (_setPos is not null)
                 {
-                    _transform.Position.X = _setPos.Position.X;
-                    _transform.Position.Y = _setPos.Position.Y;
+                    _transform.Position = new Vector2(_setPos.Position.X, _setPos.Position.Y);
                 }
             }
             

@@ -12,6 +12,10 @@
     "$type": "MGChat.Components.RemoteExportComponent, MGChat"
   },
   {
+    "$type": "MGChat.Components.ColliderComponent, MGChat",
+    "ColliderType": "AABB"
+  },
+  {
     "$type": "MGChat.Components.TransformComponent, MGChat",
     "Position": "100, 100",
     "Scale": "2, 2",

@@ -6,6 +6,10 @@
     "$type": "MGChat.Components.PhysicsComponent, MGChat"
   },
   {
+    "$type": "MGChat.Components.ColliderComponent, MGChat",
+    "ColliderType": "AABB"
+  },
+  {
     "$type": "MGChat.Components.RemoteInputComponent, MGChat"
   },
   {
