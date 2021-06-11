@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Physics2D.Primitives
 {
@@ -8,7 +9,7 @@ namespace MGChat.Physics2D.Primitives
         public Vector2 Scale = Vector2.One;
         public float Rotation = 0f;
         public Vector2 Offset = Vector2.Zero;
-        
+
         //public abstract float getInertiaTensor(float mass);
         public Collider2D(int parent) : base(parent) { }
 

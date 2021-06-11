@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using MGChat.Components;
 using MGChat.Physics2D.Primitives;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Systems
@@ -9,6 +11,16 @@ namespace MGChat.Systems
     public class DebugSystem : ECS.System
     {
         private bool _showColliders = true;
+        private Texture2D _squareShape;
+        private Texture2D _circleShape;
+
+        public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
+        {
+            _squareShape = Util.Shape.GenerateSquareShape(graphicsDevice, 32, 32);
+            _circleShape = Util.Shape.GenerateCircleShape(graphicsDevice, 32);
+            
+            base.LoadContent(content);
+        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -19,33 +31,17 @@ namespace MGChat.Systems
                 {
                     var transform = (TransformComponent) entity[1];
                     var aabb = (AABB) entity[0];
-                    Texture2D texture = DrawAABB(spriteBatch.GraphicsDevice, aabb);
+                    Rectangle textureRect = new Rectangle(
+                        (int)transform.Position.X, (int)transform.Position.Y,
+                        (int)aabb.Width, (int)aabb.Height);
 
                     spriteBatch.Begin();
-                    spriteBatch.Draw(texture, transform.Position, Color.White);
+                    spriteBatch.Draw(_squareShape, textureRect, Color.BlueViolet);
                     spriteBatch.End();
                 }
             }
             
             base.Draw(spriteBatch);
-        }
-
-        private Texture2D DrawAABB(GraphicsDevice graphicsDevice, AABB collider)
-        {
-            int w = (int) collider.Width;
-            int h = (int) collider.Height;
-            
-            Texture2D rectangle = new Texture2D(graphicsDevice, w, h);
-            Color[] colorData = new Color[w * h];
-
-            for (int i = 0; i < w * h; i++)
-            {
-                colorData[i] = Color.Aqua;
-            }
-            
-            rectangle.SetData(colorData);
-
-            return rectangle;
         }
     }
 }

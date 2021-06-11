@@ -9,7 +9,7 @@ namespace MGChat.Systems
 {
     public class SpriteRenderingSystem : ECS.System
     {
-        public void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager content)
         {
             var components = Manager.Instance.Query<SpriteComponent>();
             if (components == null) { return; }
@@ -18,7 +18,7 @@ namespace MGChat.Systems
             {
                 var sprite = (SpriteComponent) component;
 
-                sprite.Texture ??= Content.Load<Texture2D>(sprite.TexturePath);
+                sprite.Texture ??= content.Load<Texture2D>(sprite.TexturePath);
             }
         }
         public override void Draw(SpriteBatch spriteBatch)

@@ -50,6 +50,7 @@ namespace MGChat.GameStates
 
         public override void LoadContent(ContentManager content)
         {
+            _debugSystem.LoadContent(content, Manager.SpriteBatch.GraphicsDevice);
             _spriteRenderingSystem.LoadContent(content);
             _uiManager.LoadContent(content);
         }

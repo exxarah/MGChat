@@ -36,19 +36,20 @@ namespace MGChat.Systems
                         }
                     }
                     if (Equals(_netInput, default(Network.NetInput))) { continue; }
-
+                    
                     #region Remote Input
 
+                    _remote.LastDirection = _remote.NewDirection;
                     var oldNew = _remote.NewPosition;
                     _remote.NewPosition = _netInput.Position;
                     _remote.LastPosition = oldNew;
 
                     // Send Appropriate Commands
-                    Vector2 newDir = Vector2.Normalize(_remote.NewDirection);
+                    Vector2 newDir = _remote.NewDirection;
                     if (_remote.NewDirection != Vector2.Zero)
                     {
                         _command.AddCommand(new SetPositionCommand(_remote.NewPosition));
-                        _command.AddCommand(new ChangeDirectionCommand(Util.Conversion.VectorToDirection(newDir)));
+                        _command.AddCommand(new ChangeDirectionCommand(Conversion.VectorToDirection(newDir)));
                     }
 
                     if (newDir == Vector2.Zero && _remote.LastDirection != Vector2.Zero)

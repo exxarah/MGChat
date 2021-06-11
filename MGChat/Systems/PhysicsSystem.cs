@@ -45,15 +45,17 @@ namespace MGChat.Systems
 
                 var _newPosCommand = _command.GetCommand<SetPositionCommand>();
                 var _colliders = ECS.Manager.Instance.FetchAny<Collider2D>(_transform.Parent);
-                if (_colliders is null || _newPosCommand is null) { continue; }
+                if (_colliders is null) { continue; }
 
                 foreach (var component in _colliders)
                 {
                     Collider2D collider = (Collider2D) component;
                     // Insert current testable position, to populate properties in components
-                    collider.Position = _newPosCommand.Position;
                     collider.Rotation = _transform.Rotation;
                     collider.Scale = _transform.Scale;
+
+                    if (_newPosCommand is null) { continue; }
+                    collider.Position = _newPosCommand.Position;
 
                     if (collider is AABB)
                     {
@@ -71,7 +73,6 @@ namespace MGChat.Systems
 
                     }
                 }
-                
                 _command.AddCommand(_newPosCommand);
             }
 
