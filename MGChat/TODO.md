@@ -9,9 +9,10 @@
     - [X] Jsonify input data for second player
     - [X] Read jsonified input data from thread to game
     - [X] Fake network input better (have local character export to thread, and remote player read that)
-    - [ ] Add new players on connect/etc. Spawn through the network
+    - [X] Add new players on receive/etc. Spawn through the network
+    - [ ] Set netID to player name
     - [ ] Actually network it
-    - [ ] Tidy up Code/Move to own namespace
+    - [X] Tidy up Code/Move to own namespace
 - [X] Nametag over local player
     - [X] Rewrite UI system stuff into non-ECS
 - [ ] Enter name for tag at main menu

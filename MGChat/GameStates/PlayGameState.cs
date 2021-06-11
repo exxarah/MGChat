@@ -38,11 +38,11 @@ namespace MGChat.GameStates
 
             _uiManager = new UiManager(this);
 
-            int player = Factories.PlayerFactory.CreatePlayerJson(Manager.ContentPath + "Data/Player.json");
-            int remotePlayer = Factories.PlayerFactory.CreatePlayerJson(Manager.ContentPath + "Data/RemotePlayer.json");
+            int player = Factories.PlayerFactory.CreatePlayer(Manager.ContentPath + "Data/Player.json");
+            //int remotePlayer = Factories.PlayerFactory.CreatePlayer("../../../Content/" + "Data/RemotePlayer.json");
             
             _uiManager.Add(new EntityLabel(player));
-            _uiManager.Add(new EntityLabel(remotePlayer));
+            //_uiManager.Add(new EntityLabel(remotePlayer));
 
             // Fake network info
             Task test = Task.Factory.StartNew(Util.Network.NetThread, "netThread");
@@ -65,13 +65,14 @@ namespace MGChat.GameStates
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
             
+            _debugSystem.Update(gameTime);
             _uiManager.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             _debugSystem.Draw(spriteBatch);
-            _spriteRenderingSystem.Draw(spriteBatch);
+            _spriteRenderingSystem.Draw(spriteBatch, Manager.Content);
             _uiManager.Draw(spriteBatch);
         }
 

@@ -6,7 +6,7 @@ namespace MGChat.Components
 {
     public class RemoteExportComponent : Component
     {
-        [JsonIgnore] public string NetId = "ss23";
+        public string NetId;
         [JsonIgnore] public bool InitialExport;
 
         public RemoteExportComponent(int parent) : base(parent) { }

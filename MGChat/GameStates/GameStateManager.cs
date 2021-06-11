@@ -15,6 +15,7 @@ namespace MGChat.GameStates
 
         private Game _game;
         private SpriteBatch _spriteBatch;
+        private ContentManager _content;
         
         private string _contentPath = "../../../Content/";
 
@@ -24,6 +25,7 @@ namespace MGChat.GameStates
 
         public string ContentPath => _contentPath;
         public SpriteBatch SpriteBatch => _spriteBatch;
+        public ContentManager Content => _content;
         public int GameWidth => _game.GraphicsDevice.Viewport.Width;
         public int GameHeight => _game.GraphicsDevice.Viewport.Height;
 
@@ -39,7 +41,7 @@ namespace MGChat.GameStates
 
         public void LoadContent()
         {
-            ContentManager content = _game.Content;
+            _content = _game.Content;
             
             _spriteBatch = new SpriteBatch(_game.GraphicsDevice);
         }

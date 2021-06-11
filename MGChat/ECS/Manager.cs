@@ -217,7 +217,7 @@ namespace MGChat.ECS
             var listFinal = list.Where(comp => comp[0].Parent == entity).ToList();
             return listFinal[0];
         }
-        
+
         public List<List<Component>> Query<T1, T2, T3>()
         {
             if (!_components.ContainsKey(typeof(T1)) || !_components.ContainsKey(typeof(T2)) || !_components.ContainsKey(typeof(T3)))

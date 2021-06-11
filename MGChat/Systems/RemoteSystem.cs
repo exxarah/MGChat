@@ -17,6 +17,9 @@ namespace MGChat.Systems
             #region Remote In
 
             List<Network.NetInput> netInputs = Network.Receive();
+            List<string> existingPlayers = new List<string>();
+            
+            // Update Existing Remote Players
             var components = ECS.Manager.Instance.Query<RemoteInputComponent, CommandComponent>();
             if (components != null && netInputs != null)
             {
@@ -25,6 +28,7 @@ namespace MGChat.Systems
                     var _remote = (RemoteInputComponent) entity[0];
                     var _command = (CommandComponent) entity[1];
                     Network.NetInput _netInput = default;
+                    existingPlayers.Add(_remote.NetId);
 
                     // Get new positional data, update component
                     foreach (var netInput in netInputs)
@@ -66,6 +70,18 @@ namespace MGChat.Systems
                 }
             }
             
+            // Spawn new Remote Players
+            if (netInputs != null)
+            {
+                foreach (var input in netInputs)
+                {
+                    if (existingPlayers.Contains(input.NetId)) { continue; }
+                
+                    var remotePlayer = Factories.PlayerFactory.CreateRemotePlayer("../../../Content/" + "Data/RemotePlayer.json", input);
+                    Debug.WriteLine(input.Position);
+                }
+            }
+
             #endregion
 
             #region Remote Out

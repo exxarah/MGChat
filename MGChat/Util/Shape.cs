@@ -5,6 +5,20 @@ namespace MGChat.Util
 {
     public static class Shape
     {
+        public struct DrawShape
+        {
+            public Texture2D Texture;
+            public Rectangle Rect;
+            public Color Colour;
+
+            public DrawShape(Texture2D texture, Rectangle rect, Color colour)
+            {
+                Texture = texture;
+                Rect = rect;
+                Colour = colour;
+            }
+        }
+        
         public static Texture2D GenerateSquareShape(GraphicsDevice graphicsDevice, int width, int height)
         {
             Texture2D rectangle = new Texture2D(graphicsDevice, width, height);

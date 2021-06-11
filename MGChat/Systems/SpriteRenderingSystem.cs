@@ -19,9 +19,10 @@ namespace MGChat.Systems
                 var sprite = (SpriteComponent) component;
 
                 sprite.Texture ??= content.Load<Texture2D>(sprite.TexturePath);
+                sprite.ContentLoaded = true;
             }
         }
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, ContentManager Content)
         {
             var components = Manager.Instance.Query<SpriteComponent, TransformComponent>();
             if (components == null) { return; }
@@ -30,6 +31,12 @@ namespace MGChat.Systems
             {
                 var sprite = (SpriteComponent) entity[0];
                 var transform = (TransformComponent) entity[1];
+
+                if (sprite.ContentLoaded is false)
+                {
+                    sprite.Texture ??= Content.Load<Texture2D>(sprite.TexturePath);
+                    sprite.ContentLoaded = true;
+                }
 
                 Rectangle sourceRectangle = new Rectangle(
                     sprite.SpriteX, sprite.SpriteY,

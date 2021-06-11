@@ -10,7 +10,7 @@ namespace MGChat.Factories
 {
     public static class PlayerFactory
     {
-        public static int CreatePlayerJson(string jsonPath)
+        public static int CreatePlayer(string jsonPath)
         {
             int player;
             using (StreamReader file = File.OpenText(jsonPath))
@@ -24,6 +24,18 @@ namespace MGChat.Factories
             }
 
             return player;
+        }
+
+        public static int CreateRemotePlayer(string jsonPath, Util.Network.NetInput input)
+        {
+            int remotePlayer = CreatePlayer(jsonPath);
+
+            var remote = (RemoteInputComponent)ECS.Manager.Instance.Fetch<RemoteInputComponent>(remotePlayer)[0];
+            remote.LastPosition = input.Position;
+            remote.NewPosition = input.Position;
+            remote.NetId = input.NetId;
+
+            return remotePlayer;
         }
     }
 }

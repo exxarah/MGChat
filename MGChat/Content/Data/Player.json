@@ -9,7 +9,8 @@
     "$type": "MGChat.Components.InputComponent, MGChat"
   },
   {
-    "$type": "MGChat.Components.RemoteExportComponent, MGChat"
+    "$type": "MGChat.Components.RemoteExportComponent, MGChat",
+    "NetId": "exxarah"
   },
   {
     "$type": "MGChat.Physics2D.Primitives.AABB, MGChat",

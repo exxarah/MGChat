@@ -14,6 +14,7 @@ namespace MGChat.Components
         public int Rows, Columns;
         public int SpriteWidth, SpriteHeight;
         public int SpriteX, SpriteY;
+        [JsonIgnore] public bool ContentLoaded = false;
 
         public SpriteComponent(int parent, string texturePath, int rows=1, int columns=1) : base(parent)
         {
