@@ -44,28 +44,33 @@ namespace MGChat.Systems
                 var _rigidbody = (RigidbodyComponent) entity[2];
 
                 var _newPosCommand = _command.GetCommand<SetPositionCommand>();
-                var _collider = (Collider2D) ECS.Manager.Instance.FetchAny<Collider2D>(_transform.Parent)[0];
+                var _colliders = ECS.Manager.Instance.FetchAny<Collider2D>(_transform.Parent);
+                if (_colliders is null || _newPosCommand is null) { continue; }
 
-                if (_collider is null || _newPosCommand is null) { continue; }
-                // Insert current testable position, to populate properties in components
-                _collider.Position = _newPosCommand.Position;
-
-                if (_collider is AABB)
+                foreach (var component in _colliders)
                 {
-                    var _aabb = (AABB) _collider;
-                }
+                    Collider2D collider = (Collider2D) component;
+                    // Insert current testable position, to populate properties in components
+                    collider.Position = _newPosCommand.Position;
 
-                if (_collider is Circle)
-                {
-                    var _circle = (Circle) _collider;
-                }
+                    if (collider is AABB)
+                    {
+                        var aabb = (AABB) collider;
+                    }
 
-                if (_collider is Box2D)
-                {
-                    var _box = (Box2D) _collider;
-                    _box.Rotation = _transform.Rotation;
-                }
+                    if (collider is Circle)
+                    {
+                        var circle = (Circle) collider;
+                    }
 
+                    if (collider is Box2D)
+                    {
+                        var box = (Box2D) collider;
+                        box.Rotation = _transform.Rotation;
+                    }
+                }
+                
+                _command.AddCommand(_newPosCommand);
             }
 
             #endregion

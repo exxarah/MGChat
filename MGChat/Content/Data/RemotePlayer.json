@@ -6,7 +6,9 @@
     "$type": "MGChat.Components.RigidbodyComponent, MGChat"
   },
   {
-    "$type": "MGChat.Physics2D.Primitives.AABB, MGChat"
+    "$type": "MGChat.Physics2D.Primitives.AABB, MGChat",
+    "Width": 16,
+    "Height": 16
   },
   {
     "$type": "MGChat.Components.RemoteInputComponent, MGChat"

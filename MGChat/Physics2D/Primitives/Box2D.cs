@@ -11,7 +11,7 @@ namespace MGChat.Physics2D.Primitives
         public float Rotation = 0f;
         
         // I don't think this Center works lmfao
-        public Vector2 Center => Position + Offset;
+        public Vector2 Center => Position + _halfSize;
         public Vector2 Min => Center - _halfSize;
         public Vector2 Max => Center + _halfSize;
 
@@ -31,16 +31,30 @@ namespace MGChat.Physics2D.Primitives
                 new Vector2(Max.X, Min.Y), new Vector2(Max.X, Max.Y)
             };
 
-            if (Rotation != 0.0f)
+            if (!Util.Math.Compare(Rotation, 0f))
             {
                 for (int i = 0; i < vertices.Length; i++)
                 {
-                    var vertex = MGChat.Util.Math.Rotate(vertices[i], Position, Rotation);
+                    var vertex = MGChat.Util.Math.Rotate(vertices[i], Center, Rotation);
                     vertices[i] = vertex;
                 }
             }
 
             return vertices;
+        }
+
+        public override bool Contains(Vector2 point)
+        {
+            // Translate point into local space
+            Vector2 localPoint = Util.Math.Rotate(point, Center, Rotation);
+            
+            return (localPoint.X <= Max.X && Min.X <= localPoint.X) &&
+                   (localPoint.Y <= Max.Y && Min.Y <= localPoint.Y);
+        }
+
+        public override bool Intersects(Line2D line)
+        {
+            throw new NotImplementedException();
         }
     }
 }
