@@ -23,12 +23,14 @@ namespace MGChat.GameStates
             _uiManager.Add(new Label(
                 "Fonts/Arcade_Out_24",
                 "PRESS ENTER TO START",
-                new Vector2(Manager.GameWidth/2, Manager.GameHeight/2 - 20)
+                new Vector2(Manager.GameWidth/2, Manager.GameHeight/2 - 20),
+                Util.UI.ObjAlign.Center, Util.UI.ObjAlign.Center
                 ));
             // For entering username
             _uiManager.Add(new Textbox(
-                new Vector2(Manager.GameWidth/2 - 65, Manager.GameHeight/2 + 20), 
-                200, "Name "
+                new Vector2(Manager.GameWidth/2 - 60, Manager.GameHeight/2 + 20), 
+                200, "Name ", 20,
+                Util.UI.ObjAlign.Center, Util.UI.ObjAlign.Center
                 ));
         }
 

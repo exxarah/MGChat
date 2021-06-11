@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MGChat.ECS;
 using MGChat.GameStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -29,6 +30,10 @@ namespace MGChat.UI
         {
             foreach (var uiElement in _uiElements)
             {
+                if (!uiElement.ContentLoaded)
+                {
+                    uiElement.LoadContent(Parent.Manager.Content);
+                }
                 uiElement.Update(gameTime);
             }
         }
@@ -37,20 +42,22 @@ namespace MGChat.UI
         {
             foreach (var uiElement in _uiElements)
             {
+                if (!uiElement.ContentLoaded)
+                {
+                    uiElement.LoadContent(Parent.Manager.Content);
+                }
                 uiElement.Draw(spriteBatch);
             }
         }
 
         public void Add(UiElement element)
         {
-            element.GameState = this;
             _uiElements.Add(element);
         }
 
         public void Remove(UiElement element)
         {
             var toRemove = _uiElements.IndexOf(element);
-            _uiElements[toRemove].GameState = null;
             _uiElements.RemoveAt(toRemove);
         }
     }
