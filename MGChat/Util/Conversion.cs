@@ -7,7 +7,7 @@ namespace MGChat.Util
     {
         public static string VectorToDirection(Vector2 direction)
         {
-            if (Math.Abs(direction.X) > Math.Abs(direction.Y))
+            if (System.Math.Abs(direction.X) > System.Math.Abs(direction.Y))
             {
                 // XDominant
                 return direction.X < 0 ? "Left" : "Right";

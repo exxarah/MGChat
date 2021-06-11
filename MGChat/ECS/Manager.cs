@@ -179,6 +179,13 @@ namespace MGChat.ECS
             var listFinal = list.Where(comp => comp.Parent == entity).ToList();
             return listFinal;
         }
+        
+        public List<Component> FetchAny<T>(int entity)
+        {
+            List<Component> list = Fetch(entity);
+            var listFinal = list.Where(comp => comp.GetType() == typeof(T) || comp.GetType().IsSubclassOf(typeof(T))).ToList();
+            return listFinal;
+        }
 
         public List<Component> Query<T>()
         {

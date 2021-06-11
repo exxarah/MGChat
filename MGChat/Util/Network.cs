@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace MGChat.Util
 {
-    public class Network
+    public static class Network
     {
         public static string NetDataIn = "";
         public static string NetDataOut = "";

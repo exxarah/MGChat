@@ -3,11 +3,10 @@
     "$type": "MGChat.Components.CommandComponent, MGChat"
   },
   {
-    "$type": "MGChat.Components.PhysicsComponent, MGChat"
+    "$type": "MGChat.Components.RigidbodyComponent, MGChat"
   },
   {
-    "$type": "MGChat.Components.ColliderComponent, MGChat",
-    "ColliderType": "AABB"
+    "$type": "MGChat.Physics2D.Primitives.AABB, MGChat"
   },
   {
     "$type": "MGChat.Components.RemoteInputComponent, MGChat"
