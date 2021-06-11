@@ -10,7 +10,7 @@
   },
   {
     "$type": "MGChat.Components.TransformComponent, MGChat",
-    "Position": "20, 20",
+    "Position": "-20, -20",
     "Scale": "2, 2",
     "RotOrigin": "0, 0",
     "Rotation": 0.0
@@ -109,6 +109,5 @@
   },
   {
     "$type": "MGChat.Components.InformationComponent, MGChat",
-    "Name": "ss23"
   }
 ]

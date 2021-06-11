@@ -35,21 +35,26 @@ namespace MGChat.GameStates
             _animationSystem = new AnimationSystem();
             _physicsSystem = new PhysicsSystem();
             _debugSystem = new DebugSystem();
-
             _uiManager = new UiManager(this);
-
-            int player = Factories.PlayerFactory.CreatePlayer(Manager.ContentPath + "Data/Player.json");
-            //int remotePlayer = Factories.PlayerFactory.CreatePlayer("../../../Content/" + "Data/RemotePlayer.json");
             
-            _uiManager.Add(new EntityLabel(player));
-            //_uiManager.Add(new EntityLabel(remotePlayer));
-
-            // Fake network info
+            // Establish Network Connection
             Task test = Task.Factory.StartNew(Util.Network.NetThread, "netThread");
+            
+            // Events
+            Util.Events.Instance.onNewPlayer += OnNewPlayer;
+            
+            InstantiateWorld();
+        }
+
+        private void InstantiateWorld()
+        {
+            // Build World
+            int player = Factories.PlayerFactory.CreatePlayer("Player.json");
         }
 
         public override void LoadContent(ContentManager content)
         {
+            Debug.WriteLine("Content Loaded!");
             _debugSystem.LoadContent(content, Manager.SpriteBatch.GraphicsDevice);
             _spriteRenderingSystem.LoadContent(content);
             _uiManager.LoadContent(content);
@@ -80,5 +85,14 @@ namespace MGChat.GameStates
         {
             ECS.Manager.Instance.Clear();
         }
+
+        #region Events
+
+        private void OnNewPlayer(int player)
+        {
+            _uiManager.Add(new EntityLabel(player));
+        }
+
+        #endregion
     }
 }

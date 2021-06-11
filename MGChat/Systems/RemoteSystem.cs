@@ -77,7 +77,7 @@ namespace MGChat.Systems
                 {
                     if (existingPlayers.Contains(input.NetId)) { continue; }
                 
-                    var remotePlayer = Factories.PlayerFactory.CreateRemotePlayer("../../../Content/" + "Data/RemotePlayer.json", input);
+                    var remotePlayer = Factories.PlayerFactory.CreateRemotePlayer("RemotePlayer.json", input);
                     Debug.WriteLine(input.Position);
                 }
             }

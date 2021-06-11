@@ -34,6 +34,7 @@ namespace MGChat.Util
         public static List<NetInput> Receive()
         {
             List<NetInput> result = JsonConvert.DeserializeObject<List<NetInput>>(NetDataIn);
+            //Debug.WriteLine(NetDataIn);
             return result;
         }
 
@@ -51,19 +52,21 @@ namespace MGChat.Util
             sender.Connect(remoteEP);  
             
             Debug.WriteLine("Socket connected to {0}",  
-                sender.RemoteEndPoint.ToString());  
-
+                sender.RemoteEndPoint.ToString());
+            
+            Thread.Sleep(1000);
             while (true)
             {
                 // send 2 server
                 byte[] msg = Encoding.ASCII.GetBytes(NetDataOut);
                 int bytesSent = sender.Send(msg);  
+                Debug.WriteLine("Sent update to server");
                 
                 // recieve from server
                 int bytesRec = sender.Receive(bytes);
                 // TODO: only output this if we recieved bytes and stuff you know how it is
                 NetDataIn = Encoding.ASCII.GetString(bytes,0,bytesRec);
-                //Debug.WriteLine("Echoed test = {0}", NetDataIn);
+                Debug.WriteLine(NetDataIn);
                 
                 //Thread.Sleep(35);
                 //NetDataIn = NetDataOut;

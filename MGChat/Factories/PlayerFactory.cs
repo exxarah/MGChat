@@ -10,10 +10,11 @@ namespace MGChat.Factories
 {
     public static class PlayerFactory
     {
+        public static string DataPath = "../../../Content/Data/";
         public static int CreatePlayer(string jsonPath)
         {
             int player;
-            using (StreamReader file = File.OpenText(jsonPath))
+            using (StreamReader file = File.OpenText(DataPath + jsonPath))
             using (JsonTextReader reader = new JsonTextReader(file))
             {
                 var o = JToken.ReadFrom(reader);
@@ -22,6 +23,8 @@ namespace MGChat.Factories
 
                 player = ECS.Manager.Instance.CreateEntity(json);
             }
+            
+            Util.Events.Instance.NewPlayer(player);
 
             return player;
         }
@@ -34,6 +37,9 @@ namespace MGChat.Factories
             remote.LastPosition = input.Position;
             remote.NewPosition = input.Position;
             remote.NetId = input.NetId;
+            
+            var info = (InformationComponent)ECS.Manager.Instance.Fetch<InformationComponent>(remotePlayer)[0];
+            info.Name = input.NetId;
 
             return remotePlayer;
         }
