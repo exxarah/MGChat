@@ -52,6 +52,8 @@ namespace MGChat.Systems
                     Collider2D collider = (Collider2D) component;
                     // Insert current testable position, to populate properties in components
                     collider.Position = _newPosCommand.Position;
+                    collider.Rotation = _transform.Rotation;
+                    collider.Scale = _transform.Scale;
 
                     if (collider is AABB)
                     {
@@ -66,7 +68,7 @@ namespace MGChat.Systems
                     if (collider is Box2D)
                     {
                         var box = (Box2D) collider;
-                        box.Rotation = _transform.Rotation;
+
                     }
                 }
                 

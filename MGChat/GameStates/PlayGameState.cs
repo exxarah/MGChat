@@ -19,6 +19,7 @@ namespace MGChat.GameStates
         private SpriteStateSystem _spriteStateSystem;
         private AnimationSystem _animationSystem;
         private PhysicsSystem _physicsSystem;
+        private DebugSystem _debugSystem;
 
         private UiManager _uiManager;
 
@@ -33,6 +34,7 @@ namespace MGChat.GameStates
             _spriteStateSystem = new SpriteStateSystem();
             _animationSystem = new AnimationSystem();
             _physicsSystem = new PhysicsSystem();
+            _debugSystem = new DebugSystem();
 
             _uiManager = new UiManager(this);
 
@@ -67,6 +69,7 @@ namespace MGChat.GameStates
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            _debugSystem.Draw(spriteBatch);
             _spriteRenderingSystem.Draw(spriteBatch);
             _uiManager.Draw(spriteBatch);
         }

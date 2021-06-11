@@ -1,13 +1,18 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 
 namespace MGChat.Physics2D.Primitives
 {
     public class Box2D : Collider2D
     {
-        private Vector2 _size = Vector2.Zero;
-        private Vector2 _halfSize = Vector2.Zero;
+        public float Width, Height;
         
+        [JsonIgnore]
+        private Vector2 _halfSize = Vector2.Zero;
+        [JsonIgnore]
+        private Vector2 _size = Vector2.Zero;
+        [JsonIgnore]
         public float Rotation = 0f;
         
         // I don't think this Center works lmfao
@@ -17,8 +22,14 @@ namespace MGChat.Physics2D.Primitives
 
         public Box2D(int parent) : base(parent) { }
 
-        public Box2D(int parent, Vector2 min, Vector2 max) : base(parent)
+        [JsonConstructor]
+        public Box2D(int parent, float width, float height) : base(parent)
         {
+            Width = width;
+            Height = height;
+            
+            Vector2 min = Vector2.Zero;
+            Vector2 max = new Vector2(width, height);
             _size = max - min;
             _halfSize = _size * 0.5f;
         }

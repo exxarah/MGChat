@@ -6,18 +6,15 @@ namespace MGChat.Physics2D.Primitives
     public class AABB : Collider2D
     {
         private float _width, _height;
-        
-        [JsonIgnore]
-        private Vector2 _halfSize = Vector2.Zero;
-        [JsonIgnore]
-        private Vector2 _size = Vector2.Zero;
-        
-        [JsonIgnore]
-        public Vector2 Center => Position + _halfSize;
-        [JsonIgnore]
-        public Vector2 Min => Center - _halfSize;
-        [JsonIgnore]
-        public Vector2 Max => Center + _halfSize;
+
+        [JsonIgnore] private Vector2 _halfSize = Vector2.Zero;
+        [JsonIgnore] private Vector2 _size = Vector2.Zero;
+
+        [JsonIgnore] public float Width => _width * Scale.X;
+        [JsonIgnore] public float Height => _height * Scale.Y;
+        [JsonIgnore] public Vector2 Center => Position + _halfSize;
+        [JsonIgnore] public Vector2 Min => Center - _halfSize;
+        [JsonIgnore] public Vector2 Max => Center + _halfSize;
 
         public AABB(int parent) : base(parent) { }
 
