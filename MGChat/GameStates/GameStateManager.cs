@@ -17,7 +17,9 @@ namespace MGChat.GameStates
         private SpriteBatch _spriteBatch;
         private ContentManager _content;
         
-        private string _contentPath = "../../../Content/";
+        private string _contentPath = "Content/";
+
+        public string LocalPlayerName;
 
         #endregion
 

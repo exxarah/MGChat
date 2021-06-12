@@ -43,7 +43,8 @@ namespace MGChat.Util
             Debug.WriteLine("Connecting to server");
             byte[] bytes = new byte[1024];
 
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("home.ss23.geek.nz");  
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1272);
             
             Socket sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -60,13 +61,13 @@ namespace MGChat.Util
                 // send 2 server
                 byte[] msg = Encoding.ASCII.GetBytes(NetDataOut);
                 int bytesSent = sender.Send(msg);  
-                Debug.WriteLine("Sent update to server");
+                //Debug.WriteLine("Sent update to server");
                 
                 // recieve from server
                 int bytesRec = sender.Receive(bytes);
                 // TODO: only output this if we recieved bytes and stuff you know how it is
                 NetDataIn = Encoding.ASCII.GetString(bytes,0,bytesRec);
-                Debug.WriteLine(NetDataIn);
+                //Debug.WriteLine(NetDataIn);
                 
                 //Thread.Sleep(35);
                 //NetDataIn = NetDataOut;

@@ -43,6 +43,7 @@ namespace MGChat.GameStates
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
+                Manager.LocalPlayerName = ((Textbox) _uiManager.UiElements[1]).Text;
                 Manager.ChangeState("Play");
             }
             

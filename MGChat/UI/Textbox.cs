@@ -19,6 +19,8 @@ namespace MGChat.UI
         private Label _label;
         private Label _innerText;
 
+        public string Text => _currentText;
+
         public Textbox(Vector2 position, int width, string label, int height, Util.UI.ObjAlign xAlign, Util.UI.ObjAlign yAlign) : base(position, xAlign, yAlign)
         {
             _width = width;

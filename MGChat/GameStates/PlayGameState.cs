@@ -49,7 +49,7 @@ namespace MGChat.GameStates
         private void InstantiateWorld()
         {
             // Build World
-            int player = Factories.PlayerFactory.CreatePlayer("Player.json");
+            int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", Manager.LocalPlayerName);
         }
 
         public override void LoadContent(ContentManager content)

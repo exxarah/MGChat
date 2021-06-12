@@ -10,7 +10,7 @@ namespace MGChat.Factories
 {
     public static class PlayerFactory
     {
-        public static string DataPath = "../../../Content/Data/";
+        public static string DataPath = "Content/Data/";
         public static int CreatePlayer(string jsonPath)
         {
             int player;
@@ -42,6 +42,19 @@ namespace MGChat.Factories
             info.Name = input.NetId;
 
             return remotePlayer;
+        }
+
+        public static int CreateLocalPlayer(string jsonPath, string name)
+        {
+            int localPlayer = CreatePlayer(jsonPath);
+
+            var export = (RemoteExportComponent) ECS.Manager.Instance.Fetch<RemoteExportComponent>(localPlayer)[0];
+            export.NetId = name;
+            
+            var info = (InformationComponent)ECS.Manager.Instance.Fetch<InformationComponent>(localPlayer)[0];
+            info.Name = name;
+
+            return localPlayer;
         }
     }
 }

@@ -11,7 +11,9 @@ namespace MGChat.UI
     {
         public GameState Parent { get; }
         private List<UiElement> _uiElements;
-        
+
+        public List<UiElement> UiElements => _uiElements;
+
         public UiManager(GameState parent)
         {
             _uiElements = new List<UiElement>();
