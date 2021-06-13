@@ -37,7 +37,28 @@ namespace MGChat.Physics2D.Primitives
 
         public bool Intersects(Line2D line)
         {
-            throw new NotImplementedException();
+            // https://www.habrador.com/tutorials/math/5-line-line-intersection/
+            bool isIntersecting = false;
+
+            float denominator = (line.End.Y - line.Start.Y) * (End.X - Start.X) -
+                                (line.End.X - line.Start.X) * (End.Y - Start.Y);
+
+            if (denominator != 0)
+            {
+                float u_a = ((line.End.X - line.Start.X) * (Start.Y - line.Start.Y) - 
+                             (line.End.Y - line.Start.Y) * (Start.X - line.Start.X)) / denominator;
+                float u_b = ((End.X - Start.X) * (Start.Y - line.Start.Y) - 
+                             (End.Y - Start.Y) * (Start.X - line.Start.X)) / denominator;
+                
+                // Is intersecting if u_a and u_b are between 0 and 1
+                float e = float.Epsilon;
+                if (u_a >= 0f + e && u_a <= 1f + e && u_b >= 0f + e && u_b <= 1f + e)
+                {
+                    isIntersecting = true;
+                }
+            }
+
+            return isIntersecting;
         }
     }
 }
