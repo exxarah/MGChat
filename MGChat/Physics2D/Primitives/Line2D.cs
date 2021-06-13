@@ -21,10 +21,16 @@ namespace MGChat.Physics2D.Primitives
         {
             float dy = End.Y - Start.Y;
             float dx = End.X - Start.X;
-            float slope = dy / dx;
-
-            float yIntercept = End.Y - (slope * End.X);
             
+            // Prevent infinite slope on vertical lines
+            if (dx == 0)
+            {
+                return Util.Math.Compare(point.X, Start.X);
+            }
+
+            float slope = dy / dx;
+            float yIntercept = End.Y - (slope * End.X);
+
             // Check line equation
             return Util.Math.Compare(point.Y, slope * point.X + yIntercept);
         }

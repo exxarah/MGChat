@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace MGChat.Physics2D.Primitives
 {
@@ -21,7 +22,26 @@ namespace MGChat.Physics2D.Primitives
 
         public override bool Intersects(Line2D line)
         {
-            throw new System.NotImplementedException();
+            if (Contains(line.Start) || Contains(line.End))
+            {
+                return true;
+            }
+
+            Vector2 ab = line.End - line.Start;
+            
+            // Project point (this.Position) onto ab (line)
+            Vector2 centerToLineStart = Center - line.Start;
+            float t = Vector2.Dot(centerToLineStart, ab) / Vector2.Dot(ab, ab);
+
+            if (t is < 0.0f or > 1.0f)
+            {
+                return false;
+            }
+            
+            // Find closest point to line segment
+            Vector2 closestPoint = line.Start + (ab * t);
+
+            return Contains(closestPoint);
         }
     }
 }

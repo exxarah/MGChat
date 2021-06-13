@@ -28,13 +28,13 @@ namespace MGChat.Util
             return new Vector2(xPrime, yPrime);
         }
 
-        public static bool Compare(float x, float y, float epsilon=float.MinValue)
+        public static bool Compare(float x, float y, float epsilon=float.Epsilon)
         {
             return System.Math.Abs(x - y) <=
                    epsilon * System.Math.Max(1.0f, System.Math.Max(System.Math.Abs(x), System.Math.Abs(y)));
         }
 
-        public static bool Compare(Vector2 vec1, Vector2 vec2, float epsilon=float.MinValue)
+        public static bool Compare(Vector2 vec1, Vector2 vec2, float epsilon=float.Epsilon)
         {
             return Compare(vec1.X, vec2.X, epsilon) && Compare(vec1.Y, vec2.Y, epsilon);
         }
