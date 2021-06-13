@@ -20,17 +20,17 @@ namespace MGChat.Physics2D.Primitives
             return centerToPoint.LengthSquared() < Radius * Radius;
         }
 
-        public override bool Intersects(Line2D line)
+        public override bool Intersects(Line2D localLine)
         {
-            if (Contains(line.Start) || Contains(line.End))
+            if (Contains(localLine.Start) || Contains(localLine.End))
             {
                 return true;
             }
 
-            Vector2 ab = line.End - line.Start;
+            Vector2 ab = localLine.End - localLine.Start;
             
             // Project point (this.Position) onto ab (line)
-            Vector2 centerToLineStart = Center - line.Start;
+            Vector2 centerToLineStart = Center - localLine.Start;
             float t = Vector2.Dot(centerToLineStart, ab) / Vector2.Dot(ab, ab);
 
             if (t is < 0.0f or > 1.0f)
@@ -39,7 +39,7 @@ namespace MGChat.Physics2D.Primitives
             }
             
             // Find closest point to line segment
-            Vector2 closestPoint = line.Start + (ab * t);
+            Vector2 closestPoint = localLine.Start + (ab * t);
 
             return Contains(closestPoint);
         }

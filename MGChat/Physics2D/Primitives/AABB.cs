@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
 namespace MGChat.Physics2D.Primitives
@@ -36,9 +37,32 @@ namespace MGChat.Physics2D.Primitives
                    (point.Y <= Max.Y && Min.Y <= point.Y);
         }
 
-        public override bool Intersects(Line2D line)
+        public override bool Intersects(Line2D localLine)
         {
-            throw new System.NotImplementedException();
+            if (Contains(localLine.Start) || Contains(localLine.End))
+            {
+                return true;
+            }
+
+            Vector2 unitVector = localLine.End - localLine.Start;
+            unitVector.Normalize();
+            
+            // Dividing by 0 is bad
+            unitVector.X = (unitVector.X != 0) ? 1.0f / unitVector.X : 0f;
+            unitVector.Y = (unitVector.Y != 0) ? 1.0f / unitVector.Y : 0f;
+
+            Vector2 min = (Min - localLine.Start) * unitVector;
+            Vector2 max = (Max - localLine.Start) * unitVector;
+
+            float tmin = Math.Max(Math.Min(min.X, max.X), Math.Min(min.Y, max.Y));
+            float tmax = Math.Min(Math.Max(min.X, max.X), Math.Max(min.Y, max.Y));
+            if (tmax < 0 || tmin > tmax)
+            {
+                return false;
+            }
+
+            float t = (tmin < 0f) ? tmax : tmin;
+            return t > 0f && t * t < localLine.LengthSquared();
         }
     }
 }

@@ -17,6 +17,11 @@ namespace MGChat.Physics2D.Primitives
             _to = to;
         }
 
+        public float LengthSquared()
+        {
+            return (End - Start).LengthSquared();
+        }
+
         public bool Contains(Vector2 point)
         {
             float dy = End.Y - Start.Y;
