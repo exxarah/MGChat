@@ -19,6 +19,7 @@ namespace MGChat.Physics2D.Primitives
         public Vector2 Center => Position + _halfSize;
         public Vector2 Min => Center - _halfSize;
         public Vector2 Max => Center + _halfSize;
+        public Vector2 HalfSize => _halfSize;
 
         public Box2D(int parent) : base(parent) { }
 
