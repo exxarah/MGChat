@@ -1,6 +1,6 @@
 ﻿## TODO.md
 <details>
-<summary>v1.0 - A Playable Game</summary>
+<summary>v0.2 - A Skeletal Game</summary>
 
 - [X] Setup Readme Stuff
 - [X] Setup Documentation/Comments
@@ -35,7 +35,7 @@
   - [ ] Entities Count
 - [X] Physics \o/
   - [X] Rewrite movement to be in PhysicsSystem
-  - [X] ~~Rewrite movement to use physics~~
+  - [X] ~~Rewrite movement to use physics~~ <- Kinematic seems like it's better. Can revisit if needed
   - [X] Discover Collisions
   - [X] Resolve Collisions
 - [ ] Environment
@@ -58,8 +58,18 @@
 </details>
 
 <details>
-<summary>v2.0 - An Enjoyable Game</summary>
+<summary>v0.3 - An Organised Game</summary>
 
 - [ ] Tooling
   - [ ] Entity Designer Tool
+  - [ ] SpriteSheet Packer
+  - [ ] Map Designer Tool
+</details>
+
+<details>
+<summary>v?.? - A Dumping Ground For Premature Optimisations</summary>
+
+- [ ] Optimise ECS.Manager, consider bitmasking
+- [ ] Chunking for environment
+- [ ] Quadtrees/Collision Detection optimisation
 </details>

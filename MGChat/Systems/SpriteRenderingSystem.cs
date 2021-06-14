@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using MGChat.Components;
 using MGChat.ECS;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace MGChat.Systems
                 sprite.ContentLoaded = true;
             }
         }
-        public void Draw(SpriteBatch spriteBatch, ContentManager Content)
+        public void Draw(SpriteBatch spriteBatch, ContentManager Content, Camera camera=null)
         {
             var components = Manager.Instance.Query<SpriteComponent, TransformComponent>();
             if (components == null) { return; }
@@ -45,7 +46,7 @@ namespace MGChat.Systems
                     (int)transform.Position.X, (int) transform.Position.Y,
                     sprite.SpriteWidth * (int)transform.Scale.X, sprite.SpriteHeight * (int)transform.Scale.Y);
                 
-                spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera?.ViewMatrix);
                 //spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White);
                 spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White, transform.Rotation, transform.RotOrigin, SpriteEffects.None, 0f);
                 spriteBatch.End();

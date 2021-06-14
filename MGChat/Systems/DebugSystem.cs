@@ -54,9 +54,9 @@ namespace MGChat.Systems
             base.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera=null)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera?.ViewMatrix);
             foreach (var kvp in _shapes)
             {
                 spriteBatch.Draw(kvp.Value.Texture, kvp.Value.Rect, kvp.Value.Colour);

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace MGChat.Physics2D
 {
+    // All the Physics is adapted from https://www.youtube.com/playlist?list=PLtrSb4XxIVbpZpV65kk73OoUcIrBzoSiO
     public class ShapeIntersection
     {
         #region Circle

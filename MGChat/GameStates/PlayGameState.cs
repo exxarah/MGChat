@@ -6,6 +6,7 @@ using MGChat.Components;
 using MGChat.Physics2D.Primitives;
 using MGChat.Systems;
 using MGChat.UI;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,6 +26,7 @@ namespace MGChat.GameStates
         private DebugSystem _debugSystem;
 
         private UiManager _uiManager;
+        private Camera _camera;
 
         public PlayGameState() : base("Play"){}
         
@@ -39,7 +41,9 @@ namespace MGChat.GameStates
             _physicsSystem = new PhysicsSystem();
             _collisionResolution = new CollisionResolutionSystem();
             _debugSystem = new DebugSystem();
+            
             _uiManager = new UiManager(this);
+            _camera = new Camera(Manager.GameWidth, Manager.GameHeight, Vector3.Zero);
             
             // Establish Network Connection
             Task test = Task.Factory.StartNew(Util.Network.NetThread, "netThread");
@@ -54,6 +58,7 @@ namespace MGChat.GameStates
         {
             // Build World
             int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", Manager.LocalPlayerName);
+            _camera.Target = player;
 
             int testCollider = ECS.Manager.Instance.CreateEntity();
             new AABB(testCollider, 16, 16);
@@ -80,15 +85,16 @@ namespace MGChat.GameStates
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
-            
+
+            _camera.Update(gameTime);
             _debugSystem.Update(gameTime);
             _uiManager.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            _debugSystem.Draw(spriteBatch);
-            _spriteRenderingSystem.Draw(spriteBatch, Manager.Content);
+            _debugSystem.Draw(spriteBatch, _camera);
+            _spriteRenderingSystem.Draw(spriteBatch, Manager.Content, _camera);
             _uiManager.Draw(spriteBatch);
         }
 

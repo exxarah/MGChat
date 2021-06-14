@@ -41,5 +41,10 @@ namespace MGChat.Util
         {
             return (System.Math.PI / 180) * angle;
         }
+
+        public static Vector2 Lerp(Vector2 pos, Vector2 target)
+        {
+            
+        }
     }
 }
