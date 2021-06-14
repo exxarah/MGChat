@@ -25,6 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:Char_One.png
 
+#begin Data/Player.json
+/copy:Data/Player.json
+
+#begin Data/RemotePlayer.json
+/copy:Data/RemotePlayer.json
+
 #begin Fonts/Arcade_In_12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

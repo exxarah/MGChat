@@ -43,5 +43,21 @@ namespace MGChat.Physics2D.Primitives
 
             return Contains(closestPoint);
         }
+        
+        public override bool Collides(Collider2D other)
+        {
+            if (other is AABB aabb)
+            {
+                return ShapeIntersection.CircleAABB(this, aabb);
+            } else if (other is Box2D box2D)
+            {
+                return ShapeIntersection.CircleBox2D(this, box2D);
+            } else if (other is Circle circle)
+            {
+                return ShapeIntersection.CircleCircle(this, circle);
+            }
+
+            return false;
+        }
     }
 }

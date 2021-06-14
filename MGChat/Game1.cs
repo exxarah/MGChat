@@ -1,4 +1,5 @@
-﻿using MGChat.GameStates;
+﻿using System;
+using MGChat.GameStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,13 +15,16 @@ namespace MGChat
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            //Window.AllowUserResizing = true;
+            //Window.ClientSizeChanged += OnResize;
         }
 
         /// <inheritdoc/>
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = 800;
-            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
 
             _gameStateManager = new GameStateManager(this);
             _gameStateManager.AddState(new MenuGameState());
@@ -60,6 +64,20 @@ namespace MGChat
             _gameStateManager.Draw();
 
             base.Draw(gameTime);
+        }
+        
+        public void OnResize(Object sender, EventArgs e)
+        {
+
+            if ((_graphics.PreferredBackBufferWidth != _graphics.GraphicsDevice.Viewport.Width) ||
+                (_graphics.PreferredBackBufferHeight != _graphics.GraphicsDevice.Viewport.Height))
+            {
+                _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.Viewport.Width;
+                _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.Viewport.Height;
+                _graphics.ApplyChanges();
+
+                //States[_currentState].Rearrange();
+            }
         }
     }
 }

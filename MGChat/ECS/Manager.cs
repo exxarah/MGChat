@@ -195,6 +195,20 @@ namespace MGChat.ECS
             return list;
         }
 
+        public List<Component> QueryAny<T>()
+        {
+            List<Component> list = new List<Component>();
+            foreach (var kvp in _components)
+            {
+                if (kvp.Key == typeof(T) || kvp.Key.IsSubclassOf(typeof(T)))
+                {
+                    list.AddRange(kvp.Value);
+                }
+            }
+
+            return list;
+        }
+
         // https://stackoverflow.com/questions/4488054/merge-two-or-more-lists-into-one-in-c-sharp-net
         // https://stackoverflow.com/a/2697280
         public List<List<Component>> Query<T1, T2>()

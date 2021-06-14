@@ -19,6 +19,7 @@ namespace MGChat.GameStates
         private SpriteStateSystem _spriteStateSystem;
         private AnimationSystem _animationSystem;
         private PhysicsSystem _physicsSystem;
+        private CollisionResolutionSystem _collisionSystem;
         private DebugSystem _debugSystem;
 
         private UiManager _uiManager;
@@ -34,6 +35,7 @@ namespace MGChat.GameStates
             _spriteStateSystem = new SpriteStateSystem();
             _animationSystem = new AnimationSystem();
             _physicsSystem = new PhysicsSystem();
+            _collisionSystem = new CollisionResolutionSystem();
             _debugSystem = new DebugSystem();
             _uiManager = new UiManager(this);
             
@@ -66,6 +68,8 @@ namespace MGChat.GameStates
             _remoteSystem.Update(gameTime);
 
             _physicsSystem.Update(gameTime);
+            _collisionSystem.Update(gameTime);
+            
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);

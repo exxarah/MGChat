@@ -50,20 +50,20 @@ namespace MGChat.Physics2D
             Vector2 localCirclePos = r + box.HalfSize;
             
             Vector2 closestPoint = localCirclePos;
-            if (closestPoint.X < box.Min.X)
+            if (closestPoint.X < box.LocalMin.X)
             {
-                closestPoint.X = box.Min.X;
-            } else if (closestPoint.X > box.Max.X)
+                closestPoint.X = box.LocalMin.X;
+            } else if (closestPoint.X > box.LocalMax.X)
             {
-                closestPoint.X = box.Max.X;
+                closestPoint.X = box.LocalMax.X;
             }
             
-            if (closestPoint.Y < box.Min.Y)
+            if (closestPoint.Y < box.LocalMin.Y)
             {
-                closestPoint.Y = box.Min.Y;
-            } else if (closestPoint.Y > box.Max.Y)
+                closestPoint.Y = box.LocalMin.Y;
+            } else if (closestPoint.Y > box.LocalMax.Y)
             {
-                closestPoint.Y = box.Max.Y;
+                closestPoint.Y = box.LocalMax.Y;
             }
 
             Vector2 circleToBox = localCirclePos - closestPoint;

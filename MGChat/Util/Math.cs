@@ -16,16 +16,14 @@ namespace MGChat.Util
             float x = vertex.X - origin.X;
             float y = vertex.Y - origin.Y;
 
-            float cos = (float)System.Math.Cos(ToRadians(angleDeg));
-            float sin = (float)System.Math.Sin(ToRadians(angleDeg));
+            double angleInRadians = ToRadians(angleDeg);
+            double cosTheta = System.Math.Cos(angleInRadians);
+            double sinTheta = System.Math.Sin(angleInRadians);
 
-            float xPrime = (x * cos) - (y * sin);
-            float yPrime = (x * sin) - (y * cos);
+            double newX = (cosTheta * (vertex.X - origin.X) - sinTheta * (vertex.Y - origin.Y) + origin.X);
+            double newY = (sinTheta * (vertex.X - origin.X) + cosTheta * (vertex.Y - origin.Y) + origin.X);
 
-            xPrime += origin.X;
-            yPrime += origin.Y;
-
-            return new Vector2(xPrime, yPrime);
+            return new Vector2((float)newX, (float)newY);
         }
 
         public static bool Compare(float x, float y, float epsilon=float.Epsilon)
@@ -39,7 +37,7 @@ namespace MGChat.Util
             return Compare(vec1.X, vec2.X, epsilon) && Compare(vec1.Y, vec2.Y, epsilon);
         }
 
-        public static double ToRadians(float angle)
+        public static double ToRadians(double angle)
         {
             return (System.Math.PI / 180) * angle;
         }

@@ -64,5 +64,21 @@ namespace MGChat.Physics2D.Primitives
             float t = (tmin < 0f) ? tmax : tmin;
             return t > 0f && t * t < localLine.LengthSquared();
         }
+        
+        public override bool Collides(Collider2D other)
+        {
+            if (other is AABB aabb)
+            {
+                return ShapeIntersection.AABBAABB(this, aabb);
+            } else if (other is Box2D box2D)
+            {
+                return ShapeIntersection.AABBBox2D(this, box2D);
+            } else if (other is Circle circle)
+            {
+                return ShapeIntersection.AABBCircle(this, circle);
+            }
+
+            return false;
+        }
     }
 }

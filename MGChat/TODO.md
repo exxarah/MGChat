@@ -33,7 +33,7 @@
   - [ ] FPS Counter etc
 - [ ] Physics \o/
   - [X] Rewrite movement to be in PhysicsSystem
-  - [ ] Rewrite movement to use physics
+  - [X] ~~Rewrite movement to use physics~~
   - [ ] Discover Collisions
   - [ ] Resolve Collisions
 - [ ] Environment

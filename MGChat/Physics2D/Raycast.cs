@@ -116,7 +116,7 @@ namespace MGChat.Physics2D
             float tmax = Math.Min(Math.Max(tArr[0], tArr[1]), Math.Max(tArr[2], tArr[3]));
 
             float t = (tmin < 0f) ? tmax : tmin;
-            bool hit = t > 0f; // && t * t < ray.Max;
+            bool hit = t > 0f; // && t * t < ray.LocalMax;
             if (!hit)
             {
                 return false;
@@ -162,7 +162,7 @@ namespace MGChat.Physics2D
             }
 
             float t = (tmin < 0f) ? tmax : tmin;
-            bool hit = t > 0f; // && t * t < ray.Max;
+            bool hit = t > 0f; // && t * t < ray.LocalMax;
             if (!hit)
             {
                 return false;

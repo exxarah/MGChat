@@ -3,7 +3,9 @@
     "$type": "MGChat.Components.CommandComponent, MGChat"
   },
   {
-    "$type": "MGChat.Components.RigidbodyComponent, MGChat"
+    "$type": "MGChat.Components.PhysicsComponent, MGChat",
+    "MaxSpeed": 0.25,
+    "Static": false
   },
   {
     "$type": "MGChat.Components.InputComponent, MGChat"

@@ -16,5 +16,7 @@ namespace MGChat.Physics2D.Primitives
         public abstract bool Contains(Vector2 point);
 
         public abstract bool Intersects(Line2D localLine);
+
+        public abstract bool Collides(Collider2D other);
     }
 }
