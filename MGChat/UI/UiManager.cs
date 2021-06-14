@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using MGChat.ECS;
-using MGChat.GameStates;
+using MGChat.Screens;
 using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -10,12 +10,12 @@ namespace MGChat.UI
 {
     public class UiManager
     {
-        public GameState Parent { get; }
+        public GameScreen Parent { get; }
         private List<UiElement> _uiElements;
 
         public List<UiElement> UiElements => _uiElements;
 
-        public UiManager(GameState parent)
+        public UiManager(GameScreen parent)
         {
             _uiElements = new List<UiElement>();
             Parent = parent;
@@ -35,7 +35,7 @@ namespace MGChat.UI
             {
                 if (!uiElement.ContentLoaded)
                 {
-                    uiElement.LoadContent(Parent.Manager.Content);
+                    uiElement.LoadContent(ScreenManager.ContentMgr);
                 }
                 uiElement.Update(gameTime);
             }
@@ -47,7 +47,7 @@ namespace MGChat.UI
             {
                 if (!uiElement.ContentLoaded)
                 {
-                    uiElement.LoadContent(Parent.Manager.Content);
+                    uiElement.LoadContent(ScreenManager.ContentMgr);
                 }
                 uiElement.Draw(spriteBatch, camera);
             }

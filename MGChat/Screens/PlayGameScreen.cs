@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using MGChat.Components;
 using MGChat.Physics2D.Primitives;
@@ -11,9 +9,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MGChat.GameStates
+namespace MGChat.Screens
 {
-    public class PlayGameState : GameState
+    public class PlayGameScreen : GameScreen
     {
         private InputSystem _inputSystem;
         private RemoteSystem _remoteSystem;
@@ -28,7 +26,7 @@ namespace MGChat.GameStates
         private UiManager _uiManager;
         private Camera _camera;
 
-        public PlayGameState() : base("Play"){}
+        public PlayGameScreen() : base("Play"){}
         
         public override void Initialize()
         {
@@ -43,7 +41,7 @@ namespace MGChat.GameStates
             _debugSystem = new DebugSystem();
             
             _uiManager = new UiManager(this);
-            _camera = new Camera(Manager.GameWidth, Manager.GameHeight, Vector3.Zero);
+            _camera = new Camera(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height, Vector3.Zero);
             
             // Establish Network Connection
             Task test = Task.Factory.StartNew(Util.Network.NetThread, "netThread");
@@ -57,7 +55,7 @@ namespace MGChat.GameStates
         private void InstantiateWorld()
         {
             // Build World
-            int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", Manager.LocalPlayerName);
+            int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", ScreenManager.LocalPlayerName);
             _camera.Target = player;
 
             int testCollider = ECS.Manager.Instance.CreateEntity();
@@ -66,12 +64,12 @@ namespace MGChat.GameStates
             transform.Scale = new Vector2(2, 2);
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadAssets()
         {
             Debug.WriteLine("Content Loaded!");
-            _debugSystem.LoadContent(content, Manager.SpriteBatch.GraphicsDevice);
-            _spriteRenderingSystem.LoadContent(content);
-            _uiManager.LoadContent(content);
+            _debugSystem.LoadContent(ScreenManager.ContentMgr, ScreenManager.Sprites.GraphicsDevice);
+            _spriteRenderingSystem.LoadContent(ScreenManager.ContentMgr);
+            _uiManager.LoadContent(ScreenManager.ContentMgr);
         }
 
         public override void Update(GameTime gameTime)
@@ -91,14 +89,14 @@ namespace MGChat.GameStates
             _uiManager.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime)
         {
-            _debugSystem.Draw(spriteBatch, _camera);
-            _spriteRenderingSystem.Draw(spriteBatch, Manager.Content, _camera);
-            _uiManager.Draw(spriteBatch, _camera);
+            _debugSystem.Draw(ScreenManager.Sprites, _camera);
+            _spriteRenderingSystem.Draw(ScreenManager.Sprites, ScreenManager.ContentMgr, _camera);
+            _uiManager.Draw(ScreenManager.Sprites, _camera);
         }
 
-        public override void UnloadContent()
+        public override void UnloadAssets()
         {
             ECS.Manager.Instance.Clear();
         }

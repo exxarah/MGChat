@@ -55,6 +55,7 @@
 - [ ] Rewrite GameStateManager, to be a better FSM
 - [ ] Choose between Char_1, Char_2
 - [ ] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
+- [ ] Write Json Importer for the Content Pipeline (http://rbwhitaker.wikidot.com/content-pipeline-extension-1)
 </details>
 
 <details>
@@ -67,9 +68,10 @@
 </details>
 
 <details>
-<summary>v?.? - A Dumping Ground For Premature Optimisations</summary>
+<summary>v?.? - A Dumping Ground For Premature Optimisations/Overachievement</summary>
 
 - [ ] Optimise ECS.Manager, consider bitmasking
 - [ ] Chunking for environment
 - [ ] Quadtrees/Collision Detection optimisation
+- [ ] Revisit Shaders (http://rbwhitaker.wikidot.com/hlsl-tutorials)
 </details>
