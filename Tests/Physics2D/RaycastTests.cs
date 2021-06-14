@@ -10,8 +10,8 @@ namespace Tests.Physics2D
         #region Circle Tests
 
         [Test]
-        [TestCase(4, 5, 6, 1, 1, 0.8f, 0.6f)]
-        [TestCase(4, 5, 6, 8, 8, 1f, 1f)]
+        [TestCase(4, 5, 6, 1, 1, 0.8f, 0.6f, TestName = "General")]
+        [TestCase(4, 5, 6, 8, 8, 1f, 1f, TestName = "Starting Inside Circle")]
         public void Raycast_Circle_ReturnsTrue(
             float radius, float posX, float posY,
             float originX, float originY, float dirX, float dirY
@@ -34,8 +34,8 @@ namespace Tests.Physics2D
         }
         
         [Test]
-        [TestCase(4, 5, 6, 8, 1, 0.5f, 0.5f)]
-        [TestCase(4, 5, 6, 1, 1, -0.5f, -0.8f)]
+        [TestCase(4, 5, 6, 8, 1, 0.5f, 0.5f, TestName = "General")]
+        [TestCase(4, 5, 6, 1, 1, -0.5f, -0.8f, TestName = "Inside Bounds, Not Circle")]
         public void Raycast_Circle_ReturnsFalse(
             float radius, float posX, float posY,
             float originX, float originY, float dirX, float dirY
@@ -63,7 +63,7 @@ namespace Tests.Physics2D
         #region Box2D Tests
 
         [Test]
-        [TestCase(8, 8, 30, 4, 4, 3, 2, 0.8f, 0.6f)]
+        [TestCase(8, 8, 30, 4, 4, 3, 2, 0.8f, 0.6f, TestName = "General")]
         public void Raycast_Box2D_ReturnsTrue(
             float width, float height, float rotation, float posX, float posY,
             float originX, float originY, float dirX, float dirY
@@ -87,7 +87,8 @@ namespace Tests.Physics2D
         }
         
         [Test]
-        [TestCase(8, 8, 30, 4, 4, 10, 1, -0.8f, -0.6f)]
+        [TestCase(8, 8, 30, 4, 4, 10, 1, -0.8f, -0.6f, TestName = "General")]
+        [TestCase(8, 8, 30, 4, 4, 13, 1, 0f, 1f, TestName = "Vertical Parallel")]
         public void Raycast_Box2D_ReturnsFalse(
             float width, float height, float rotation, float posX, float posY,
             float originX, float originY, float dirX, float dirY
@@ -115,7 +116,7 @@ namespace Tests.Physics2D
         #region Box2D Tests
 
         [Test]
-        [TestCase(8, 8, 4, 4, 3, 2, 0.8f, 0.6f)]
+        [TestCase(8, 8, 4, 4, 3, 2, 0.8f, 0.6f, TestName = "General")]
         public void Raycast_AABB_ReturnsTrue(
             float width, float height, float posX, float posY,
             float originX, float originY, float dirX, float dirY
@@ -138,7 +139,7 @@ namespace Tests.Physics2D
         }
         
         [Test]
-        [TestCase(8, 8, 4, 4, 3, 2, -0.8f, -0.6f)]
+        [TestCase(8, 8, 4, 4, 3, 2, -0.8f, -0.6f, TestName = "General")]
         public void Raycast_AABB_ReturnsFalse(
             float width, float height, float posX, float posY,
             float originX, float originY, float dirX, float dirY
