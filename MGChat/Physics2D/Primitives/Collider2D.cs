@@ -1,14 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 
 namespace MGChat.Physics2D.Primitives
 {
     public abstract class Collider2D : ECS.Component
     {
-        public Vector2 Position = Vector2.Zero;
-        public Vector2 Scale = Vector2.One;
-        public float Rotation = 0f;
+        [JsonIgnore] public Vector2 Position = Vector2.Zero;
+        [JsonIgnore] public Vector2 Scale = Vector2.One;
+        [JsonIgnore] public float Rotation = 0f;
+        
         public Vector2 Offset = Vector2.Zero;
+        public bool Solid = true;
 
         //public abstract float getInertiaTensor(float mass);
         public Collider2D(int parent) : base(parent) { }

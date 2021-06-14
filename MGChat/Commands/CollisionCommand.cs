@@ -1,12 +1,14 @@
-﻿namespace MGChat.Commands
+﻿using MGChat.Physics2D.Primitives;
+
+namespace MGChat.Commands
 {
     public class CollisionCommand : Command
     {
-        public int OtherEntity;
+        public Collider2D OtherCollider;
 
-        public CollisionCommand(int otherEntity)
+        public CollisionCommand(Collider2D otherCollider)
         {
-            OtherEntity = otherEntity;
+            OtherCollider = otherCollider;
         }
     }
 }

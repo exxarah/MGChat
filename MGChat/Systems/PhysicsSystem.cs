@@ -37,6 +37,17 @@ namespace MGChat.Systems
             #region Collision Detection
 
             var allColliders = ECS.Manager.Instance.QueryAny<Collider2D>();
+            foreach (var component in allColliders)
+            {
+                // Update Collider info
+                var collider = (Collider2D) component;
+                var transform = (TransformComponent) ECS.Manager.Instance.Fetch<TransformComponent>(collider.Parent)[0];
+                
+                collider.Rotation = transform.Rotation;
+                collider.Scale = transform.Scale;
+                collider.Position = transform.Position;
+            }
+            
             foreach (var entity in components)
             {
                 var _command = (CommandComponent) entity[0];
@@ -47,33 +58,27 @@ namespace MGChat.Systems
                 var _colliders = ECS.Manager.Instance.FetchAny<Collider2D>(_transform.Parent);
                 if (_colliders is null) { continue; }
 
-                bool collision;
-
                 foreach (var component in _colliders)
                 {
                     Collider2D collider = (Collider2D) component;
                     // Insert current testable position, to populate properties in components
-                    collider.Rotation = _transform.Rotation;
-                    collider.Scale = _transform.Scale;
-
                     if (_newPosCommand is null) { continue; }
                     collider.Position = _newPosCommand.Position;
 
                     foreach (var other in allColliders)
                     {
-                        collision = collider.Collides(other as Collider2D);
-                        _command.AddCommand(new CollisionCommand(other.Parent));
+                        if (other.Parent == component.Parent) { continue; }
+                        var otherCollider = (Collider2D) other;
+                        var collision = collider.Collides(otherCollider);
+                        if (collision)
+                        {
+                            _command.AddCommand(new CollisionCommand(otherCollider));
+                        }
                     }
                 }
                 // Accessing a command removes it, so need to save it and add it back
                 _command.AddCommand(_newPosCommand);
             }
-
-            #endregion
-
-            #region Collision Resolution
-
-
 
             #endregion
         }

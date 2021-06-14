@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using MGChat.Components;
+using MGChat.Physics2D.Primitives;
 using MGChat.Systems;
 using MGChat.UI;
 using Microsoft.Xna.Framework;
@@ -19,7 +21,7 @@ namespace MGChat.GameStates
         private SpriteStateSystem _spriteStateSystem;
         private AnimationSystem _animationSystem;
         private PhysicsSystem _physicsSystem;
-        private CollisionResolutionSystem _collisionSystem;
+        private CollisionResolutionSystem _collisionResolution;
         private DebugSystem _debugSystem;
 
         private UiManager _uiManager;
@@ -35,7 +37,7 @@ namespace MGChat.GameStates
             _spriteStateSystem = new SpriteStateSystem();
             _animationSystem = new AnimationSystem();
             _physicsSystem = new PhysicsSystem();
-            _collisionSystem = new CollisionResolutionSystem();
+            _collisionResolution = new CollisionResolutionSystem();
             _debugSystem = new DebugSystem();
             _uiManager = new UiManager(this);
             
@@ -52,6 +54,11 @@ namespace MGChat.GameStates
         {
             // Build World
             int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", Manager.LocalPlayerName);
+
+            int testCollider = ECS.Manager.Instance.CreateEntity();
+            new AABB(testCollider, 16, 16);
+            var transform = new TransformComponent(testCollider, 200, 200);
+            transform.Scale = new Vector2(2, 2);
         }
 
         public override void LoadContent(ContentManager content)
@@ -68,7 +75,7 @@ namespace MGChat.GameStates
             _remoteSystem.Update(gameTime);
 
             _physicsSystem.Update(gameTime);
-            _collisionSystem.Update(gameTime);
+            _collisionResolution.Update(gameTime);
             
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);

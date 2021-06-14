@@ -7,26 +7,26 @@ namespace MGChat.Physics2D.Primitives
 {
     public class Box2D : Collider2D
     {
-        public float Width, Height;
+        [JsonProperty] private float _width, _height;
         
-        [JsonIgnore]
-        private Vector2 _halfSize = Vector2.Zero;
-        [JsonIgnore]
-        private Vector2 _size = Vector2.Zero;
+        [JsonIgnore] private Vector2 _halfSize = Vector2.Zero;
+        [JsonIgnore] private Vector2 _size = Vector2.Zero;
 
         // I don't think this Center works lmfao
-        public Vector2 Center => Position + _halfSize;
-        public Vector2 LocalMin => Center - _halfSize;
-        public Vector2 LocalMax => Center + _halfSize;
-        public Vector2 HalfSize => _halfSize;
+        public float Width => _width * Scale.X;
+        public float Height => _height * Scale.Y;
+        public Vector2 Center => Position + _halfSize * Scale.X;
+        public Vector2 LocalMin => Center - _halfSize * Scale.X;
+        public Vector2 LocalMax => Center + _halfSize * Scale.X;
+        public Vector2 HalfSize => _halfSize * Scale.X;
 
         public Box2D(int parent) : base(parent) { }
 
         [JsonConstructor]
         public Box2D(int parent, float width, float height) : base(parent)
         {
-            Width = width;
-            Height = height;
+            _width = width;
+            _height = height;
             
             Vector2 min = Vector2.Zero;
             Vector2 max = new Vector2(width, height);

@@ -1,16 +1,18 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 
 namespace MGChat.Physics2D.Primitives
 {
     public class Circle : Collider2D
     {
-        public float Radius;
+        [JsonProperty] private float _radius;
+        public float Radius => _radius * Scale.X;
         public Vector2 Center => Position + new Vector2(Radius, Radius);
 
         public Circle(int parent, float radius=1.0f) : base(parent)
         {
-            Radius = radius;
+            _radius = radius;
         }
 
         public override bool Contains(Vector2 point)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 
 namespace MGChat.ECS
@@ -221,10 +222,10 @@ namespace MGChat.ECS
             var list2 = _components[typeof(T2)];
 
             var listCombined = list1.Concat(list2).ToList();
-            var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 2).Select(group => group.ToList()).ToList();
+            var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() >= 2).Select(group => group.ToList()).ToList();
             return finalList;
         }
-        
+
         public List<Component> Fetch<T1, T2>(int entity)
         {
             var list = Query<T1, T2>();

@@ -30,13 +30,17 @@
   - [ ] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)
   - [ ] Can have multiple cameras (for minimaps etc)
 - [ ] Debug Menu
-  - [ ] FPS Counter etc
-- [ ] Physics \o/
+  - [ ] FPS Counter
+  - [ ] Collisions Per Frame
+  - [ ] Entities Count
+- [X] Physics \o/
   - [X] Rewrite movement to be in PhysicsSystem
   - [X] ~~Rewrite movement to use physics~~
-  - [ ] Discover Collisions
-  - [ ] Resolve Collisions
+  - [X] Discover Collisions
+  - [X] Resolve Collisions
 - [ ] Environment
+  - [ ] Grass Tiles
+  - [ ] Bushes with Colliders
 - [ ] Ability Bar
   - [ ] Ability (Probably external to ECS)
     - [ ] Abstract class for abilities to inherit from

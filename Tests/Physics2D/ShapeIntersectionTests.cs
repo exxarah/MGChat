@@ -143,6 +143,9 @@ namespace Tests.Physics2D
 
         [Test]
         [TestCase(10, 10, 0, 0, 10, 10, 5, 5, TestName = "General")]
+        [TestCase(10, 10, 0, 0, 10, 10, 9, 9, TestName = "Edge Positive")]
+        [TestCase(10, 10, 0, 0, 10, 10, -9, -9, TestName = "Edge Negative")]
+        [TestCase(10, 10, 0, 0, 10, 10, 5, 5, TestName = "On Top")]
         public void Intersects_AABBAABB_ReturnsTrue(
             float width1, float height1, float posX1, float posY1,
             float width2, float height2, float posX2, float posY2

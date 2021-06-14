@@ -13,9 +13,9 @@ namespace MGChat.Physics2D.Primitives
 
         [JsonIgnore] public float Width => _width * Scale.X;
         [JsonIgnore] public float Height => _height * Scale.Y;
-        [JsonIgnore] public Vector2 Center => Position + _halfSize;
-        [JsonIgnore] public Vector2 Min => Center - _halfSize;
-        [JsonIgnore] public Vector2 Max => Center + _halfSize;
+        [JsonIgnore] public Vector2 Center => Position + _halfSize * Scale.X;
+        [JsonIgnore] public Vector2 Min => Center - _halfSize * Scale.X;
+        [JsonIgnore] public Vector2 Max => Center + _halfSize * Scale.X;
 
         public AABB(int parent) : base(parent) { }
 
