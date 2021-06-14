@@ -26,9 +26,9 @@
   - [X] Draw a textbox
   - [X] Write in the textbox
   - [X] Use as character name
-- [ ] Setup Camera
-  - [ ] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)
-  - [ ] Can have multiple cameras (for minimaps etc)
+- [X] Setup Camera
+  - [X] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)
+  - [X] Can have multiple cameras (for minimaps etc)
 - [ ] Debug Menu
   - [ ] FPS Counter
   - [ ] Collisions Per Frame
