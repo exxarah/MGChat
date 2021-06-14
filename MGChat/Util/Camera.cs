@@ -15,37 +15,31 @@ namespace MGChat.Util
         private Vector3 _offset;
         private Vector3 _targetPosition;
 
-        private Rectangle _bounds;
-        private Rectangle _viewPortRect;
-        private Rectangle _trackingBounds;
-        
         private Matrix _projection;
         private Matrix _view;
 
-        private const float BOUNDSPERCENT = 0.05f;
+        private const float BOUNDSPIXELS = 200f;
 
-        private int _screenWidth;
-        private int _screenHeight;
+        private int _viewWidth;
+        private int _viewHeight;
 
         public Matrix ViewMatrix => _view;
         public int Target;
         
-        public Camera(int screenWidth, int screenHeight, Vector3 position, float zOffset = -10.0f)
+        public Camera(int viewWidth, int viewHeight, Vector3 position, float zOffset = -10.0f)
         {
             _up = Vector3.Up;
             _position = position;
             _offset = new Vector3(0, 0, zOffset);
             _targetPosition = _position + _offset;
 
-            _screenWidth = screenWidth;
-            _screenHeight = screenHeight;
-            _viewPortRect = new Rectangle(0, 0, screenWidth, screenHeight);
-            // _bounds = new Rectangle(0, 0, worldWidth, worldHeight); // Keep camera inside World Boundaries
+            _viewWidth = viewWidth;
+            _viewHeight = viewHeight;
 
             float nearClip = 1.0f;
             float farClip = -50.0f;
 
-            Matrix.CreateOrthographic(screenWidth, screenHeight, nearClip, farClip, out _projection);
+            Matrix.CreateOrthographic(viewWidth, viewHeight, nearClip, farClip, out _projection);
             _view = Matrix.CreateLookAt(_position, _targetPosition, Vector3.Up);
         }
 
@@ -55,68 +49,19 @@ namespace MGChat.Util
             if (Target is default(int)) { return; }
 
             var transform = (TransformComponent)ECS.Manager.Instance.Fetch<TransformComponent>(Target)[0];
-            var newCameraPos = new Vector3(transform.Position.X - _screenWidth/2f, transform.Position.Y - _screenHeight/2f, 0);
-
-            SetPosition(Vector3.Lerp(_position, newCameraPos, 1f * deltaTime));
+            var newCenter = new Vector3(transform.Position.X - _viewWidth/2f, transform.Position.Y - _viewHeight/2f, 0);
             
-            _viewPortRect.X = (int)newCameraPos.X;
-            _viewPortRect.Y = (int)newCameraPos.Y;
-            
-            //KeepCameraWithinBounds();
-            SetTrackingBounds();
-            TrackObject(transform.Position);
-        }
+            // Compare transform.position with this.position, to see if in bounds or not
+            var xMin = _position.X + BOUNDSPIXELS;
+            var xMax = _position.X + _viewWidth - BOUNDSPIXELS;
+            var yMin = _position.Y + BOUNDSPIXELS;
+            var yMax = _position.Y + _viewHeight - BOUNDSPIXELS;
 
-        private void TrackObject(Vector2 objectPosition)
-        {
-            if(objectPosition.X<_trackingBounds.Left)
+            if (transform.Position.X <= xMin || transform.Position.X >= xMax ||
+                transform.Position.Y <= yMin || transform.Position.Y >= yMax)
             {
-                _targetPosition.X = objectPosition.X - _viewPortRect.Width * BOUNDSPERCENT;
-            }
-            if(objectPosition.X>_trackingBounds.Right)
-            {
-                _targetPosition.X = _viewPortRect.X + (objectPosition.X - _trackingBounds.Right);
-            }
-            if (objectPosition.Y < _trackingBounds.Top)
-            {
-                _targetPosition.Y = objectPosition.Y - _viewPortRect.Height * BOUNDSPERCENT;
-            }
-            if (objectPosition.Y > _trackingBounds.Bottom)
-            {
-                _targetPosition.Y = _viewPortRect.Y + (objectPosition.Y - _trackingBounds.Bottom);
-            }
-        }
-
-        private void SetTrackingBounds()
-        {
-            _trackingBounds = new Rectangle(
-                _viewPortRect.X + (int) (_viewPortRect.Width * BOUNDSPERCENT),
-                _viewPortRect.Y + (int)(_viewPortRect.Height * BOUNDSPERCENT),
-                (int)(_viewPortRect.Width * (1 - (2 * BOUNDSPERCENT))),
-                (int)(_viewPortRect.Height * (1 - (2 * BOUNDSPERCENT)))
-                );
-        }
-
-        private void KeepCameraWithinBounds()
-        {
-            if (_viewPortRect.X < _bounds.X)
-            {
-                _viewPortRect.X = _bounds.X;
-            }
-
-            if (_viewPortRect.Y < _bounds.Y)
-            {
-                _viewPortRect.Y = _bounds.Y;
-            }
-
-            if (_viewPortRect.X + _viewPortRect.Width > _bounds.Width)
-            {
-                _viewPortRect.X = _bounds.Width - _viewPortRect.Width;
-            }
-            
-            if (_viewPortRect.X + _viewPortRect.Width > _bounds.Width)
-            {
-                _viewPortRect.X = _bounds.Width - _viewPortRect.Width;
+                Debug.WriteLine("Out Of Bounds");
+                SetPosition(Vector3.Lerp(_position, newCenter, 0.5f * deltaTime));
             }
         }
 
