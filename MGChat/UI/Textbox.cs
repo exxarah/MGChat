@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using MGChat.ECS;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -67,13 +68,13 @@ namespace MGChat.UI
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera=null)
         {
             if (_texture is null)
             {
                 _texture = Util.UI.BuildTexture(spriteBatch, _width, _height, _color);
             }
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera?.ViewMatrix);
             spriteBatch.Draw(_texture, AlignedPosition, Color.White);
             spriteBatch.End();
             

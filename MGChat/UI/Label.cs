@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MGChat.Util;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -23,9 +24,9 @@ namespace MGChat.UI
             base.LoadContent(content);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera=null)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera?.ViewMatrix);
             spriteBatch.DrawString(_font, Text, AlignedPosition, Color.White);
             spriteBatch.End();
 

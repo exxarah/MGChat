@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MGChat.Util;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,7 +29,7 @@ namespace MGChat.UI
             Align();
         }
         public virtual void Update(GameTime gameTime){}
-        public virtual void Draw(SpriteBatch spriteBatch){}
+        public virtual void Draw(SpriteBatch spriteBatch, Camera camera=null){}
 
         public virtual void Align()
         {

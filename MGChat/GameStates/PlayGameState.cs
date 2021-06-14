@@ -95,7 +95,7 @@ namespace MGChat.GameStates
         {
             _debugSystem.Draw(spriteBatch, _camera);
             _spriteRenderingSystem.Draw(spriteBatch, Manager.Content, _camera);
-            _uiManager.Draw(spriteBatch);
+            _uiManager.Draw(spriteBatch, _camera);
         }
 
         public override void UnloadContent()

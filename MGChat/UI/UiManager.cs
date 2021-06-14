@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MGChat.ECS;
 using MGChat.GameStates;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,7 +41,7 @@ namespace MGChat.UI
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Camera camera=null)
         {
             foreach (var uiElement in _uiElements)
             {
@@ -48,7 +49,7 @@ namespace MGChat.UI
                 {
                     uiElement.LoadContent(Parent.Manager.Content);
                 }
-                uiElement.Draw(spriteBatch);
+                uiElement.Draw(spriteBatch, camera);
             }
         }
 
