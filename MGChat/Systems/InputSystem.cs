@@ -5,6 +5,7 @@ using System.Linq;
 using MGChat.Commands;
 using MGChat.Components;
 using MGChat.ECS;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -19,16 +20,14 @@ namespace MGChat.Systems
             {Keys.D, new Vector2(1, 0)},
         };
 
-        private KeyboardState currentKeyState, prevKeyState;
-
         public override void Update(GameTime gameTime)
         {
-            // Update KeyStates
-            prevKeyState = currentKeyState;
-            currentKeyState = Keyboard.GetState();
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
 
             var components = ECS.Manager.Instance.Query<InputComponent, CommandComponent>();
             if (components == null) { return; }
+            
+            EntitiesPerFrame = components.Count;
 
             foreach (var entity in components)
             {
@@ -43,14 +42,14 @@ namespace MGChat.Systems
                 // Figure out Vector2 of direction, multidirectional rather than strictly cardinal directions
                 foreach (var kvp in MOVE_KEYS)
                 {
-                    if (KeyDown(kvp.Key) || KeyPressed(kvp.Key))
+                    if (GameKeyboard.KeyDown(kvp.Key) || GameKeyboard.KeyPressed(kvp.Key))
                     {
                         newDir += kvp.Value;
                         count += 1;
                         pressed = 1;
                     }
 
-                    if (KeyReleased(kvp.Key))
+                    if (GameKeyboard.KeyReleased(kvp.Key))
                     {
                         // Flag for Walk/Idle. If it's still this, then we've just stopped moving.
                         // Will probably break to all hell if there's any more complex animations lmfao
@@ -71,44 +70,7 @@ namespace MGChat.Systems
                     _command.AddCommand(new ChangeStateCommand(pressed == 1 ? "Walk" : "Idle"));
                 }
             }
-
             base.Update(gameTime);
-        }
-
-        private bool KeyPressed(params Keys[] keysArray)
-        {
-            foreach (var key in keysArray)
-            {
-                if (currentKeyState.IsKeyDown(key) && prevKeyState.IsKeyDown(key))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        private bool KeyReleased(params Keys[] keysArray)
-        {
-            foreach (var key in keysArray)
-            {
-                if (currentKeyState.IsKeyUp(key) && prevKeyState.IsKeyDown(key))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool KeyDown(params Keys[] keysArray)
-        {
-            foreach (var key in keysArray)
-            {
-                if (currentKeyState.IsKeyDown(key) && prevKeyState.IsKeyUp(key))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

@@ -78,7 +78,7 @@ namespace MGChat.Screens
 
         public override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.F3))
+            if (GameKeyboard.KeyReleased(Keys.F3))
             {
                 _debug = !_debug;
                 if (_debug)

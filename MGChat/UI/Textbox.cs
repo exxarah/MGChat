@@ -11,8 +11,6 @@ namespace MGChat.UI
 {
     public class Textbox : UiElement
     {
-        private KeyboardState _lastKeyboard;
-        private KeyboardState _currentKeyboard;
         private Texture2D _texture;
         private string _currentText = "";
         private Color _color = Color.DimGray;
@@ -49,17 +47,14 @@ namespace MGChat.UI
 
         public override void Update(GameTime gameTime)
         {
-            _lastKeyboard = _currentKeyboard;
-            _currentKeyboard = Keyboard.GetState();
-
             char newKey;
-            bool success = Util.UI.TryConvertKeyboardInput(_currentKeyboard, _lastKeyboard, out newKey);
+            bool success = GameKeyboard.TryConvertKeyboardInput(out newKey);
 
             if (success)
             {
                 _currentText += newKey.ToString();
                 _innerText.Text = _currentText;
-            } else if ( _lastKeyboard.IsKeyUp(Keys.Back) && _currentKeyboard.IsKeyDown(Keys.Back))
+            } else if (GameKeyboard.KeyPressed(Keys.Back))
             {
                 if (_currentText.Length > 0)
                 {
