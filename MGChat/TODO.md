@@ -29,7 +29,7 @@
 - [X] Setup Camera
   - [X] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)
   - [X] Can have multiple cameras (for minimaps etc)
-- [ ] Debug Menu
+- [X] Debug Menu
   - [X] FPS Counter
   - [X] Each System's time to complete loop
   - [X] How many entities each System operates on per loop
