@@ -16,6 +16,7 @@ namespace MGChat.ECS
         private Dictionary<Type, List<Component>> _components;
 
         public Dictionary<Type, List<Component>> Components => _components;
+        public int EntitiesCount => _entities.Count;
 
         private Manager()
         {

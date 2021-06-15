@@ -9,8 +9,11 @@ namespace MGChat.Systems
     {
         public override void Update(GameTime gameTime)
         {
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
+
             var components = ECS.Manager.Instance.Query<SpriteComponent, SpriteStateComponent, CommandComponent>();
             if (components == null) { return; }
+            EntitiesPerFrame = components.Count;
 
             foreach (var entity in components)
             {
@@ -41,7 +44,6 @@ namespace MGChat.Systems
                     _sprite.SpriteWidth = _spriteState.SpriteWidth;
                 }
             }
-            
             base.Update(gameTime);
         }
     }

@@ -10,12 +10,16 @@ namespace MGChat.Systems
     {
         public override void Update(GameTime gameTime)
         {
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
+
             var delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             #region Dynamics
 
             var components = ECS.Manager.Instance.Query<CommandComponent, TransformComponent, PhysicsComponent>();
             if (components == null) { return; }
+            
+            EntitiesPerFrame = components.Count;
 
             foreach (var entity in components)
             {
@@ -37,6 +41,8 @@ namespace MGChat.Systems
             #region Collision Detection
 
             var allColliders = ECS.Manager.Instance.QueryAny<Collider2D>();
+            EntitiesPerFrame += components.Count;
+
             foreach (var component in allColliders)
             {
                 // Update Collider info
@@ -49,6 +55,7 @@ namespace MGChat.Systems
                 collider.Colliding = false;
             }
             
+            EntitiesPerFrame += components.Count;
             foreach (var entity in components)
             {
                 var _command = (CommandComponent) entity[0];
@@ -80,8 +87,8 @@ namespace MGChat.Systems
                 // Accessing a command removes it, so need to save it and add it back
                 _command.AddCommand(_newPosCommand);
             }
-
             #endregion
+            base.Update(gameTime);
         }
     }
 }

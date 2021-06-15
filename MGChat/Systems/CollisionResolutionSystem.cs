@@ -15,13 +15,16 @@ namespace MGChat.Systems
     {
         public override void Update(GameTime gameTime)
         {
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
+
             var components = Manager.Instance.Query<CommandComponent>();
             if (components == null) { return; }
+            EntitiesPerFrame = components.Count;
 
             foreach (var entity in components)
             {
                 var _command = (CommandComponent) entity;
-                var _col = (AABB) ECS.Manager.Instance.Fetch<AABB>(_command.Parent)[0];
+                var _col = (Collider2D) ECS.Manager.Instance.FetchAny<Collider2D>(_command.Parent)[0];
                 var commands = _command.GetAllCommands<CollisionCommand>();
                 if (commands is null)
                 {
@@ -40,6 +43,7 @@ namespace MGChat.Systems
                     }
                 }
             }
+            base.Update(gameTime);
         }
     }
 }

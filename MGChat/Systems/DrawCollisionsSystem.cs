@@ -27,12 +27,16 @@ namespace MGChat.Systems
 
         public override void Update(GameTime gameTime)
         {
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
+
             List<int> updatedEntities = new List<int>();
             
             // Draw AABB Colliders
             var colliders = ECS.Manager.Instance.Query<AABB, TransformComponent>();
             if (colliders is not null)
             {
+                EntitiesPerFrame = colliders.Count;
+
                 foreach (var entity in colliders)
                 {
                     var aabb = (AABB) entity[0];

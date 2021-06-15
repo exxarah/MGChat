@@ -30,9 +30,12 @@
   - [X] Camera object that gets optionally passed to draw functions, and operates on positions (non destructively)
   - [X] Can have multiple cameras (for minimaps etc)
 - [ ] Debug Menu
-  - [ ] FPS Counter
-  - [ ] Collisions Per Frame
-  - [ ] Entities Count
+  - [X] FPS Counter
+  - [X] Each System's time to complete loop
+  - [X] How many entities each System operates on per loop
+  - [X] Entities Count
+  - [ ] Render the Debug Info as an overlaid screen
+  - [ ] ScreenManager Update has code to toggle Debug Info
 - [X] Physics \o/
   - [X] Rewrite movement to be in PhysicsSystem
   - [X] ~~Rewrite movement to use physics~~ <- Kinematic seems like it's better. Can revisit if needed

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using MGChat.Screens;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,8 +23,37 @@ namespace MGChat
         public static Dictionary<string, SpriteFont> Fonts;
 
         public static List<GameScreen> Screens;
-
+        
         public static string LocalPlayerName;
+
+        // Debug Info
+        public static int ActiveEntities => ECS.Manager.Instance.EntitiesCount;
+
+        private static float[] _updateFPS;
+        private static int _updateFPSIndex = 0;
+        public static float UpdateFPS
+        {
+            get => MathF.Round(_updateFPS.Average());
+            set
+            {
+                _updateFPS[_updateFPSIndex] = value;
+                _updateFPSIndex = ++_updateFPSIndex % _updateFPS.Length;
+            }
+        }
+        
+        private static float[] _drawFPS;
+        private static int _drawFPSIndex = 0;
+        public static float DrawFPS
+        {
+            get => MathF.Round(_drawFPS.Average());
+            set
+            {
+                _drawFPS[_drawFPSIndex] = value;
+                _drawFPSIndex = ++_drawFPSIndex % _drawFPS.Length;
+            }
+        }
+        public static float TimePerFrame = 0f;
+        public static float NetworkLag = 0f;
 
         public static void Main()
         {
@@ -37,6 +69,9 @@ namespace MGChat
 
             GraphicsDeviceMgr.PreferredBackBufferWidth = 1280;
             GraphicsDeviceMgr.PreferredBackBufferHeight = 720;
+            
+            GraphicsDeviceMgr.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = false;
 
             GraphicsDeviceMgr.IsFullScreen = false;
 
@@ -47,7 +82,9 @@ namespace MGChat
         {
             Textures2D = new Dictionary<string, Texture2D>();
             Fonts = new Dictionary<string, SpriteFont>();
-            
+            _updateFPS = new float[1000];
+            _drawFPS = new float[1000];
+
             base.Initialize();
         }
 
@@ -65,15 +102,17 @@ namespace MGChat
 
         protected override void Update(GameTime gameTime)
         {
+            UpdateFPS = (float) (1 / gameTime.ElapsedGameTime.TotalSeconds);
             try
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                GameKeyboard.Update();
+                if (GameKeyboard.KeyPressed(Keys.Escape))
                 {
                     Exit();
                 }
 
                 var startIndex = Screens.Count - 1;
-                while (Screens[startIndex].IsPopup && Screens[startIndex].IsActive)
+                while (Screens[startIndex].IsPopup && !Screens[startIndex].IsActive)
                 {
                     startIndex--;
                 }
@@ -86,7 +125,7 @@ namespace MGChat
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                throw e;
+                throw;
             }
             finally
             {
@@ -96,6 +135,9 @@ namespace MGChat
 
         protected override void Draw(GameTime gameTime)
         {
+            DrawFPS = (float) (1 / gameTime.ElapsedGameTime.TotalSeconds);
+            Window.Title = UpdateFPS + " / "  +  DrawFPS;
+            
             var startIndex = Screens.Count - 1;
             while (Screens[startIndex].IsPopup)
             {

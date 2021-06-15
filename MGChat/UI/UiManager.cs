@@ -53,9 +53,15 @@ namespace MGChat.UI
             }
         }
 
-        public void Add(UiElement element)
+        public UiElement Get(int index)
+        {
+            return _uiElements[index];
+        }
+
+        public int Add(UiElement element)
         {
             _uiElements.Add(element);
+            return _uiElements.IndexOf(element);
         }
 
         public void Remove(UiElement element)

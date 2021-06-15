@@ -11,10 +11,10 @@ namespace MGChat.UI
         private string _fontPath;
         protected SpriteFont _font;
 
-        public Label(string fontPath, string text, Vector2 position, Util.UI.ObjAlign xAlign, Util.UI.ObjAlign yAlign) : base(position, xAlign, yAlign)
+        public Label(string fontPath, string labelText, Vector2 position, Util.UI.ObjAlign xAlign, Util.UI.ObjAlign yAlign) : base(position, xAlign, yAlign)
         {
             _fontPath = fontPath;
-            Text = text ?? " ";
+            Text = labelText ?? " ";
         }
 
         public override void LoadContent(ContentManager content)

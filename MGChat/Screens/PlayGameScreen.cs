@@ -8,6 +8,8 @@ using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 
 namespace MGChat.Screens
 {
@@ -26,7 +28,7 @@ namespace MGChat.Screens
         private UiManager _uiManager;
         private Camera _camera;
 
-        private bool _drawCollisions = true;
+        private bool _debug = true;
 
         public PlayGameScreen() : base("Play"){}
         
@@ -76,6 +78,19 @@ namespace MGChat.Screens
 
         public override void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.F3))
+            {
+                _debug = !_debug;
+                if (_debug)
+                {
+                    ScreenManager.AddScreen(new DebugGameScreen());
+                }
+                else
+                {
+                    ScreenManager.RemoveScreen(new DebugGameScreen());
+                }
+            }
+            
             _inputSystem.Update(gameTime);
             _remoteSystem.Update(gameTime);
 
@@ -93,7 +108,7 @@ namespace MGChat.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            if(_drawCollisions) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
+            if(_debug) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
             _spriteRenderingSystem.Draw(ScreenManager.Sprites, ScreenManager.ContentMgr, _camera);
             _uiManager.Draw(ScreenManager.Sprites, _camera);
         }

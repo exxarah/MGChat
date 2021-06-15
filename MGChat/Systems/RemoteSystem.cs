@@ -14,6 +14,8 @@ namespace MGChat.Systems
     {
         public override void Update(GameTime gameTime)
         {
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
+
             #region Remote In
 
             List<Network.NetInput> netInputs = Network.Receive();
@@ -23,6 +25,7 @@ namespace MGChat.Systems
             var components = ECS.Manager.Instance.Query<RemoteInputComponent, CommandComponent>();
             if (components != null && netInputs != null)
             {
+                EntitiesPerFrame = components.Count;
                 foreach (var entity in components)
                 {
                     var _remote = (RemoteInputComponent) entity[0];
@@ -102,6 +105,8 @@ namespace MGChat.Systems
 
             Network.Send(exports);
             #endregion
+            
+            base.Update(gameTime);
         }
     }
 }

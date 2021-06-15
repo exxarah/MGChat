@@ -10,9 +10,11 @@ namespace MGChat.Systems
     {
         public override void Update(GameTime gameTime)
         {
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
             var components = Manager.Instance.Query<AnimatedSpriteComponent, SpriteComponent>();
             if (components == null) { return; }
-            
+            EntitiesPerFrame = components.Count;
+
             foreach (var entity in components)
             {
                 // Get Relevant Components

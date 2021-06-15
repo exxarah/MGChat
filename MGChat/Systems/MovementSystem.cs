@@ -9,8 +9,12 @@ namespace MGChat.Systems
     {
         public override void Update(GameTime gameTime)
         {
+            StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
+
             var components = ECS.Manager.Instance.Query<CommandComponent, TransformComponent>();
             if (components == null) { return; }
+            EntitiesPerFrame = components.Count;
+
 
             foreach (var entity in components)
             {
@@ -23,7 +27,6 @@ namespace MGChat.Systems
                     _transform.Position = new Vector2(_setPos.Position.X, _setPos.Position.Y);
                 }
             }
-            
             base.Update(gameTime);
         }
     }
