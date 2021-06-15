@@ -9,6 +9,7 @@ namespace MGChat.Physics2D.Primitives
         [JsonIgnore] public Vector2 Position = Vector2.Zero;
         [JsonIgnore] public Vector2 Scale = Vector2.One;
         [JsonIgnore] public float Rotation = 0f;
+        [JsonIgnore] public bool Colliding = false;
         
         public Vector2 Offset = Vector2.Zero;
         public bool Solid = true;

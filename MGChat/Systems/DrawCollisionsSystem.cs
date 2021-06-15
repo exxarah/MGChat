@@ -10,9 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Systems
 {
-    public class DebugSystem : ECS.System
+    public class DrawCollisionsSystem : ECS.System
     {
-        private bool _showColliders = true;
         private Texture2D _squareShape;
         private Texture2D _circleShape;
 
@@ -29,7 +28,8 @@ namespace MGChat.Systems
         public override void Update(GameTime gameTime)
         {
             List<int> updatedEntities = new List<int>();
-            // Draw Colliders
+            
+            // Draw AABB Colliders
             var colliders = ECS.Manager.Instance.Query<AABB, TransformComponent>();
             if (colliders is not null)
             {
@@ -42,10 +42,15 @@ namespace MGChat.Systems
                         (int)transform.Position.X, (int)transform.Position.Y,
                         (int)aabb.Width, (int)aabb.Height);
 
-                    _shapes[transform.Parent] = new Shape.DrawShape(_squareShape, textureRect, Color.Aquamarine);
+                    _shapes[transform.Parent] = new Shape.DrawShape(_squareShape, textureRect, aabb.Colliding ? Color.Red: Color.Green);
                     updatedEntities.Add(transform.Parent);
                 }
             }
+            
+            // TODO: Draw Box2D Colliders
+            
+            // TODO: Draw Circle Colliders
+            
             // Replace Dict, leaving out anyone who wasn't updated (incase deleted or w/e)
             _shapes = _shapes.
                 Where(x => updatedEntities.Contains(x.Key)).

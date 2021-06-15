@@ -60,7 +60,6 @@ namespace MGChat.Util
             if (transform.Position.X <= xMin || transform.Position.X >= xMax ||
                 transform.Position.Y <= yMin || transform.Position.Y >= yMax)
             {
-                Debug.WriteLine("Out Of Bounds");
                 SetPosition(Vector3.Lerp(_position, newCenter, 0.5f * deltaTime));
             }
         }

@@ -21,10 +21,12 @@ namespace MGChat.Screens
         private AnimationSystem _animationSystem;
         private PhysicsSystem _physicsSystem;
         private CollisionResolutionSystem _collisionResolution;
-        private DebugSystem _debugSystem;
+        private DrawCollisionsSystem _drawCollisionsSystem;
 
         private UiManager _uiManager;
         private Camera _camera;
+
+        private bool _drawCollisions = true;
 
         public PlayGameScreen() : base("Play"){}
         
@@ -38,7 +40,7 @@ namespace MGChat.Screens
             _animationSystem = new AnimationSystem();
             _physicsSystem = new PhysicsSystem();
             _collisionResolution = new CollisionResolutionSystem();
-            _debugSystem = new DebugSystem();
+            _drawCollisionsSystem = new DrawCollisionsSystem();
             
             _uiManager = new UiManager(this);
             _camera = new Camera(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height, Vector3.Zero);
@@ -67,7 +69,7 @@ namespace MGChat.Screens
         public override void LoadAssets()
         {
             Debug.WriteLine("Content Loaded!");
-            _debugSystem.LoadContent(ScreenManager.ContentMgr, ScreenManager.Sprites.GraphicsDevice);
+            _drawCollisionsSystem.LoadContent(ScreenManager.ContentMgr, ScreenManager.Sprites.GraphicsDevice);
             _spriteRenderingSystem.LoadContent(ScreenManager.ContentMgr);
             _uiManager.LoadContent(ScreenManager.ContentMgr);
         }
@@ -85,13 +87,13 @@ namespace MGChat.Screens
             _animationSystem.Update(gameTime);
 
             _camera.Update(gameTime);
-            _debugSystem.Update(gameTime);
+            _drawCollisionsSystem.Update(gameTime);
             _uiManager.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _debugSystem.Draw(ScreenManager.Sprites, _camera);
+            if(_drawCollisions) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
             _spriteRenderingSystem.Draw(ScreenManager.Sprites, ScreenManager.ContentMgr, _camera);
             _uiManager.Draw(ScreenManager.Sprites, _camera);
         }

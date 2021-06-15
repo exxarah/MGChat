@@ -23,10 +23,16 @@ namespace MGChat.Systems
                 var _command = (CommandComponent) entity;
                 var _col = (AABB) ECS.Manager.Instance.Fetch<AABB>(_command.Parent)[0];
                 var commands = _command.GetAllCommands<CollisionCommand>();
-                if (commands is null) { continue; }
+                if (commands is null)
+                {
+                    _col.Colliding = false;
+                    continue;
+                }
 
                 foreach (var collisionCommand in commands)
                 {
+                    _col.Colliding = true;
+                    collisionCommand.OtherCollider.Colliding = true;
                     // Remove any queued movement if blocked
                     if (collisionCommand.OtherCollider.Solid)
                     {

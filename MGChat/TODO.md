@@ -53,6 +53,8 @@
   - [ ] Make Emote Abilities
   - [ ] UI hookups for ability bar
 - [ ] Rewrite GameStateManager, to be a better FSM
+  - [X] Rewrite
+  - [ ] Add transitions and stuff
 - [ ] Choose between Char_1, Char_2
 - [ ] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
 - [ ] Write Json Importer for the Content Pipeline (http://rbwhitaker.wikidot.com/content-pipeline-extension-1)

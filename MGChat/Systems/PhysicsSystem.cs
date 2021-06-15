@@ -46,6 +46,7 @@ namespace MGChat.Systems
                 collider.Rotation = transform.Rotation;
                 collider.Scale = transform.Scale;
                 collider.Position = transform.Position;
+                collider.Colliding = false;
             }
             
             foreach (var entity in components)

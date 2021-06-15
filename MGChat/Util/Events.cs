@@ -12,6 +12,5 @@ namespace MGChat.Util
         {
             onNewPlayer?.Invoke(player);
         }
-
     }
 }
