@@ -229,6 +229,19 @@ namespace MGChat
             }
         }
 
+        public static GameScreen GetScreen(string screenName)
+        {
+            for (int i = Screens.Count - 1; i >= 0; i--)
+            {
+                if (Screens[i].Name == screenName)
+                {
+                    return Screens[i];
+                }
+            }
+
+            return null;
+        }
+
         public static void ChangeScreens(GameScreen currentScreen, GameScreen targetScreen)
         {
             RemoveScreen(currentScreen);

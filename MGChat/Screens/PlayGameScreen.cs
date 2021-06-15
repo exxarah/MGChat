@@ -28,7 +28,7 @@ namespace MGChat.Screens
         private UiManager _uiManager;
         private Camera _camera;
 
-        private bool _debug = true;
+        private bool _debug = false;
 
         public PlayGameScreen() : base("Play"){}
         
@@ -87,7 +87,7 @@ namespace MGChat.Screens
                 }
                 else
                 {
-                    ScreenManager.RemoveScreen(new DebugGameScreen());
+                    ScreenManager.RemoveScreen(ScreenManager.GetScreen("Debug"));
                 }
             }
             
@@ -108,6 +108,7 @@ namespace MGChat.Screens
 
         public override void Draw(GameTime gameTime)
         {
+            // Is in here because they're rendered in this game space
             if(_debug) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
             _spriteRenderingSystem.Draw(ScreenManager.Sprites, ScreenManager.ContentMgr, _camera);
             _uiManager.Draw(ScreenManager.Sprites, _camera);
