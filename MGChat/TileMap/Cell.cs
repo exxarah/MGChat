@@ -2,12 +2,12 @@
 {
     public class Cell
     {
-        public int X, Y;
+        public int GridX, GridY;
 
-        public Cell(int x, int y)
+        public Cell(int gridX, int gridY)
         {
-            X = x;
-            Y = y;
+            GridX = gridX;
+            GridY = gridY;
         }
     }
 }

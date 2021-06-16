@@ -17,17 +17,23 @@ namespace MGChat.Screens
             _uiManager = new UiManager(this);
             // Title
             _uiManager.Add(new Label(
-                "Fonts/Arcade_Out_24",
-                "PRESS ENTER TO START",
-                new Vector2(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width/2f, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height/2f - 20),
+                "Fonts/CaramelSweets_48",
+                "~MGCHAT~",
+                new Vector2(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width/2f, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height/2f - 80),
                 Util.UI.ObjAlign.Center, Util.UI.ObjAlign.Center
                 ));
             // For entering username
             _uiManager.Add(new Textbox(
-                new Vector2(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width/2f - 60, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height/2f + 20), 
+                new Vector2(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width/2f - 60, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height/2f - 40), 
                 200, "Name ", 20,
-                Util.UI.ObjAlign.Center, Util.UI.ObjAlign.Center
+                Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Center
                 ));
+            // For entering password
+            _uiManager.Add(new Textbox(
+                new Vector2(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width/2f - 60, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height/2f), 
+                200, "Password ", 20,
+                Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Center
+            ));
         }
 
         public override void LoadAssets()

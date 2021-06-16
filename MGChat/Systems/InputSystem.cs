@@ -42,7 +42,7 @@ namespace MGChat.Systems
                 // Figure out Vector2 of direction, multidirectional rather than strictly cardinal directions
                 foreach (var kvp in MOVE_KEYS)
                 {
-                    if (GameKeyboard.KeyDown(kvp.Key) || GameKeyboard.KeyPressed(kvp.Key))
+                    if (GameKeyboard.KeyPressed(kvp.Key) || GameKeyboard.KeyHeld(kvp.Key))
                     {
                         newDir += kvp.Value;
                         count += 1;

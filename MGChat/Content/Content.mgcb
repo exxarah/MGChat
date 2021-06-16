@@ -31,17 +31,24 @@
 #begin Data/RemotePlayer.json
 /copy:Data/RemotePlayer.json
 
-#begin Fonts/Arcade_In_12.spritefont
+#begin Fonts/CaramelSweets_12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/Arcade_In_12.spritefont
+/build:Fonts/CaramelSweets_12.spritefont
 
-#begin Fonts/Arcade_Out_24.spritefont
+#begin Fonts/CaramelSweets_18.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/Arcade_Out_24.spritefont
+/build:Fonts/CaramelSweets_18.spritefont
+
+#begin Fonts/CaramelSweets_48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/CaramelSweets_48.spritefont
 

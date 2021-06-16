@@ -31,7 +31,7 @@ public class GridTests
                 return false;
             }
 
-            return (c1.X == c2.X) && (c1.Y == c2.Y);
+            return (c1.GridX == c2.GridX) && (c1.GridY == c2.GridY);
         }
 
         public bool Equals(Cell[,] list1, Cell[,] list2)

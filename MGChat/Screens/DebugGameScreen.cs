@@ -18,13 +18,13 @@ namespace MGChat.Screens
 
             _uiManager = new UiManager(this);
             _updateFPSIndex = _uiManager.Add(new ValueLabel(
-                "Fonts/Arcade_Out_24", "Average UpdateFPS - ", "", Vector2.One, Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
+                "Fonts/CaramelSweets_12", "Average UpdateFPS - ", "", Vector2.One, Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
             ));
             _drawFPSIndex = _uiManager.Add(new ValueLabel(
-                "Fonts/Arcade_Out_24", "Average DrawFPS - ", "", new Vector2(1, 25), Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
+                "Fonts/CaramelSweets_12", "Average DrawFPS - ", "", new Vector2(1, 25), Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
             ));
             _entitiesCountIndex = _uiManager.Add(new ValueLabel(
-                "Fonts/Arcade_Out_24", "Active Entites - ", "", new Vector2(1, 50), Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
+                "Fonts/CaramelSweets_12", "Active Entites - ", "", new Vector2(1, 50), Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
             ));
         }
 

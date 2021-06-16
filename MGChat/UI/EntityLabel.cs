@@ -9,7 +9,7 @@ namespace MGChat.UI
     {
         private int _trackedEntity;
 
-        public EntityLabel(int entity, string fontPath="Fonts/Arcade_In_12") : base(fontPath, "", Vector2.Zero, Util.UI.ObjAlign.Center, Util.UI.ObjAlign.Above)
+        public EntityLabel(int entity, string fontPath="Fonts/CaramelSweets_12") : base(fontPath, "", Vector2.Zero, Util.UI.ObjAlign.Center, Util.UI.ObjAlign.Above)
         {
             _trackedEntity = entity;
         }

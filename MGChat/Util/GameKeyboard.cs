@@ -4,20 +4,20 @@ namespace MGChat.Util
 {
     public static class GameKeyboard
     {
-        private static KeyboardState currentKeyState, prevKeyState;
+        private static KeyboardState _currentKeyState, _prevKeyState;
 
         public static void Update()
         {
             // Update KeyStates
-            prevKeyState = currentKeyState;
-            currentKeyState = Keyboard.GetState();
+            _prevKeyState = _currentKeyState;
+            _currentKeyState = Keyboard.GetState();
         }
         
         public static bool KeyPressed(params Keys[] keysArray)
         {
             foreach (var key in keysArray)
             {
-                if (currentKeyState.IsKeyDown(key) && prevKeyState.IsKeyDown(key))
+                if (_currentKeyState.IsKeyDown(key) && _prevKeyState.IsKeyUp(key))
                 {
                     return true;
                 }
@@ -29,19 +29,7 @@ namespace MGChat.Util
         {
             foreach (var key in keysArray)
             {
-                if (currentKeyState.IsKeyUp(key) && prevKeyState.IsKeyDown(key))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static bool KeyDown(params Keys[] keysArray)
-        {
-            foreach (var key in keysArray)
-            {
-                if (currentKeyState.IsKeyDown(key) && prevKeyState.IsKeyUp(key))
+                if (_currentKeyState.IsKeyUp(key) && _prevKeyState.IsKeyDown(key))
                 {
                     return true;
                 }
@@ -49,7 +37,19 @@ namespace MGChat.Util
             return false;
         }
         
-                 /// <summary>
+        public static bool KeyHeld(params Keys[] keysArray)
+        {
+            foreach (var key in keysArray)
+            {
+                if (_currentKeyState.IsKeyDown(key) && _prevKeyState.IsKeyDown(key))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Tries to convert keyboard input to characters and prevents repeatedly returning the 
         /// same character if a key was pressed last frame, but not yet unpressed this frame.
         /// </summary>
@@ -60,8 +60,8 @@ namespace MGChat.Util
         /// <returns>True if conversion was successful</returns>
         public static bool TryConvertKeyboardInput(out char key)
         {
-            var keyboard = currentKeyState;
-            var oldKeyboard = prevKeyState;
+            var keyboard = _currentKeyState;
+            var oldKeyboard = _prevKeyState;
             Keys[] keys = keyboard.GetPressedKeys();            
             bool shift = keyboard.IsKeyDown(Keys.LeftShift) || keyboard.IsKeyDown(Keys.RightShift);            
             

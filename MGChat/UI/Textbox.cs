@@ -14,26 +14,26 @@ namespace MGChat.UI
         private Texture2D _texture;
         private string _currentText = "";
         private Color _color = Color.DimGray;
-        private int _width, _height;
+        private Color _activeColor = Color.LightSlateGray;
 
         private Label _label;
         private Label _innerText;
 
         public string Text => _currentText;
+        public bool Active = false;
 
         public Textbox(Vector2 position, int width, string label, int height, Util.UI.ObjAlign xAlign, Util.UI.ObjAlign yAlign) : base(position, xAlign, yAlign)
         {
-            _width = width;
-            _height = height;
+            Size = new Vector2(width, height);
 
             _label = new Label(
-                "Fonts/Arcade_Out_24", label,
+                "Fonts/CaramelSweets_18", label,
                 new Vector2(position.X, position.Y - 3),
                 Util.UI.ObjAlign.Left, Util.UI.ObjAlign.Below
             );
 
             _innerText = new Label(
-                "Fonts/Arcade_Out_24", null,
+                "Fonts/CaramelSweets_18", null,
                 new Vector2(position.X + 2, position.Y - 3),
                 Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
             );
@@ -47,6 +47,26 @@ namespace MGChat.UI
 
         public override void Update(GameTime gameTime)
         {
+            if (GameMouse.ButtonPressed(MouseButton.LeftButton))
+            {
+                // If Pressed inside me, set active true, else set active false
+                if (Contains(GameMouse.Position))
+                {
+                    Active = true;
+                }
+                else
+                {
+                    Active = false;
+                }
+            }
+            if (Active)
+            {
+                ProcessTextInput();
+            }
+        }
+
+        protected void ProcessTextInput()
+        {
             char newKey;
             bool success = GameKeyboard.TryConvertKeyboardInput(out newKey);
 
@@ -54,7 +74,7 @@ namespace MGChat.UI
             {
                 _currentText += newKey.ToString();
                 _innerText.Text = _currentText;
-            } else if (GameKeyboard.KeyPressed(Keys.Back))
+            } else if (GameKeyboard.KeyHeld(Keys.Back))
             {
                 if (_currentText.Length > 0)
                 {
@@ -68,10 +88,10 @@ namespace MGChat.UI
         {
             if (_texture is null)
             {
-                _texture = Util.UI.BuildTexture(spriteBatch, _width, _height, _color);
+                _texture = Util.UI.BuildTexture(spriteBatch, (int)Size.X, (int)Size.Y, Color.White);
             }
             spriteBatch.Begin(transformMatrix: camera?.ViewMatrix);
-            spriteBatch.Draw(_texture, AlignedPosition, Color.White);
+            spriteBatch.Draw(_texture, AlignedPosition, Active ? _activeColor : _color);
             spriteBatch.End();
             
             _label.Draw(spriteBatch);

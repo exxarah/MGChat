@@ -75,6 +75,8 @@ namespace MGChat
 
             GraphicsDeviceMgr.IsFullScreen = false;
 
+            IsMouseVisible = true;
+
             Content.RootDirectory = "Content";
         }
 
@@ -106,7 +108,8 @@ namespace MGChat
             try
             {
                 GameKeyboard.Update();
-                if (GameKeyboard.KeyPressed(Keys.Escape))
+                GameMouse.Update();
+                if (GameKeyboard.KeyHeld(Keys.Escape))
                 {
                     Exit();
                 }

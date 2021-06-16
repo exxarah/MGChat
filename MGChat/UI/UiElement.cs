@@ -30,10 +30,20 @@ namespace MGChat.UI
         }
         public virtual void Update(GameTime gameTime){}
         public virtual void Draw(SpriteBatch spriteBatch, Camera camera=null){}
-
         public virtual void Align()
         {
             AlignedPosition = Util.UI.Align(Position, Size, xAlign, yAlign);
+        }
+
+        public virtual bool Contains(Vector2 position)
+        {
+            if (position.X < AlignedPosition.X || position.X > AlignedPosition.X + Size.X || 
+                position.Y < AlignedPosition.Y || position.Y > AlignedPosition.Y + Size.Y)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
