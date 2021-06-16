@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
 namespace MGChat.TileMap
@@ -73,7 +74,24 @@ namespace MGChat.TileMap
 
         public Cell[,] GetNeighbourhoodVonNeumann(int centerX, int centerY, int r = 1)
         {
-            return null;
+            int size = 2 * r + 1;   // Reuse Moore size, because we need equal sizing
+            Cell[,] result = new Cell[size, size];
+
+            RecursiveVonNeumann(r, r, centerX, centerY, r, ref result);
+
+            return result;
+        }
+
+        private void RecursiveVonNeumann(int resultX, int resultY, int gridX, int gridY, int r, ref Cell[,] result)
+        {
+            result[resultX, resultY] = _grid[gridX, gridY];
+            if (r > 0)
+            {
+                RecursiveVonNeumann(resultX - 1, resultY, gridX - 1, gridY, r - 1, ref result);
+                RecursiveVonNeumann(resultX + 1, resultY, gridX + 1, gridY, r - 1, ref result);
+                RecursiveVonNeumann(resultX, resultY - 1, gridX, gridY - 1, r - 1, ref result);
+                RecursiveVonNeumann(resultX, resultY + 1, gridX, gridY + 1, r - 1, ref result);
+            }
         }
     }
 }
