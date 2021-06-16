@@ -2,8 +2,19 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace MGChat.TileMap
+namespace MGChat.Util
 {
+    public class Cell
+    {
+        public int GridX, GridY;
+
+        public Cell(int gridX, int gridY)
+        {
+            GridX = gridX;
+            GridY = gridY;
+        }
+    }
+    
     public class Grid
     {
         private Cell[,] _grid;
@@ -11,23 +22,11 @@ namespace MGChat.TileMap
 
         public Cell[,] GridActual => _grid;
 
-        public Grid(int width, int height, Vector2 offset=default(Vector2))
+        public Grid(int width, int height)
         {
             _grid = new Cell[width, height];
             _width = width;
             _height = height;
-            if (offset == default(Vector2))
-            {
-                offset = Vector2.Zero;
-            }
-            
-            for (int x = 0 + (int)offset.X; x < (width + offset.X); x++)
-            {
-                for (int y = 0 + (int)offset.Y; y < (height + offset.Y); y++)
-                {
-                    ChangeTile(x - (int)offset.X, y - (int)offset.Y, new Cell(x, y));
-                }
-            }
         }
 
         public Cell GetTile(int x, int y)

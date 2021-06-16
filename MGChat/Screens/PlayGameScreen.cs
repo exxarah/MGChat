@@ -3,13 +3,11 @@ using System.Threading.Tasks;
 using MGChat.Components;
 using MGChat.Physics2D.Primitives;
 using MGChat.Systems;
+using MGChat.TileMap;
 using MGChat.UI;
 using MGChat.Util;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 
 namespace MGChat.Screens
 {
@@ -25,6 +23,7 @@ namespace MGChat.Screens
         private CollisionResolutionSystem _collisionResolution;
         private DrawCollisionsSystem _drawCollisionsSystem;
 
+        private TileMap.TileMap _tileMap;
         private UiManager _uiManager;
         private Camera _camera;
 
@@ -43,7 +42,7 @@ namespace MGChat.Screens
             _physicsSystem = new PhysicsSystem();
             _collisionResolution = new CollisionResolutionSystem();
             _drawCollisionsSystem = new DrawCollisionsSystem();
-            
+
             _uiManager = new UiManager(this);
             _camera = new Camera(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height, Vector3.Zero);
             
@@ -61,6 +60,15 @@ namespace MGChat.Screens
             // Build World
             int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", ScreenManager.LocalPlayerName);
             _camera.Target = player;
+            
+            _tileMap = new TileMap.TileMap("", 100, 100, new Vector2(16, 16), 0, 0);
+            for (int x = 0; x < 100; x++)
+            {
+                for (int y = 0; y < 100; y++)
+                {
+                    _tileMap.ChangeTile(x, y, new Tile(x, y, Vector2.Zero));
+                }
+            }
 
             int testCollider = ECS.Manager.Instance.CreateEntity();
             new AABB(testCollider, 16, 16);
@@ -71,7 +79,8 @@ namespace MGChat.Screens
         public override void LoadAssets()
         {
             Debug.WriteLine("Content Loaded!");
-            _drawCollisionsSystem.LoadContent(ScreenManager.ContentMgr, ScreenManager.Sprites.GraphicsDevice);
+            _tileMap.LoadContent(ScreenManager.ContentMgr);
+            _drawCollisionsSystem.LoadContent(ScreenManager.ContentMgr);
             _spriteRenderingSystem.LoadContent(ScreenManager.ContentMgr);
             _uiManager.LoadContent(ScreenManager.ContentMgr);
         }
@@ -108,6 +117,7 @@ namespace MGChat.Screens
 
         public override void Draw(GameTime gameTime)
         {
+            _tileMap.Draw(ScreenManager.Sprites, _camera);
             // Is in here because they're rendered in this game space
             if(_debug) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
             _spriteRenderingSystem.Draw(ScreenManager.Sprites, ScreenManager.ContentMgr, _camera);

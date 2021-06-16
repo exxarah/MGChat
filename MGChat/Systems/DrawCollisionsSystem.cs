@@ -17,10 +17,10 @@ namespace MGChat.Systems
 
         private Dictionary<int, Util.Shape.DrawShape> _shapes = new Dictionary<int, Shape.DrawShape>();
 
-        public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
+        public void LoadContent(ContentManager content)
         {
-            _squareShape = Util.Shape.GenerateSquareShape(graphicsDevice, 32, 32);
-            _circleShape = Util.Shape.GenerateCircleShape(graphicsDevice, 32);
+            _squareShape = Util.Shape.GenerateSquareShape(ScreenManager.Sprites.GraphicsDevice, 32, 32);
+            _circleShape = Util.Shape.GenerateCircleShape(ScreenManager.Sprites.GraphicsDevice, 32);
             
             base.LoadContent(content);
         }

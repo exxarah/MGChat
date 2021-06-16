@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using MGChat.TileMap;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 using NUnit.Framework;
 using SharpDX.Direct3D9;
 
-namespace Tests.TileMap
+namespace Tests.Util
 {
 public class GridTests
     {
@@ -15,8 +15,15 @@ public class GridTests
         [SetUp]
         public void Setup()
         {
-            // TODO: Fill Grid with junk cells
             _grid = new Grid(10, 10);
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    _grid.ChangeTile(i, j, new Cell(i, j));
+                }
+            }
         }
         
         public bool Equals(Cell c1, Cell c2)
@@ -58,31 +65,36 @@ public class GridTests
         }
         
         [Test]
-        [TestCase(5, 5, 0, 5, TestName = "General1")]
-        [TestCase(5, 5, 1, 4, TestName = "General2")]
-        [TestCase(5, 5, 2, 3, TestName = "General3")]
-        public void GetNeighbourhoodMoore_ReturnsTrue(int x, int y, int r, int offsetVal)
+        public void GetNeighbourhoodMoore_ReturnsTrue()
         {
             // Arrange
-            var expected = new Grid(2 * r + 1, 2 * r + 1, new Vector2(offsetVal, offsetVal)).GridActual;
+            Cell[,] expected = new Cell[,]
+            {
+                {new Cell(7, 7), new Cell(7, 8), new Cell(7, 9)},
+                {new Cell(8, 7), new Cell(8, 8), new Cell(8, 9)},
+                {new Cell(9, 7), new Cell(9, 8), new Cell(9, 9)}
+            };
             
             // Act
-           var actual =  _grid.GetNeighbourhoodMoore(x, y, r);
+           var actual =  _grid.GetNeighbourhoodMoore(8, 8, 1);
 
            // Assert
            Assert.True(Equals(expected, actual));
         }
 
         [Test]
-        [TestCase(5, 5, 2, 5, TestName = "General1")]
-        [TestCase(5, 5, 3, 5, TestName = "General2")]
-        public void GetNeighbourhoodMoore_ReturnsFalse(int x, int y, int r, int offsetVal)
+        public void GetNeighbourhoodMoore_ReturnsFalse()
         {
             // Arrange
-            var expected = new Grid(2 * r + 1, 2 * r + 1, new Vector2(offsetVal, offsetVal)).GridActual;
+            Cell[,] expected = new Cell[,]
+            {
+                {new Cell(7, 7), new Cell(7, 8), new Cell(7, 9)},
+                {new Cell(8, 7), new Cell(8, 8), new Cell(8, 9)},
+                {new Cell(9, 7), new Cell(9, 8), new Cell(9, 9)}
+            };
             
             // Act
-            var actual =  _grid.GetNeighbourhoodMoore(x, y, r);
+            var actual =  _grid.GetNeighbourhoodMoore(5, 5, 1);
 
             // Assert
             Assert.False(Equals(expected, actual));
