@@ -74,7 +74,7 @@ namespace MGChat.UI
             {
                 _currentText += newKey.ToString();
                 _innerText.Text = _currentText;
-            } else if (GameKeyboard.KeyHeld(Keys.Back))
+            } else if (GameKeyboard.KeyPressed(Keys.Back))
             {
                 if (_currentText.Length > 0)
                 {

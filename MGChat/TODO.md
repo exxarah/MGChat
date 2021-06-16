@@ -3,7 +3,7 @@
 <summary>v0.2 - A Skeletal Game</summary>
 
 - [X] Setup Readme Stuff
-- [X] Setup Documentation/Comments
+- [ ] Setup Documentation/Comments
 - [X] Add Game States/Scene Manager
 - [X] Make v simple Main Screen
 - [ ] Netwoking?
@@ -42,8 +42,13 @@
   - [X] Discover Collisions
   - [X] Resolve Collisions
 - [ ] Environment
-  - [ ] Grass Tiles
-  - [ ] Bushes with Colliders
+  - [X] Setup TileMap class
+  - [X] Render TileMaps
+  - [ ] Json for tiles and map
+      - [ ] Json to define types of tiles, and give them an identifier
+      - [ ] File to define a map, 2d array of tile identifiers
+  - [ ] Actually load/use json
+  - [ ] Add some bush entities with colliders and sprites
 - [ ] Ability Bar
   - [ ] Ability (Probably external to ECS)
     - [ ] Abstract class for abilities to inherit from
