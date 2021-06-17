@@ -44,11 +44,13 @@
 - [ ] Environment
   - [X] Setup TileMap class
   - [X] Render TileMaps
-  - [ ] Json for tiles and map
-      - [ ] Json to define types of tiles, and give them an identifier
-      - [ ] File to define a map, 2d array of tile identifiers
-  - [ ] Actually load/use json
+  - [X] Json for tiles and map
+      - [X] Json to define types of tiles, and give them an identifier
+      - [X] File to define a map, 2d array of tile identifiers
+  - [X] Actually load/use json
   - [ ] Add some bush entities with colliders and sprites
+  - [ ] Object Pooling of tiles
+  - [ ] Chunking
 - [ ] Ability Bar
   - [ ] Ability (Probably external to ECS)
     - [ ] Abstract class for abilities to inherit from
@@ -64,8 +66,9 @@
   - [X] Rewrite
   - [ ] Add transitions and stuff
 - [ ] Choose between Char_1, Char_2
-- [ ] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
+- [X] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
 - [ ] Write Json Importer for the Content Pipeline (http://rbwhitaker.wikidot.com/content-pipeline-extension-1)
+- [ ] Fix the Framerate averaging, it currently throws an error if it's still infinity. Might just be a spritefont issue, with no default set?
 </details>
 
 <details>

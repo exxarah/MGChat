@@ -25,11 +25,14 @@
 /processorParam:TextureFormat=Color
 /build:CharacterArt/Char_One.png
 
-#begin Data/Entities/Player.json
-/copy:Data/Entities/Player.json
+#begin Data/Actors/Player.json
+/copy:Data/Actors/Player.json
 
-#begin Data/Entities/RemotePlayer.json
-/copy:Data/Entities/RemotePlayer.json
+#begin Data/Actors/RemotePlayer.json
+/copy:Data/Actors/RemotePlayer.json
+
+#begin Data/Decorations/Bush.json
+/copy:Data/Decorations/Bush.json
 
 #begin Data/Map/Map.json
 /copy:Data/Map/Map.json
@@ -42,6 +45,18 @@
 
 #begin Data/Tiles/GrassTile.json
 /copy:Data/Tiles/GrassTile.json
+
+#begin EnvironmentArt/Bush.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:EnvironmentArt/Bush.png
 
 #begin EnvironmentArt/TS_Dirt.png
 /importer:TextureImporter

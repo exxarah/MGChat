@@ -1,0 +1,29 @@
+﻿[
+  {
+    "$type": "MGChat.Components.PhysicsComponent, MGChat",
+    "MaxSpeed": 0.25,
+    "Static": false
+  },
+  {
+    "$type": "MGChat.Components.TransformComponent, MGChat",
+    "Position": "250, 250",
+    "Scale": "2, 2",
+    "RotOrigin": "0, 0",
+    "Rotation": 0.0
+  },
+  {
+    "$type": "MGChat.Components.SpriteComponent, MGChat",
+    "TexturePath": "EnvironmentArt/Bush",
+    "Rows": 1,
+    "Columns": 1,
+    "SpriteWidth": 15,
+    "SpriteHeight": 13,
+    "SpriteX": 0,
+    "SpriteY": 0
+  },
+  {
+    "$type": "MGChat.Physics2D.Primitives.AABB, MGChat",
+    "Width": 15,
+    "Height": 13
+  }
+]

@@ -64,10 +64,7 @@ namespace MGChat.Screens
             
             _tileMap = TileMapFactory.LoadMapCsv("Map_000.csv", 32, 32);
 
-            int testCollider = ECS.Manager.Instance.CreateEntity();
-            new AABB(testCollider, 16, 16);
-            var transform = new TransformComponent(testCollider, 200, 200);
-            transform.Scale = new Vector2(2, 2);
+            int bush = DecorationFactory.CreateBush();
         }
 
         public override void LoadAssets()

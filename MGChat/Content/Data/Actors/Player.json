@@ -17,7 +17,8 @@
   {
     "$type": "MGChat.Physics2D.Primitives.AABB, MGChat",
     "Width": 16,
-    "Height": 16
+    "Height": 8,
+    "Offset": "0, 0"
   },
   {
     "$type": "MGChat.Components.TransformComponent, MGChat",
