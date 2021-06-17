@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Windows.Forms;
 using MGChat.Systems;
 using MGChat.UI;
 using Microsoft.Xna.Framework;
@@ -35,8 +37,19 @@ namespace MGChat.Screens
 
         public override void Update(GameTime gameTime)
         {
-            ((ValueLabel) _uiManager.Get(_updateFPSIndex)).ValueText = ScreenManager.UpdateFPS.ToString(CultureInfo.CurrentCulture);
-            ((ValueLabel) _uiManager.Get(_drawFPSIndex)).ValueText = ScreenManager.DrawFPS.ToString(CultureInfo.CurrentCulture);
+            var updateFpsString = ScreenManager.UpdateFPS.ToString(CultureInfo.CurrentCulture);
+            if (double.IsPositiveInfinity(ScreenManager.UpdateFPS))
+            {
+                updateFpsString = "INF";
+            }
+            ((ValueLabel) _uiManager.Get(_updateFPSIndex)).ValueText = updateFpsString;
+            
+            var drawFpsString = ScreenManager.DrawFPS.ToString(CultureInfo.CurrentCulture);
+            if (double.IsPositiveInfinity(ScreenManager.DrawFPS))
+            {
+                drawFpsString = "INF";
+            }
+            ((ValueLabel) _uiManager.Get(_drawFPSIndex)).ValueText = drawFpsString;
             ((ValueLabel) _uiManager.Get(_entitiesCountIndex)).ValueText = ScreenManager.ActiveEntities.ToString(CultureInfo.CurrentCulture);
             
             _uiManager.Update(gameTime);

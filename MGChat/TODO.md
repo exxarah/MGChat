@@ -70,8 +70,9 @@
 - [ ] Choose between Char_1, Char_2
 - [X] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
 - [ ] Write Json Importer for the Content Pipeline (http://rbwhitaker.wikidot.com/content-pipeline-extension-1)
-- [ ] Render order on sprites, sort by Position.Y for draw order
-- [ ] Fix the Framerate averaging, it currently throws an error if it's still infinity. Might just be a spritefont issue, with no default set?
+- [X] Render order on sprites, sort by Position.Y for draw order
+- [ ] Only render entities that are in camera view
+- [X] Fix the Framerate averaging, it currently throws an error if it's still infinity. Might just be a spritefont issue, with no default set?
 - [ ] Split up Physics system so that collision is separate(?)
 </details>
 
