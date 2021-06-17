@@ -27,5 +27,14 @@
         <MonoGameContentReference Include="Content\Content.mgcb" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="bin\Debug\net5.0-windows\Content\bin\Windows\Content\Data\Player.json">
+        <Link>Content\Data\Entities\Player.json</Link>
+      </Content>
+      <Content Include="bin\Debug\net5.0-windows\Content\bin\Windows\Content\Data\RemotePlayer.json">
+        <Link>Content\Data\Entities\RemotePlayer.json</Link>
+      </Content>
+    </ItemGroup>
+
 </Project>
 

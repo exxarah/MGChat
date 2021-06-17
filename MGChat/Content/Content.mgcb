@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Char_One.png
+#begin CharacterArt/Char_One.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,13 +23,37 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Char_One.png
+/build:CharacterArt/Char_One.png
 
-#begin Data/Player.json
-/copy:Data/Player.json
+#begin Data/Entities/Player.json
+/copy:Data/Entities/Player.json
 
-#begin Data/RemotePlayer.json
-/copy:Data/RemotePlayer.json
+#begin Data/Entities/RemotePlayer.json
+/copy:Data/Entities/RemotePlayer.json
+
+#begin Data/Map/Map.json
+/copy:Data/Map/Map.json
+
+#begin Data/Map/Map_000.csv
+/copy:Data/Map/Map_000.csv
+
+#begin Data/Tiles/DirtTile.json
+/copy:Data/Tiles/DirtTile.json
+
+#begin Data/Tiles/GrassTile.json
+/copy:Data/Tiles/GrassTile.json
+
+#begin EnvironmentArt/TS_Dirt.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:EnvironmentArt/TS_Dirt.png
 
 #begin Fonts/CaramelSweets_12.spritefont
 /importer:FontDescriptionImporter

@@ -8,9 +8,11 @@ namespace MGChat.TileMap
 {
     public class Tile : Cell
     {
+        public string TileType;
+        public int TileTypeId;
         public Vector2 TextureCoordinates;
         
-        public Tile(int gridX, int gridY, Vector2 textureCoordinates) : base(gridX, gridY)
+        public Tile(Vector2 textureCoordinates, int gridX=0, int gridY=0) : base(gridX, gridY)
         {
             TextureCoordinates = textureCoordinates;
         }

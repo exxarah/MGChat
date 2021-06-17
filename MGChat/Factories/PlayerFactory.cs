@@ -10,7 +10,7 @@ namespace MGChat.Factories
 {
     public static class PlayerFactory
     {
-        public static string DataPath = "Content/Data/";
+        public static string DataPath = ScreenManager.ContentMgr.RootDirectory + "/Data/Entities/";
         public static int CreatePlayer(string jsonPath)
         {
             int player;

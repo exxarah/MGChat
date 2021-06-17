@@ -7,15 +7,15 @@ namespace MGChat.Util
     public class Cell
     {
         public int GridX, GridY;
-
-        public Cell(int gridX, int gridY)
+        
+        public Cell(int gridX=0, int gridY=0)
         {
             GridX = gridX;
             GridY = gridY;
         }
     }
     
-    public class Grid
+    public class Grid : Cell
     {
         private Cell[,] _grid;
         private int _width, _height;
@@ -44,6 +44,9 @@ namespace MGChat.Util
             {
                 return false;
             }
+
+            newCell.GridX = x;
+            newCell.GridY = y;
             _grid[x, y] = newCell;
             return true;
         }

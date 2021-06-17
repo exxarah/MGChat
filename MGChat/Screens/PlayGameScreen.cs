@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using MGChat.Components;
+using MGChat.Factories;
 using MGChat.Physics2D.Primitives;
 using MGChat.Systems;
 using MGChat.TileMap;
@@ -61,14 +62,7 @@ namespace MGChat.Screens
             int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", ScreenManager.LocalPlayerName);
             _camera.Target = player;
             
-            _tileMap = new TileMap.TileMap("", 100, 100, new Vector2(16, 16), 0, 0);
-            for (int x = 0; x < 100; x++)
-            {
-                for (int y = 0; y < 100; y++)
-                {
-                    _tileMap.ChangeTile(x, y, new Tile(x, y, Vector2.Zero));
-                }
-            }
+            _tileMap = TileMapFactory.LoadMapCsv("Map_000.csv", 32, 32);
 
             int testCollider = ECS.Manager.Instance.CreateEntity();
             new AABB(testCollider, 16, 16);
