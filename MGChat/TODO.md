@@ -49,9 +49,10 @@
       - [X] Json to define types of tiles, and give them an identifier
       - [X] File to define a map, 2d array of tile identifiers
   - [X] Actually load/use json
-  - [ ] Add some bush entities with colliders and sprites
-  - [ ] Object Pooling of tiles
-  - [ ] Chunking
+  - [X] Add some bush entities with colliders and sprites
+  - [ ] Set up big tilemap (tilemap of chunk tilemaps)
+  - [ ] Only load active chunks/maps into memory (papa tilemap handles this)
+  - [ ] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
 - [ ] Ability Bar
   - [ ] Ability (Probably external to ECS)
     - [ ] Abstract class for abilities to inherit from
@@ -69,8 +70,9 @@
 - [ ] Choose between Char_1, Char_2
 - [X] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
 - [ ] Write Json Importer for the Content Pipeline (http://rbwhitaker.wikidot.com/content-pipeline-extension-1)
-- [ ] Render order on sprites
+- [ ] Render order on sprites, sort by Position.Y for draw order
 - [ ] Fix the Framerate averaging, it currently throws an error if it's still infinity. Might just be a spritefont issue, with no default set?
+- [ ] Split up Physics system so that collision is separate(?)
 </details>
 
 <details>

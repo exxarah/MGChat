@@ -24,6 +24,7 @@
   {
     "$type": "MGChat.Physics2D.Primitives.AABB, MGChat",
     "Width": 15,
-    "Height": 13
+    "Height": 13,
+    "Offset"
   }
 ]

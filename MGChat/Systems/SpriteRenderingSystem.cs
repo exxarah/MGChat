@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using MGChat.Components;
 using MGChat.ECS;
 using MGChat.Util;
@@ -26,7 +27,15 @@ namespace MGChat.Systems
         public void Draw(SpriteBatch spriteBatch, ContentManager Content, Camera camera=null)
         {
             var components = Manager.Instance.Query<SpriteComponent, TransformComponent>();
+            
             if (components == null) { return; }
+            components.Sort((x, y) =>
+            {
+                var xTrans = (TransformComponent) x[1];
+                var yTrans = (TransformComponent) y[1];
+
+                return xTrans.Position.Y.CompareTo(yTrans.Position.Y);
+            });
 
             foreach (var entity in components)
             {
