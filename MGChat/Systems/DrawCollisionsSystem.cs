@@ -43,7 +43,7 @@ namespace MGChat.Systems
                     var transform = (TransformComponent) entity[1];
                     
                     Rectangle textureRect = new Rectangle(
-                        (int)transform.Position.X, (int)transform.Position.Y,
+                        (int)aabb.Position.X, (int)aabb.Position.Y,
                         (int)aabb.Width, (int)aabb.Height);
 
                     _shapes[transform.Parent] = new Shape.DrawShape(_squareShape, textureRect, aabb.Colliding ? Color.Red: Color.Green);

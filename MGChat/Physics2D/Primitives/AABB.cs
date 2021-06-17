@@ -20,13 +20,13 @@ namespace MGChat.Physics2D.Primitives
         public AABB(int parent) : base(parent) { }
 
         [JsonConstructor]
-        public AABB(int parent, float width, float height) : base(parent)
+        public AABB(int parent, float width, float height, Vector2 offset = default) : base(parent, offset)
         {
             _width = width;
             _height = height;
-            
-            Vector2 min = Vector2.Zero;
-            Vector2 max = new Vector2(width, height);
+
+            Vector2 min = Vector2.Zero + offset;
+            Vector2 max = new Vector2(_width, _height) + offset;
             _size = max - min;
             _halfSize = _size * 0.5f;
         }

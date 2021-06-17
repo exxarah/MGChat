@@ -41,6 +41,7 @@
   - [X] ~~Rewrite movement to use physics~~ <- Kinematic seems like it's better. Can revisit if needed
   - [X] Discover Collisions
   - [X] Resolve Collisions
+  - [X] !Make them work with offsets properly!
 - [ ] Environment
   - [X] Setup TileMap class
   - [X] Render TileMaps
@@ -68,6 +69,7 @@
 - [ ] Choose between Char_1, Char_2
 - [X] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
 - [ ] Write Json Importer for the Content Pipeline (http://rbwhitaker.wikidot.com/content-pipeline-extension-1)
+- [ ] Render order on sprites
 - [ ] Fix the Framerate averaging, it currently throws an error if it's still infinity. Might just be a spritefont issue, with no default set?
 </details>
 
