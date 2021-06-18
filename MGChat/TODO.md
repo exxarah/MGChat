@@ -3,7 +3,6 @@
 <summary>v0.2 - A Skeletal Game</summary>
 
 - [X] Setup Readme Stuff
-- [ ] Setup Documentation/Comments
 - [X] Add Game States/Scene Manager
 - [X] Make v simple Main Screen
 - [ ] Netwoking?
@@ -20,6 +19,7 @@
     - [ ] Replace Json with binary (or similar)
   - [ ] Only send/receive data when new data
   - [ ] Login/Auth
+    - [ ] Server stores playerName (used as NetID), and player customised json/data to be loaded.
 - [X] Nametag over local player
   - [X] Rewrite UI system stuff into non-ECS
 - [X] Enter name for tag at main menu
@@ -51,6 +51,8 @@
   - [X] Actually load/use json
   - [X] Add some bush entities with colliders and sprites
   - [ ] Set up big tilemap (tilemap of chunk tilemaps)
+      - [ ] Check that neighbour finding works properly
+      - [ ] If the main use r to figure out if there will be overlap, if there will be, then access the parent to ????
   - [ ] Only load active chunks/maps into memory (papa tilemap handles this)
   - [ ] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
 - [ ] Ability Bar

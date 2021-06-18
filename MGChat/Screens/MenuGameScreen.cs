@@ -45,8 +45,23 @@ namespace MGChat.Screens
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                ScreenManager.LocalPlayerName = ((Textbox) _uiManager.UiElements[1]).Text;
-                ScreenManager.ChangeScreens(this, new PlayGameScreen());
+                string username = ((Textbox) _uiManager.UiElements[1]).Text;
+                string password = ((Textbox) _uiManager.UiElements[2]).Text;
+                
+                // TODO: Auth here. If logging in doesn't work, Load the new character screen. If it does, load the character received back from the server
+                bool playerRecognised = true;
+                ScreenManager.LocalPlayerName = username;
+
+                if (playerRecognised)
+                {
+                    var gameSession = new PlayGameScreen();
+                    // TODO: Load in server-provided player info here
+                    ScreenManager.ChangeScreens(this, gameSession);
+                }
+                else
+                {
+                    // TODO: Switch to ChaaracterCreatorGameScreen
+                }
             }
             
             _uiManager.Update(gameTime);

@@ -26,34 +26,37 @@ namespace MGChat
         
         public static string LocalPlayerName;
 
-        // Debug Info
-        public static int ActiveEntities => ECS.Manager.Instance.EntitiesCount;
+        #region Debug Info
+            public static int ActiveEntities => ECS.Manager.Instance.EntitiesCount;
 
-        private static float[] _updateFPS;
-        private static int _updateFPSIndex = 0;
-        public static float UpdateFPS
-        {
-            get => MathF.Round(_updateFPS.Average());
-            set
+            private static float[] _updateFPS;
+            private static int _updateFPSIndex = 0;
+            public static float UpdateFPS
             {
-                _updateFPS[_updateFPSIndex] = value;
-                _updateFPSIndex = ++_updateFPSIndex % _updateFPS.Length;
+                get => MathF.Round(_updateFPS.Average());
+                set
+                {
+                    _updateFPS[_updateFPSIndex] = value;
+                    _updateFPSIndex = ++_updateFPSIndex % _updateFPS.Length;
+                }
             }
-        }
+            
+            private static float[] _drawFPS;
+            private static int _drawFPSIndex = 0;
+            public static float DrawFPS
+            {
+                get => MathF.Round(_drawFPS.Average());
+                set
+                {
+                    _drawFPS[_drawFPSIndex] = value;
+                    _drawFPSIndex = ++_drawFPSIndex % _drawFPS.Length;
+                }
+            }
+            public static Vector2 CurrentChunk = Vector2.Zero;
+            public static float TimePerFrame = 0f;
+            public static float NetworkLag = 0f;
         
-        private static float[] _drawFPS;
-        private static int _drawFPSIndex = 0;
-        public static float DrawFPS
-        {
-            get => MathF.Round(_drawFPS.Average());
-            set
-            {
-                _drawFPS[_drawFPSIndex] = value;
-                _drawFPSIndex = ++_drawFPSIndex % _drawFPS.Length;
-            }
-        }
-        public static float TimePerFrame = 0f;
-        public static float NetworkLag = 0f;
+        #endregion
 
         public static void Main()
         {

@@ -11,7 +11,7 @@ namespace MGChat.Screens
     {
         private UiManager _uiManager;
 
-        private int _updateFPSIndex, _drawFPSIndex, _entitiesCountIndex;
+        private int _updateFPSIndex, _drawFPSIndex, _entitiesCountIndex, _currentChunkIndex;
         public override void Initialize()
         {
             Name = "Debug";
@@ -27,6 +27,9 @@ namespace MGChat.Screens
             ));
             _entitiesCountIndex = _uiManager.Add(new ValueLabel(
                 "Fonts/CaramelSweets_12", "Active Entites - ", "", new Vector2(1, 50), Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
+            ));
+            _currentChunkIndex = _uiManager.Add(new ValueLabel(
+                "Fonts/CaramelSweets_12", "Current Chunk - ", "", new Vector2(1, 75), Util.UI.ObjAlign.Right, Util.UI.ObjAlign.Below
             ));
         }
 
@@ -50,8 +53,10 @@ namespace MGChat.Screens
                 drawFpsString = "INF";
             }
             ((ValueLabel) _uiManager.Get(_drawFPSIndex)).ValueText = drawFpsString;
-            ((ValueLabel) _uiManager.Get(_entitiesCountIndex)).ValueText = ScreenManager.ActiveEntities.ToString(CultureInfo.CurrentCulture);
             
+            ((ValueLabel) _uiManager.Get(_entitiesCountIndex)).ValueText = ScreenManager.ActiveEntities.ToString(CultureInfo.CurrentCulture);
+            ((ValueLabel) _uiManager.Get(_currentChunkIndex)).ValueText = ScreenManager.CurrentChunk.ToString();
+
             _uiManager.Update(gameTime);
         }
 
