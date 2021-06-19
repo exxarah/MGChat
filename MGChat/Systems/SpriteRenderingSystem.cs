@@ -32,9 +32,13 @@ namespace MGChat.Systems
             components.Sort((x, y) =>
             {
                 var xTrans = (TransformComponent) x[1];
+                var xSprite = (SpriteComponent) x[0];
                 var yTrans = (TransformComponent) y[1];
+                var ySprite = (SpriteComponent) y[0];
 
-                return xTrans.Position.Y.CompareTo(yTrans.Position.Y);
+                int renderSort = xSprite.RenderOrder.CompareTo(ySprite.RenderOrder);
+                int ySort =  xTrans.Position.Y.CompareTo(yTrans.Position.Y);
+                return renderSort != 0 ? renderSort : ySort;
             });
 
             foreach (var entity in components)

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using MGChat.Components;
+using MGChat.Factories;
 using Microsoft.Xna.Framework;
 
 namespace MGChat.Chunks
@@ -26,12 +28,29 @@ namespace MGChat.Chunks
 
         public void Load()
         {
-            
+            int entity = DecorationFactory.CreateBush();
+            var transform = (TransformComponent)ECS.Manager.Instance.Fetch<TransformComponent>(entity)[0];
+            transform.Position = _worldPosition;
+            _childEntities.Add(entity);
+
+            for (int x = 0; x < ChunkWidth; x++)
+            {
+                for (int y = 0; y < ChunkHeight; y++)
+                {
+                    entity = TileFactory.LoadTile(0); // Load a grass tile
+                    transform = (TransformComponent) ECS.Manager.Instance.Fetch<TransformComponent>(entity)[0];
+                    transform.Position = _worldPosition + new Vector2(x * TileWidth, y * TileHeight);
+                    _childEntities.Add(entity);
+                }
+            }
         }
 
         public void Unload()
         {
-            
+            foreach (var entity in _childEntities)
+            {
+                ECS.Manager.Instance.DestroyEntity(entity);
+            }
         }
         
         public bool Contains(Vector2 position)

@@ -49,7 +49,6 @@ namespace MGChat.ECS
             if (components != null)
                 foreach (var component in components)
                 {
-                    Debug.WriteLine("Initializing Entity");
                     component.Init(newEntity);
                 }
 
@@ -69,43 +68,29 @@ namespace MGChat.ECS
 
         public bool DestroyEntity(int entity)
         {
-            for (int i = _components.Count - 1; i >= 0; i--)
+            var components = Fetch(entity);
+
+            foreach (var component in components)
             {
-                KeyValuePair<Type, List<Component>> KeyValue = _components.ElementAt(i);
-                for (int j = KeyValue.Value.Count - 1; j >= 0; j--)
-                {
-                    if (KeyValue.Value[j].Parent == entity)
-                    {
-                        DeregisterComponent(KeyValue.Value[j]);
-                        if (j > 0)
-                        {
-                            KeyValue.Value.RemoveAt(j);
-                        }
-                        else
-                        {
-                            _components.Remove(KeyValue.Key);
-                        }
-                    }
-                }
+                DeregisterComponent(component);
             }
+
+            _entities.Remove(entity);
             return true;
         }
 
         public bool RegisterComponent(Component component)
         {
-            Debug.WriteLine($"Registering Component {component}");
             Type currType = component.GetType();
 
             if (component.Registered)
             {
-                Debug.WriteLine($"{component} is already Registered.");
                 return false;
             }
             
             // Check that Entity actually exists
             if (!_entities.Contains(component.Parent))
             {
-                Debug.WriteLine($"Missing Entity {component.Parent}");
                 return false;
             }
             
@@ -113,7 +98,6 @@ namespace MGChat.ECS
             if (!_components.ContainsKey(currType))
             {
                 _components.Add(currType, new List<Component>());
-                Debug.WriteLine($"Missing Component {currType} in Dictionary. Adding...");
             }
 
             _components[currType].Add(component);
@@ -122,27 +106,23 @@ namespace MGChat.ECS
 
         public bool DeregisterComponent(Component component)
         {
-            Debug.WriteLine($"Deregistering Component {component}");
             Type currType = component.GetType();
 
             // Prevent duplicate registrations (not of the same component type, only of the same exact component)
             if (!component.Registered)
             {
-                Debug.WriteLine($"{component} is not Registered");
                 return false;
             }
             
             // Check that Entity actually exists
             if (!_entities.Contains(component.Parent))
             {
-                Debug.WriteLine($"Missing Entity {component.Parent}");
                 return false;
             }
 
             // Check if component entry in dict
             if (!_components.ContainsKey(currType))
             {
-                Debug.WriteLine($"{currType} doesn't seem to exist. Something's gone wrong");
                 return false;
             }
 

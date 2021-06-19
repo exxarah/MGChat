@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using MGChat.Components;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Chunks
 {
@@ -16,6 +18,7 @@ namespace MGChat.Chunks
             Player = player;
             
             var chunk = new Chunk(chunkX, chunkY, position);
+            chunk.Load();
             ActiveChunks[1, 1] = chunk;
             ActiveChunks = PopulateNullChunks(ActiveChunks);
         }

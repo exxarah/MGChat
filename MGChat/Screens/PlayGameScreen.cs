@@ -1,11 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using MGChat.Chunks;
-using MGChat.Components;
 using MGChat.Factories;
-using MGChat.Physics2D.Primitives;
 using MGChat.Systems;
-using MGChat.TileMap;
 using MGChat.UI;
 using MGChat.Util;
 using Microsoft.Xna.Framework;
@@ -24,8 +21,7 @@ namespace MGChat.Screens
         private PhysicsSystem _physicsSystem;
         private CollisionResolutionSystem _collisionResolution;
         private DrawCollisionsSystem _drawCollisionsSystem;
-
-        // private TileMap.TileMap _tileMap;
+        
         private ChunkLoader _chunkLoader;
         private UiManager _uiManager;
         private Camera _camera;
@@ -64,16 +60,14 @@ namespace MGChat.Screens
             int player = Factories.PlayerFactory.CreateLocalPlayer("Player.json", ScreenManager.LocalPlayerName);
             _camera.Target = player;
             
-            // _tileMap = TileMapFactory.LoadMapCsv("Map_000.csv", 32, 32);
             _chunkLoader = new ChunkLoader(player, 0, 0, Vector2.Zero);
 
-            int bush = DecorationFactory.CreateBush();
+            // int bush = DecorationFactory.CreateBush();
         }
 
         public override void LoadAssets()
         {
             Debug.WriteLine("Content Loaded!");
-            // _tileMap.LoadContent(ScreenManager.ContentMgr);
             _drawCollisionsSystem.LoadContent(ScreenManager.ContentMgr);
             _spriteRenderingSystem.LoadContent(ScreenManager.ContentMgr);
             _uiManager.LoadContent(ScreenManager.ContentMgr);
@@ -112,7 +106,6 @@ namespace MGChat.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            // _tileMap.Draw(ScreenManager.Sprites, _camera);
             // Is in here because they're rendered in this game space
             if(_debug) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
             _spriteRenderingSystem.Draw(ScreenManager.Sprites, ScreenManager.ContentMgr, _camera);

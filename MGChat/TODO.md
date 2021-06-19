@@ -55,8 +55,9 @@
   - [ ] Set up big tilemap (tilemap of chunk tilemaps)
       - [ ] Check that neighbour finding works properly
       - [ ] If the main use r to figure out if there will be overlap, if there will be, then access the parent to ????
-  - [ ] Only load active chunks/maps into memory (papa tilemap handles this)
+  - [X] Only load active chunks/maps into memory (papa tilemap handles this)
   - [ ] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
+  - [ ] OPTIMISE!!!!!
 - [ ] Ability Bar
   - [ ] Ability (Probably external to ECS)
     - [ ] Abstract class for abilities to inherit from
