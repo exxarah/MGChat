@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using MGChat.Commands;
 using MGChat.Components;
 using MGChat.ECS;
@@ -24,7 +25,13 @@ namespace MGChat.Systems
             foreach (var entity in components)
             {
                 var _command = (CommandComponent) entity;
-                var _col = (Collider2D) ECS.Manager.Instance.FetchAny<Collider2D>(_command.Parent)[0];
+                var _colList = ECS.Manager.Instance.FetchAny<Collider2D>(_command.Parent);
+                if (_colList.Count == 0)
+                {
+                    continue;
+                }
+                var _col = (Collider2D) _colList[0];
+                
                 var commands = _command.GetAllCommands<CollisionCommand>();
                 if (commands is null)
                 {
