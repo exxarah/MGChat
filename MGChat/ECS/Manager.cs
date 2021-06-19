@@ -174,11 +174,23 @@ namespace MGChat.ECS
 
         public List<Component> Fetch<T>(int entity)
         {
-            List<Component> list = Query<T>();
-            var listFinal = list.Where(comp => comp.Parent == entity).ToList();
+            LinkedList<Component> list = _components[typeof(T)];
+            List<Component> listFinal = new List<Component>();
+
+            foreach (var component in list)
+            {
+                if (component.Parent == entity)
+                {
+                    listFinal.Add(component);
+                }
+                if (component.Parent > entity)
+                    break;
+            }
+            //var listFinal = list.Where(comp => comp.Parent == entity).ToList();
             return listFinal;
         }
         
+        // TODO: Replace me with LinkedList related optimisations. NO LINQ
         public List<Component> FetchAny<T>(int entity)
         {
             List<Component> list = Fetch(entity);
