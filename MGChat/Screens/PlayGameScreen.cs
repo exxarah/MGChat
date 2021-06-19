@@ -98,6 +98,7 @@ namespace MGChat.Screens
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
 
+            _spriteRenderingSystem.Update(gameTime);
             _camera.Update(gameTime);
             _drawCollisionsSystem.Update(gameTime);
             _chunkLoader.Update(gameTime);
@@ -108,7 +109,7 @@ namespace MGChat.Screens
         {
             // Is in here because they're rendered in this game space
             if(_debug) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
-            _spriteRenderingSystem.Draw(ScreenManager.Sprites, ScreenManager.ContentMgr, _camera);
+            _spriteRenderingSystem.Draw(ScreenManager.Sprites, _camera);
             _uiManager.Draw(ScreenManager.Sprites, _camera);
         }
 

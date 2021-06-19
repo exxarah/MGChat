@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MGChat.Components;
 using MGChat.ECS;
@@ -11,6 +12,7 @@ namespace MGChat.Systems
 {
     public class SpriteRenderingSystem : ECS.System
     {
+        private List<List<Component>> componentsToDraw = new List<List<Component>>();
         public override void LoadContent(ContentManager content)
         {
             var components = Manager.Instance.Query<SpriteComponent>();
@@ -24,11 +26,12 @@ namespace MGChat.Systems
                 sprite.ContentLoaded = true;
             }
         }
-        public void Draw(SpriteBatch spriteBatch, ContentManager Content, Camera camera=null)
+
+        public override void Update(GameTime gameTime)
         {
             var components = Manager.Instance.Query<SpriteComponent, TransformComponent>();
+            if (components == null || components == componentsToDraw) { return; }
             
-            if (components == null) { return; }
             components.Sort((x, y) =>
             {
                 var xTrans = (TransformComponent) x[1];
@@ -40,16 +43,23 @@ namespace MGChat.Systems
                 int ySort =  xTrans.Position.Y.CompareTo(yTrans.Position.Y);
                 return renderSort != 0 ? renderSort : ySort;
             });
+
+            componentsToDraw = components;
             
+            base.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Camera camera)
+        {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera?.ViewMatrix);
-            foreach (var entity in components)
+            foreach (var entity in componentsToDraw)
             {
                 var sprite = (SpriteComponent) entity[0];
                 var transform = (TransformComponent) entity[1];
 
                 if (sprite.ContentLoaded is false)
                 {
-                    sprite.Texture ??= Content.Load<Texture2D>(sprite.TexturePath);
+                    sprite.Texture ??= ScreenManager.ContentMgr.Load<Texture2D>(sprite.TexturePath);
                     sprite.ContentLoaded = true;
                 }
 
@@ -60,11 +70,9 @@ namespace MGChat.Systems
                     (int)transform.Position.X, (int) transform.Position.Y,
                     sprite.SpriteWidth * (int)transform.Scale.X, sprite.SpriteHeight * (int)transform.Scale.Y);
                 
-                //spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White);
                 spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White, transform.Rotation, transform.RotOrigin, SpriteEffects.None, 0f);
             }
             spriteBatch.End();
-
         }
     }
 }
