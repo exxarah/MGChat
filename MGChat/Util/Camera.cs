@@ -18,7 +18,7 @@ namespace MGChat.Util
         private Matrix _projection;
         private Matrix _view;
 
-        private const float BOUNDSPIXELS = 200f;
+        private const float BOUNDSPIXELS = 400f;
 
         private int _viewWidth;
         private int _viewHeight;

@@ -40,7 +40,8 @@ namespace MGChat.Systems
                 int ySort =  xTrans.Position.Y.CompareTo(yTrans.Position.Y);
                 return renderSort != 0 ? renderSort : ySort;
             });
-
+            
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera?.ViewMatrix);
             foreach (var entity in components)
             {
                 var sprite = (SpriteComponent) entity[0];
@@ -59,11 +60,11 @@ namespace MGChat.Systems
                     (int)transform.Position.X, (int) transform.Position.Y,
                     sprite.SpriteWidth * (int)transform.Scale.X, sprite.SpriteHeight * (int)transform.Scale.Y);
                 
-                spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera?.ViewMatrix);
                 //spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White);
                 spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White, transform.Rotation, transform.RotOrigin, SpriteEffects.None, 0f);
-                spriteBatch.End();
             }
+            spriteBatch.End();
+
         }
     }
 }
