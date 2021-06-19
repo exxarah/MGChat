@@ -32,6 +32,7 @@ namespace MGChat.Systems
             var components = Manager.Instance.Query<SpriteComponent, TransformComponent>();
             if (components == null || components == componentsToDraw) { return; }
             
+            // TODO: Slow. Figure out how to do the tiles separately, so sorting only non-tiles
             components.Sort((x, y) =>
             {
                 var xTrans = (TransformComponent) x[1];

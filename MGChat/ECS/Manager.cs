@@ -13,16 +13,16 @@ namespace MGChat.ECS
 
         private Random _random;
         private List<int> _entities;
-        private Dictionary<Type, List<Component>> _components;
+        private Dictionary<Type, LinkedList<Component>> _components;
 
-        public Dictionary<Type, List<Component>> Components => _components;
+        public Dictionary<Type, LinkedList<Component>> Components => _components;
         public int EntitiesCount => _entities.Count;
 
         private Manager()
         {
             _random = new Random();
             _entities = new List<int>();
-            _components = new Dictionary<Type, List<Component>>();
+            _components = new Dictionary<Type, LinkedList<Component>>();
         }
 
         public int CreateEntity()
@@ -81,8 +81,6 @@ namespace MGChat.ECS
 
         public bool RegisterComponent(Component component)
         {
-            Type currType = component.GetType();
-
             if (component.Registered)
             {
                 return false;
@@ -94,13 +92,26 @@ namespace MGChat.ECS
                 return false;
             }
             
+            Type currType = component.GetType();
+
             // Check if Component entry in Dict
             if (!_components.ContainsKey(currType))
             {
-                _components.Add(currType, new List<Component>());
+                _components.Add(currType, new LinkedList<Component>());
             }
 
-            _components[currType].Add(component);
+            var node = _components[currType].First;
+            while (node != null)
+            {
+                if (node.Value.Parent > component.Parent)
+                {
+                    _components[currType].AddBefore(node, component);
+                    break;
+                }
+
+                node = node.Next;
+            }
+            _components[currType].AddLast(component);
             return true;
         }
 
@@ -132,22 +143,21 @@ namespace MGChat.ECS
 
         public void Clear()
         {
-            _components = new Dictionary<Type, List<Component>>();
+            _components = new Dictionary<Type, LinkedList<Component>>();
             _entities = new List<int>();
         }
 
         public List<Component> Fetch(int entity)
         {
             List<Component> list = new List<Component>();
-            
-            for (int i = _components.Count - 1; i >= 0; i--)
+
+            foreach (var kvp in _components)
             {
-                KeyValuePair<Type, List<Component>> KeyValue = _components.ElementAt(i);
-                for (int j = KeyValue.Value.Count - 1; j >= 0; j--)
+                foreach (var component in kvp.Value)
                 {
-                    if (KeyValue.Value[j].Parent == entity)
+                    if (component.Parent == entity)
                     {
-                        list.Add(KeyValue.Value.ElementAt(j));
+                        list.Add(component);
                         break;
                     }
                 }
@@ -173,7 +183,7 @@ namespace MGChat.ECS
         {
             if (!_components.ContainsKey(typeof(T))) { return null; }
             
-            var list = _components[typeof(T)];
+            var list = _components[typeof(T)].ToList();
             return list;
         }
 
@@ -202,8 +212,57 @@ namespace MGChat.ECS
             var list1 = _components[typeof(T1)];
             var list2 = _components[typeof(T2)];
 
-            var listCombined = list1.Concat(list2).ToList();
-            var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() >= 2).Select(group => group.ToList()).ToList();
+            //var listCombined = list1.Concat(list2).ToList();
+            //var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() >= 2).Select(group => group.ToList()).ToList();
+
+            /*
+            List<List<Component>> finalList = new List<List<Component>>();
+            foreach (var c1 in list1)
+            {
+                foreach (var c2 in list2)
+                {
+                    if (c1.Parent == c2.Parent)
+                    {
+                        // Check for Duplicates
+                        bool exists = false;
+                        foreach (var list in finalList)
+                        {
+                            if (list[0].Parent == c1.Parent)
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+
+                        if (!exists)
+                        {
+                            finalList.Add(new List<Component>(){c1, c2});
+                        }
+                    }
+                }
+            }
+            */
+
+            List<List<Component>> finalList = new List<List<Component>>();
+            var node1 = list1.First;
+            var node2 = list2.First;
+            while (node1 != null && node2 != null)
+            {
+                if (node1.Value.Parent == node2.Value.Parent)
+                {
+                    finalList.Add(new List<Component>(){node1.Value, node2.Value});
+                    node1 = node1.Next;
+                    node2 = node2.Next;
+                } else if (node1.Value.Parent > node2.Value.Parent)
+                {
+                    node2 = node2.Next;
+                }
+                else
+                {
+                    node1 = node1.Next;
+                }
+            }
+            
             return finalList;
         }
 
@@ -224,8 +283,41 @@ namespace MGChat.ECS
             var list2 = _components[typeof(T2)];
             var list3 = _components[typeof(T3)];
              
-            var listCombined = list1.Concat(list2).Concat(list3).ToList();
-            var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 3).Select(group => group.ToList()).ToList();
+            // var listCombined = list1.Concat(list2).Concat(list3).ToList();
+            // var finalList = listCombined.GroupBy(component => component.Parent).Where(group => group.Count() == 3).Select(group => group.ToList()).ToList();
+            
+            List<List<Component>> finalList = new List<List<Component>>();
+            var node1 = list1.First;
+            var node2 = list2.First;
+            var node3 = list3.First;
+            while (node1 != null && node2 != null && node3 != null)
+            {
+                if (node1.Value.Parent == node2.Value.Parent  && node2.Value.Parent == node3.Value.Parent)
+                {
+                    finalList.Add(new List<Component>(){node1.Value, node2.Value, node3.Value});
+                    node1 = node1.Next;
+                    node2 = node2.Next;
+                    node3 = node3.Next;
+                    continue;
+                }
+
+                int smallestParent = Math.Min(Math.Min(node1.Value.Parent, node2.Value.Parent), node3.Value.Parent);
+                if (node1.Value.Parent == smallestParent)
+                {
+                    node1 = node1.Next;
+                }
+
+                if (node2.Value.Parent == smallestParent)
+                {
+                    node2 = node2.Next;
+                }
+
+                if (node3.Value.Parent == smallestParent)
+                {
+                    node3 = node3.Next;
+                }
+            }
+            
             return finalList;
         }
         
