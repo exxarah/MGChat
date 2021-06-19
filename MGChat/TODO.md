@@ -52,9 +52,6 @@
       - [X] File to define a map, 2d array of tile identifiers
   - [X] Actually load/use json
   - [X] Add some bush entities with colliders and sprites
-  - [ ] Set up big tilemap (tilemap of chunk tilemaps)
-      - [ ] Check that neighbour finding works properly
-      - [ ] If the main use r to figure out if there will be overlap, if there will be, then access the parent to ????
   - [X] Only load active chunks/maps into memory (papa tilemap handles this)
   - [ ] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
   - [ ] OPTIMISE!!!!!

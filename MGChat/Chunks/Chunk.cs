@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using MGChat.Components;
 using MGChat.Factories;
 using Microsoft.Xna.Framework;
@@ -51,6 +52,7 @@ namespace MGChat.Chunks
             {
                 ECS.Manager.Instance.DestroyEntity(entity);
             }
+            _childEntities.Clear();
         }
         
         public bool Contains(Vector2 position)

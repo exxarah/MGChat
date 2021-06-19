@@ -106,7 +106,7 @@ namespace MGChat.ECS
                 if (node.Value.Parent > component.Parent)
                 {
                     _components[currType].AddBefore(node, component);
-                    break;
+                    return true;
                 }
 
                 node = node.Next;
@@ -122,24 +122,31 @@ namespace MGChat.ECS
             // Prevent duplicate registrations (not of the same component type, only of the same exact component)
             if (!component.Registered)
             {
+                Debug.WriteLine("attempted to deregister unregistered object");
                 return false;
             }
-            
+
             // Check that Entity actually exists
             if (!_entities.Contains(component.Parent))
             {
+                Debug.WriteLine("attempted to deregister component on null entity");
                 return false;
             }
 
             // Check if component entry in dict
             if (!_components.ContainsKey(currType))
             {
+                Debug.WriteLine("attempted to deregister compnent but no component list found");
                 return false;
             }
 
-            _components[currType].Remove(component);
+            if (!_components[currType].Remove(component))
+            {
+                Debug.WriteLine("could not remove component from components dictionary");
+            }
+
             return true;
-        }
+    }
 
         public void Clear()
         {

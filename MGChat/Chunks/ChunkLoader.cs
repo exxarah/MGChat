@@ -72,7 +72,6 @@ namespace MGChat.Chunks
                     {
                         newChunks[x, y] = null;
                         // Unload removed chunks
-                        // Debug.WriteLine($"Removing {2 - x}, {2 - y}");
                         ActiveChunks[2 - x, 2 - y].Unload();
                     }
                     else
@@ -104,6 +103,7 @@ namespace MGChat.Chunks
                         int chunkY = centerChunk.ChunkY + relativeY;
                         float posX = centerChunk.WorldPosition.X + relativeX * (centerChunk.ChunkWidth * centerChunk.TileWidth);
                         float posY = centerChunk.WorldPosition.Y + relativeY * (centerChunk.ChunkHeight * centerChunk.TileHeight);
+
 
                         newChunks[x, y] = new Chunk(chunkX, chunkY, new Vector2(posX, posY));
                         newChunks[x, y].Load();
