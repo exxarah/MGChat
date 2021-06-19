@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
@@ -13,6 +14,10 @@ namespace MGChat.Util
     {
         public static string NetDataIn = "";
         public static string NetDataOut = "";
+
+        private static Socket conn;
+        private static Task sendThread;
+        private static Task receiveThread;
         
         public struct NetInput
         {
@@ -47,30 +52,43 @@ namespace MGChat.Util
             IPAddress ipAddress = ipHostInfo.AddressList[0];
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1272);
             
-            Socket sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            conn = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             
             Debug.WriteLine("Attempting to connect...");
-            sender.Connect(remoteEP);  
+            conn.Connect(remoteEP);  
             
             Debug.WriteLine("Socket connected to {0}",  
-                sender.RemoteEndPoint.ToString());
+                conn.RemoteEndPoint.ToString());
             
             Thread.Sleep(1000);
+            sendThread = Task.Factory.StartNew(Util.Network.SendThread, "sendThread");
+            receiveThread = Task.Factory.StartNew(Util.Network.ReceiveThread, "receiveThread");
+        }
+
+        private static void SendThread(object? o)
+        {
             while (true)
             {
                 // send 2 server
-                byte[] msg = Encoding.ASCII.GetBytes(NetDataOut);
-                int bytesSent = sender.Send(msg);  
-                //Debug.WriteLine("Sent update to server");
-                
+                Thread.Sleep(16);
+                byte[] msg = Encoding.ASCII.GetBytes(NetDataOut + "\n");
+                int bytesSent = conn.Send(msg);
+            }
+        }
+
+        private static void ReceiveThread(object? o)
+        {
+            while (true)
+            {
                 // recieve from server
-                int bytesRec = sender.Receive(bytes);
+                byte[] bytes = new byte[1024];
+                int bytesRec = conn.Receive(bytes);
                 // TODO: only output this if we recieved bytes and stuff you know how it is
-                NetDataIn = Encoding.ASCII.GetString(bytes,0,bytesRec);
+                string dataIn = Encoding.ASCII.GetString(bytes,0,bytesRec);
+                var dataList = dataIn.Split("\n");
+                var singleLine = dataList[dataList.Length - 2];
+                NetDataIn = singleLine;
                 //Debug.WriteLine(NetDataIn);
-                
-                //Thread.Sleep(35);
-                //NetDataIn = NetDataOut;
             }
         }
     }

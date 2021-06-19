@@ -18,6 +18,8 @@
   - [ ] Neater/more efficient data
     - [ ] Replace Json with binary (or similar)
   - [ ] Only send/receive data when new data
+      - [X] Serverside
+      - [ ] Clientside
   - [ ] Login/Auth
     - [ ] Server stores playerName (used as NetID), and player customised json/data to be loaded.
 - [X] Nametag over local player
