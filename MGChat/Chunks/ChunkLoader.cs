@@ -12,7 +12,9 @@ namespace MGChat.Chunks
     public class ChunkLoader : ECS.System
     {
         public int Player;
-        public Chunk[,] ActiveChunks = new Chunk[3,3];
+        public static int activeChunkWidthHeight = 3;
+        public int activeChunkHalfIndex = (activeChunkWidthHeight - 1) / 2;
+        public Chunk[,] ActiveChunks = new Chunk[activeChunkWidthHeight,activeChunkWidthHeight];
         
         private Texture2D _outlineShape;
 
@@ -22,7 +24,7 @@ namespace MGChat.Chunks
             
             var chunk = new Chunk(chunkX, chunkY, position);
             chunk.Load();
-            ActiveChunks[1, 1] = chunk;
+            ActiveChunks[activeChunkHalfIndex, activeChunkHalfIndex] = chunk;
             ActiveChunks = PopulateNullChunks(ActiveChunks);
         }
 
@@ -39,14 +41,18 @@ namespace MGChat.Chunks
             {
                 newChunks = PopulateNullChunks(newChunks);
                 ActiveChunks = newChunks;
+                ScreenManager.CurrentChunk = new Vector2(
+                    ActiveChunks[activeChunkHalfIndex, activeChunkHalfIndex].ChunkX,
+                    ActiveChunks[activeChunkHalfIndex, activeChunkHalfIndex].ChunkY
+                );
             }
-            ScreenManager.CurrentChunk = new Vector2(ActiveChunks[1, 1].ChunkX, ActiveChunks[1, 1].ChunkY);
 
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera = null)
         {
+            // Draw Debug ChunkLines
             spriteBatch.Begin(transformMatrix: camera?.ViewMatrix);
             foreach (var chunk in ActiveChunks)
             {
@@ -63,42 +69,42 @@ namespace MGChat.Chunks
 
         private Chunk[,] ShiftChunksOver()
         {
-            // Ensure Player transform.Position is inside ActiveChunks[1,1]
+            // Ensure Player transform.Position is inside ActiveChunks[2,2]
             var transform = (TransformComponent)ECS.Manager.Instance.Fetch<TransformComponent>(Player)[0];
-            if (ActiveChunks[1, 1].Contains(transform.Position)) { return null; }
+            if (ActiveChunks[2, 2].Contains(transform.Position)) { return null; }
             
             Chunk[,] newChunks = null;
             int relativeX = 0;
             int relativeY = 0;
             
             // Get shift direction
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < activeChunkWidthHeight; x++)
             {
-                for (int y = 0; y < 3; y++)
+                for (int y = 0; y < activeChunkWidthHeight; y++)
                 {
                     if (ActiveChunks[x, y].Contains(transform.Position))
                     {
                         // Get shift direction
-                        relativeX = x - 1;
-                        relativeY = y - 1;
+                        relativeX = x - activeChunkHalfIndex;
+                        relativeY = y - activeChunkHalfIndex;
                     }
                 }
             }
             
             // If relX and relY are still 0, return null, because no changes
             if (relativeX == 0 && relativeY == 0) { return null; }
-            newChunks = new Chunk[3, 3];
+            newChunks = new Chunk[activeChunkWidthHeight, activeChunkWidthHeight];
             
             // Shift Chunks over
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < activeChunkWidthHeight; x++)
             {
-                for (int y = 0; y < 3; y++)
+                for (int y = 0; y < activeChunkWidthHeight; y++)
                 {
-                    if (x + relativeX < 0 || x + relativeX > 2 || y + relativeY < 0 || y + relativeY > 2)
+                    if (x + relativeX < 0 || x + relativeX > activeChunkWidthHeight || y + relativeY < 0 || y + relativeY > activeChunkWidthHeight)
                     {
                         newChunks[x, y] = null;
                         // Unload removed chunks
-                        ActiveChunks[2 - x, 2 - y].Unload();
+                        ActiveChunks[activeChunkWidthHeight - 1 - x, activeChunkWidthHeight - 1 - y].Unload();
                     }
                     else
                     {
@@ -113,17 +119,17 @@ namespace MGChat.Chunks
         private Chunk[,] PopulateNullChunks(Chunk[,] newChunks)
         {
             // Replace null with new Chunks
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < activeChunkWidthHeight; x++)
             {
-                for (int y = 0; y < 3; y++)
+                for (int y = 0; y < activeChunkWidthHeight; y++)
                 {
                     // Get replacement Chunk's ChunkX and ChunkY by comparing to newChunks[1, 1]
                     if (newChunks[x, y] is null)
                     {
-                        var centerChunk = newChunks[1, 1];
-                        // Now 1, 1 is 0, 0. We can use these for EZMath with 1,1
-                        int relativeX = x - 1;
-                        int relativeY = y - 1;
+                        var centerChunk = newChunks[activeChunkHalfIndex, activeChunkHalfIndex];
+                        // Now center is 0, 0. We can use these for EZMath with 1,1
+                        int relativeX = x - activeChunkHalfIndex;
+                        int relativeY = y - activeChunkHalfIndex;
 
                         int chunkX = centerChunk.ChunkX + relativeX;
                         int chunkY = centerChunk.ChunkY + relativeY;
