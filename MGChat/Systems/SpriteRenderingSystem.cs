@@ -55,8 +55,11 @@ namespace MGChat.Systems
                 Rectangle destinationRectangle = new Rectangle(
                     (int)transform.Position.X, (int) transform.Position.Y,
                     sprite.SpriteWidth * (int)transform.Scale.X, sprite.SpriteHeight * (int)transform.Scale.Y);
-                
-                spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White, transform.Rotation, transform.RotOrigin, SpriteEffects.None, 0f);
+
+                if (camera == null || camera.InView(destinationRectangle))
+                {
+                    spriteBatch.Draw(sprite.Texture, destinationRectangle, sourceRectangle, Color.White, transform.Rotation, transform.RotOrigin, SpriteEffects.None, 0f);
+                }
             }
             spriteBatch.End();
         }

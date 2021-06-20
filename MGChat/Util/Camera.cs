@@ -64,6 +64,17 @@ namespace MGChat.Util
             }
         }
 
+        public bool InView(Rectangle rectangle)
+        {
+            var viewRect = new Rectangle((int)_position.X, (int)_position.Y, _viewWidth, _viewHeight);
+            if (rectangle.Intersects(viewRect))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void SetPosition(Vector3 position)
         {
             _position = position;
