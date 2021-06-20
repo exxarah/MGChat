@@ -17,6 +17,7 @@ namespace MGChat.Chunks
         public Chunk[,] ActiveChunks = new Chunk[activeChunkWidthHeight,activeChunkWidthHeight];
         
         private Texture2D _outlineShape;
+        private Queue<Chunk> _inactiveChunks;
 
         public ChunkLoader(int player, int chunkX, int chunkY, Vector2 position)
         {
@@ -26,6 +27,7 @@ namespace MGChat.Chunks
             chunk.Load();
             ActiveChunks[activeChunkHalfIndex, activeChunkHalfIndex] = chunk;
             ActiveChunks = PopulateNullChunks(ActiveChunks);
+            _inactiveChunks = new Queue<Chunk>();
         }
 
         public override void LoadContent(ContentManager content)
@@ -100,15 +102,19 @@ namespace MGChat.Chunks
             {
                 for (int y = 0; y < activeChunkWidthHeight; y++)
                 {
-                    if (x + relativeX < 0 || x + relativeX > activeChunkWidthHeight || y + relativeY < 0 || y + relativeY > activeChunkWidthHeight)
+                    if (x + relativeX < 0 || x + relativeX >= activeChunkWidthHeight || y + relativeY < 0 || y + relativeY >= activeChunkWidthHeight)
                     {
                         newChunks[x, y] = null;
+                        
                         // Unload removed chunks
-                        ActiveChunks[activeChunkWidthHeight - 1 - x, activeChunkWidthHeight - 1 - y].Unload();
+                        //ActiveChunks[activeChunkWidthHeight - 1 - x, activeChunkWidthHeight - 1 - y].Unload();
+                        
+                        // Add newly inactive chunk to _inactiveChunks, to be passed into new Chunks
+                        _inactiveChunks.Enqueue(ActiveChunks[activeChunkWidthHeight - 1 - x, activeChunkWidthHeight - 1 - y]);
                     }
                     else
                     {
-                        newChunks[x, y] = ActiveChunks?[x + relativeX, y + relativeY];
+                        newChunks[x, y] = ActiveChunks[x + relativeX, y + relativeY];
                     }
                 }
             }
@@ -138,7 +144,16 @@ namespace MGChat.Chunks
 
 
                         newChunks[x, y] = new Chunk(chunkX, chunkY, new Vector2(posX, posY));
-                        newChunks[x, y].Load();
+                        if (_inactiveChunks != null)
+                        {
+                            Chunk prev;
+                            bool existing = _inactiveChunks.TryDequeue(out prev);
+                            newChunks[x, y].Load(existing ? prev : null);
+                        }
+                        else
+                        {
+                            newChunks[x, y].Load();
+                        }
                     }
                 }
             }
