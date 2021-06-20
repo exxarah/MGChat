@@ -66,7 +66,8 @@ namespace MGChat.Util
 
         public bool InView(Rectangle rectangle)
         {
-            var viewRect = new Rectangle((int)_position.X, (int)_position.Y, _viewWidth, _viewHeight);
+            // Extra to remove edge jitteriness
+            var viewRect = new Rectangle((int)_position.X - 1, (int)_position.Y - 1, _viewWidth + 2, _viewHeight + 2);
             if (rectangle.Intersects(viewRect))
             {
                 return true;

@@ -34,6 +34,34 @@ namespace MGChat.Util
             return rectangle;
         }
 
+        public static Texture2D GenerateSquareOutlineShape(GraphicsDevice graphicsDevice, int width, int height,
+            int borderWidth, int borderHeight)
+        {
+            Texture2D rectangle = new Texture2D(graphicsDevice, width, height);
+            Color[] colorData = new Color[width * height];
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    int index = x * width + y;
+                    if (x > borderWidth && x < width - borderWidth &&
+                        y > borderHeight && y < height - borderHeight)
+                    {
+                        colorData[index] = Color.Transparent;
+                    }
+                    else
+                    {
+                        colorData[index] = Color.White;
+                    }
+                }
+            }
+            
+            rectangle.SetData(colorData);
+
+            return rectangle;
+        }
+
         public static Texture2D GenerateCircleShape(GraphicsDevice graphicsDevice, int diameter)
         {
             Texture2D circle = new Texture2D(graphicsDevice, diameter, diameter);

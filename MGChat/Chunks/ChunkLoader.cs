@@ -3,6 +3,7 @@ using System.Diagnostics;
 using MGChat.Components;
 using MGChat.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MGChat.Chunks
@@ -12,6 +13,8 @@ namespace MGChat.Chunks
     {
         public int Player;
         public Chunk[,] ActiveChunks = new Chunk[3,3];
+        
+        private Texture2D _outlineShape;
 
         public ChunkLoader(int player, int chunkX, int chunkY, Vector2 position)
         {
@@ -22,6 +25,13 @@ namespace MGChat.Chunks
             ActiveChunks[1, 1] = chunk;
             ActiveChunks = PopulateNullChunks(ActiveChunks);
         }
+
+        public override void LoadContent(ContentManager content)
+        {
+            _outlineShape = Util.Shape.GenerateSquareOutlineShape(ScreenManager.Sprites.GraphicsDevice, 128, 128, 1, 1);
+            base.LoadContent(content);
+        }
+
         public override void Update(GameTime gameTime)
         {
             var newChunks = ShiftChunksOver();
@@ -33,6 +43,22 @@ namespace MGChat.Chunks
             ScreenManager.CurrentChunk = new Vector2(ActiveChunks[1, 1].ChunkX, ActiveChunks[1, 1].ChunkY);
 
             base.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Camera camera = null)
+        {
+            spriteBatch.Begin(transformMatrix: camera?.ViewMatrix);
+            foreach (var chunk in ActiveChunks)
+            {
+                Rectangle textureRect = new Rectangle(
+                    (int)chunk.WorldPosition.X, (int)chunk.WorldPosition.Y,
+                    (int)chunk.ChunkWidth * chunk.TileWidth, (int)chunk.ChunkHeight * chunk.TileHeight);
+                var chunkShape = new Shape.DrawShape(_outlineShape, textureRect, Color.Aqua * 0.5f);
+                
+                spriteBatch.Draw(chunkShape.Texture, chunkShape.Rect, chunkShape.Colour);
+            }
+            spriteBatch.End();
+            base.Draw(spriteBatch, camera);
         }
 
         private Chunk[,] ShiftChunksOver()

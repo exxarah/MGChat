@@ -53,7 +53,7 @@
   - [X] Actually load/use json
   - [X] Add some bush entities with colliders and sprites
   - [X] Only load active chunks/maps into memory (papa tilemap handles this)
-  - [ ] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
+  - [X] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
   - [ ] OPTIMISE!!!!!
 - [ ] Ability Bar
   - [ ] Ability (Probably external to ECS)

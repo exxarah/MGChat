@@ -69,6 +69,7 @@ namespace MGChat.Screens
         {
             Debug.WriteLine("Content Loaded!");
             _drawCollisionsSystem.LoadContent(ScreenManager.ContentMgr);
+            _chunkLoader.LoadContent(ScreenManager.ContentMgr);
             _spriteRenderingSystem.LoadContent(ScreenManager.ContentMgr);
             _uiManager.LoadContent(ScreenManager.ContentMgr);
         }
@@ -107,9 +108,14 @@ namespace MGChat.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            // Is in here because they're rendered in this game space
-            if(_debug) _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
             _spriteRenderingSystem.Draw(ScreenManager.Sprites, _camera);
+            
+            // Is in here because they're rendered in this game space
+            if(_debug)
+            {
+                _drawCollisionsSystem.Draw(ScreenManager.Sprites, _camera);
+                _chunkLoader.Draw(ScreenManager.Sprites, _camera);
+            }
             _uiManager.Draw(ScreenManager.Sprites, _camera);
         }
 

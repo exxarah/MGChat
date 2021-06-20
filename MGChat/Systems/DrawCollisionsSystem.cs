@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MGChat.Components;
@@ -46,7 +47,10 @@ namespace MGChat.Systems
                         (int)aabb.Position.X, (int)aabb.Position.Y,
                         (int)aabb.Width, (int)aabb.Height);
 
-                    _shapes[transform.Parent] = new Shape.DrawShape(_squareShape, textureRect, aabb.Colliding ? Color.Red: Color.Green);
+                    Color col = aabb.Colliding ? Color.Red : Color.LawnGreen;
+                    col.A = 70;
+
+                    _shapes[transform.Parent] = new Shape.DrawShape(_squareShape, textureRect, col);
                     updatedEntities.Add(transform.Parent);
                 }
             }
