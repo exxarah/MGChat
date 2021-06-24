@@ -44,7 +44,7 @@
   - [X] Discover Collisions
   - [X] Resolve Collisions
   - [X] !Make them work with offsets properly!
-- [ ] Environment
+- [X] Environment
   - [X] Setup TileMap class
   - [X] Render TileMaps
   - [X] Json for tiles and map
@@ -54,7 +54,7 @@
   - [X] Add some bush entities with colliders and sprites
   - [X] Only load active chunks/maps into memory (papa tilemap handles this)
   - [X] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
-  - [ ] OPTIMISE!!!!!
+  - [X] OPTIMISE!!!!!
 - [ ] Ability Bar
   - [ ] Ability (Probably external to ECS)
     - [ ] Abstract class for abilities to inherit from
@@ -73,7 +73,7 @@
 - [X] Streamline PlayerFactory, single Player.json, then Factory adds specifics?
 - [ ] Write Json Importer for the Content Pipeline (http://rbwhitaker.wikidot.com/content-pipeline-extension-1)
 - [X] Render order on sprites, sort by Position.Y for draw order
-- [ ] Only render entities that are in camera view
+- [X] Only render entities that are in camera view
 - [X] Fix the Framerate averaging, it currently throws an error if it's still infinity. Might just be a spritefont issue, with no default set?
 - [ ] Split up Physics system so that collision is separate(?)
 </details>
@@ -90,8 +90,9 @@
 <details>
 <summary>v?.? - A Dumping Ground For Premature Optimisations/Overachievement</summary>
 
-- [ ] Optimise ECS.Manager, consider bitmasking
-- [ ] Chunking for environment
+- [ ] Optimise ECS.Manager, rewrite to use bitmasking for components
+- [X] Chunking for environment
+- [ ] Thread new chunk loading/unloading
 - [ ] Quadtrees/Collision Detection optimisation
 - [ ] Revisit Shaders (http://rbwhitaker.wikidot.com/hlsl-tutorials)
 </details>

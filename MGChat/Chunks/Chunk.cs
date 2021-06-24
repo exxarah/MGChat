@@ -53,7 +53,7 @@ namespace MGChat.Chunks
                 ECS.Manager.Instance.DestroyEntity(entity);
             }
             _childEntities.Clear();
-            _tileEntities.Clear();
+            _tileEntities = null;
         }
         
         public bool Contains(Vector2 position)

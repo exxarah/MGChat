@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using MGChat.Components;
 using MGChat.Util;
@@ -73,7 +75,7 @@ namespace MGChat.Chunks
         {
             // Ensure Player transform.Position is inside ActiveChunks[2,2]
             var transform = (TransformComponent)ECS.Manager.Instance.Fetch<TransformComponent>(Player)[0];
-            if (ActiveChunks[2, 2].Contains(transform.Position)) { return null; }
+            if (ActiveChunks[activeChunkHalfIndex, activeChunkHalfIndex].Contains(transform.Position)) { return null; }
             
             Chunk[,] newChunks = null;
             int relativeX = 0;
@@ -94,7 +96,11 @@ namespace MGChat.Chunks
             }
             
             // If relX and relY are still 0, return null, because no changes
-            if (relativeX == 0 && relativeY == 0) { return null; }
+            if (relativeX == 0 && relativeY == 0)
+            {
+                Debug.WriteLine("Bailed out of ChunkLoader when we shouldn't have!");
+                return null;
+            }
             newChunks = new Chunk[activeChunkWidthHeight, activeChunkWidthHeight];
             
             // Shift Chunks over

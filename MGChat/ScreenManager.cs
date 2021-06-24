@@ -108,35 +108,25 @@ namespace MGChat
         protected override void Update(GameTime gameTime)
         {
             UpdateFPS = (float) (1 / gameTime.ElapsedGameTime.TotalSeconds);
-            try
+            GameKeyboard.Update();
+            GameMouse.Update();
+            if (GameKeyboard.KeyHeld(Keys.Escape))
             {
-                GameKeyboard.Update();
-                GameMouse.Update();
-                if (GameKeyboard.KeyHeld(Keys.Escape))
-                {
-                    Exit();
-                }
+                Exit();
+            }
 
-                var startIndex = Screens.Count - 1;
-                while (Screens[startIndex].IsPopup && !Screens[startIndex].IsActive)
-                {
-                    startIndex--;
-                }
+            var startIndex = Screens.Count - 1;
+            while (Screens[startIndex].IsPopup && !Screens[startIndex].IsActive)
+            {
+                startIndex--;
+            }
 
-                for (var i = startIndex; i < Screens.Count; i++)
-                {
-                    Screens[i].Update(gameTime);
-                }
-            }
-            catch (Exception e)
+            for (var i = startIndex; i < Screens.Count; i++)
             {
-                Debug.WriteLine(e);
-                throw;
+                Screens[i].Update(gameTime);
             }
-            finally
-            {
-                base.Update(gameTime);
-            }
+
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
