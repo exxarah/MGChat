@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using MGChat.Abilities;
 using MGChat.Components;
 using MGChat.Util;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,8 +40,11 @@ namespace MGChat.Factories
             var export = (RemoteExportComponent) ECS.Manager.Instance.Fetch<RemoteExportComponent>(localPlayer)[0];
             export.NetId = name;
             
-            var info = (InformationComponent)ECS.Manager.Instance.Fetch<InformationComponent>(localPlayer)[0];
+            var info = (InformationComponent) ECS.Manager.Instance.Fetch<InformationComponent>(localPlayer)[0];
             info.Name = name;
+
+            var abilities = (AbilityUserComponent) ECS.Manager.Instance.Fetch<AbilityUserComponent>(localPlayer)[0];
+            abilities.AddAbility(0, new EmoteAbility());
 
             return localPlayer;
         }

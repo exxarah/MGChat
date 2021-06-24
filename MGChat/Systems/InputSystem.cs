@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using MGChat.Commands;
 using MGChat.Components;
-using MGChat.ECS;
 using MGChat.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -13,11 +10,28 @@ namespace MGChat.Systems
 {
     public class InputSystem : ECS.System
     {
-        private static readonly Dictionary<Keys, Vector2> MOVE_KEYS = new() {
+        public static Dictionary<Keys, Vector2> MoveKeys { get; } = new()
+        {
             {Keys.W, new Vector2(0, -1)},
             {Keys.S, new Vector2(0, 1)},
             {Keys.A, new Vector2(-1, 0)},
             {Keys.D, new Vector2(1, 0)},
+        };
+
+        public static Dictionary<Keys, Command> AbilityKeys { get; } = new()
+        {
+            {Keys.D1, new UseAbilityCommand(0)},
+            {Keys.D2, new UseAbilityCommand(1)},
+            {Keys.D3, new UseAbilityCommand(2)},
+            {Keys.D4, new UseAbilityCommand(3)},
+            {Keys.D5, new UseAbilityCommand(4)},
+            {Keys.D6, new UseAbilityCommand(5)},
+            {Keys.D7, new UseAbilityCommand(6)},
+            {Keys.D8, new UseAbilityCommand(7)},
+            {Keys.D9, new UseAbilityCommand(8)},
+            {Keys.D0, new UseAbilityCommand(9)},
+            {Keys.OemMinus, new UseAbilityCommand(10)},
+            {Keys.OemPlus, new UseAbilityCommand(11)},
         };
 
         public override void Update(GameTime gameTime)
@@ -34,13 +48,15 @@ namespace MGChat.Systems
                 // Get Relevant Components (no need to cast Input, it's just a flag)
                 // var _input = (InputComponent) component[0];
                 var _command = (CommandComponent) entity[1];
-                
+
+                #region MoveKeys Processing
+
                 Vector2 newDir = Vector2.Zero;
                 int count = 0;
                 int pressed = 0;
 
                 // Figure out Vector2 of direction, multidirectional rather than strictly cardinal directions
-                foreach (var kvp in MOVE_KEYS)
+                foreach (var kvp in MoveKeys)
                 {
                     if (GameKeyboard.KeyPressed(kvp.Key) || GameKeyboard.KeyHeld(kvp.Key))
                     {
@@ -56,8 +72,7 @@ namespace MGChat.Systems
                         pressed = -1;
                     }
                 }
-
-                //TODO: Be more like RemoteSystem -_-"
+                
                 if (newDir != Vector2.Zero)
                 {
                     newDir /= count;
@@ -69,6 +84,20 @@ namespace MGChat.Systems
                 {
                     _command.AddCommand(new ChangeStateCommand(pressed == 1 ? "Walk" : "Idle"));
                 }
+
+                #endregion
+
+                #region AbilityKeys Processing
+
+                foreach (var kvp in AbilityKeys)
+                {
+                    if (GameKeyboard.KeyPressed(kvp.Key))
+                    {
+                        _command.AddCommand(kvp.Value);
+                    }
+                }
+
+                #endregion
             }
             base.Update(gameTime);
         }

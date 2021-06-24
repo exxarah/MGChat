@@ -15,7 +15,6 @@ namespace MGChat.Systems
             if (components == null) { return; }
             EntitiesPerFrame = components.Count;
 
-
             foreach (var entity in components)
             {
                 var _command = (CommandComponent) entity[0];

@@ -21,6 +21,7 @@ namespace MGChat.Screens
         private PhysicsSystem _physicsSystem;
         private CollisionResolutionSystem _collisionResolution;
         private DrawCollisionsSystem _drawCollisionsSystem;
+        private AbilitiesSystem _abilitiesSystem;
         
         private ChunkLoader _chunkLoader;
         private UiManager _uiManager;
@@ -41,6 +42,7 @@ namespace MGChat.Screens
             _physicsSystem = new PhysicsSystem();
             _collisionResolution = new CollisionResolutionSystem();
             _drawCollisionsSystem = new DrawCollisionsSystem();
+            _abilitiesSystem = new AbilitiesSystem();
 
             _uiManager = new UiManager(this);
             _camera = new Camera(ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Width, ScreenManager.GraphicsDeviceMgr.GraphicsDevice.Viewport.Height, Vector3.Zero);
@@ -61,8 +63,6 @@ namespace MGChat.Screens
             _camera.Target = player;
             
             _chunkLoader = new ChunkLoader(player, 0, 0, Vector2.Zero);
-
-            // int bush = DecorationFactory.CreateBush();
         }
 
         public override void LoadAssets()
@@ -95,6 +95,7 @@ namespace MGChat.Screens
             _physicsSystem.Update(gameTime);
             _collisionResolution.Update(gameTime);
             
+            _abilitiesSystem.Update(gameTime);
             _movementSystem.Update(gameTime);
             _spriteStateSystem.Update(gameTime);
             _animationSystem.Update(gameTime);
