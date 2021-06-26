@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MGChat.Commands;
+using Microsoft.VisualBasic;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
@@ -14,7 +19,11 @@ namespace MGChat.Util
     {
         public static string NetDataIn = "";
         public static string NetDataOut = "";
+        
+        public static ConcurrentQueue<Command> CommandsOut = new ConcurrentQueue<Command>();
+        public static ConcurrentQueue<Command> CommandsIn = new ConcurrentQueue<Command>();
 
+        private static string partialReceiveData;
         private static Socket conn;
         private static Task sendThread;
         private static Task receiveThread;
@@ -31,16 +40,21 @@ namespace MGChat.Util
             }
         }
 
-        public static void Send(List<NetInput> exports)
+        public static void SendCommand(Command command)
         {
-            NetDataOut = JsonConvert.SerializeObject(exports);
+            CommandsOut.Enqueue(command);   
         }
 
-        public static List<NetInput> Receive()
+        public static List<Command> ReceiveCommands()
         {
-            List<NetInput> result = JsonConvert.DeserializeObject<List<NetInput>>(NetDataIn);
-            //Debug.WriteLine(NetDataIn);
-            return result;
+            List<Command> allCommands = new List<Command>();
+            while (CommandsIn.TryDequeue(out var command))
+            {
+                allCommands.Add(command);
+            }
+
+            //Debug.WriteLine(allCommands.Count);
+            return allCommands;
         }
 
         public static void NetThread(object? o)
@@ -48,8 +62,9 @@ namespace MGChat.Util
             Debug.WriteLine("Connecting to server");
             byte[] bytes = new byte[1024];
 
-            IPHostEntry ipHostInfo = Dns.GetHostEntry("home.ss23.geek.nz");  
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            //IPHostEntry ipHostInfo = Dns.GetHostEntry("home.ss23.geek.nz");  
+            //IPAddress ipAddress = ipHostInfo.AddressList[0];
+            IPAddress ipAddress = IPAddress.Loopback;
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1272);
             
             conn = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -61,6 +76,11 @@ namespace MGChat.Util
                 conn.RemoteEndPoint.ToString());
             
             Thread.Sleep(1000);
+            
+            // After we connect, we need to register ourselves with the server. By enqueing the command first, it will be sent first.
+            var connectCommand = new ServerConnectCommand(ScreenManager.LocalPlayerName, Vector2.Zero);
+            CommandsOut.Enqueue(connectCommand);
+            
             sendThread = Task.Factory.StartNew(Util.Network.SendThread, "sendThread");
             receiveThread = Task.Factory.StartNew(Util.Network.ReceiveThread, "receiveThread");
         }
@@ -70,9 +90,38 @@ namespace MGChat.Util
             while (true)
             {
                 // send 2 server
-                Thread.Sleep(16);
-                byte[] msg = Encoding.ASCII.GetBytes(NetDataOut + "\n");
-                int bytesSent = conn.Send(msg);
+                Thread.Sleep(8);
+                List<Command> commandsToSend = new List<Command>();
+                Command mostRecentPosition = null;
+                Command queuedCommand;
+                while (CommandsOut.TryDequeue(out queuedCommand))
+                {
+                    if (queuedCommand is SetPositionCommand)
+                    {
+                        mostRecentPosition = queuedCommand;
+                        continue;
+                    }
+
+                    commandsToSend.Add(queuedCommand);
+                }
+
+                if (mostRecentPosition != null)
+                {
+                    commandsToSend.Add(mostRecentPosition);
+                }
+                
+                Debug.WriteLine(commandsToSend.Count);
+                foreach (var commandToSend in commandsToSend)
+                {
+                    // Send the command for real now
+                    string commandString = JsonConvert.SerializeObject(commandToSend, new JsonSerializerSettings()
+                    {
+                        TypeNameHandling = TypeNameHandling.All,
+                    });
+                    byte[] msg = Encoding.ASCII.GetBytes(commandString + "\n");
+                    int bytesSent = conn.Send(msg);
+                }
+
             }
         }
 
@@ -83,13 +132,35 @@ namespace MGChat.Util
                 // recieve from server
                 byte[] bytes = new byte[1024];
                 int bytesRec = conn.Receive(bytes);
-                // TODO: only output this if we recieved bytes and stuff you know how it is
-                string dataIn = Encoding.ASCII.GetString(bytes,0,bytesRec);
-                var dataList = dataIn.Split("\n");
-                var singleLine = dataList[dataList.Length - 2];
-                NetDataIn = singleLine;
-                //Debug.WriteLine(NetDataIn);
+                if (bytesRec == 0) continue;
+
+                // We need to buffer the data we receive in case it is fragmented
+                partialReceiveData += Encoding.ASCII.GetString(bytes,0,bytesRec);
+                if (partialReceiveData.Length > 100000)
+                {
+                    Debug.WriteLine("Server sent us too much data at once!!!!");
+                    Debug.WriteLine(partialReceiveData);
+                    // TODO: Handle disconnection from server more gracefully
+                    return;
+                }
+                var dataList = partialReceiveData.Split("\n");
+                partialReceiveData = dataList[^1];
+                //Debug.WriteLine("Length of commands:");
+                //Debug.WriteLine(dataList.Length);
+                foreach (var s in dataList[0..^1])
+                {
+                    ParseReceivedCommand(s);
+                }
             }
+        }
+
+        private static void ParseReceivedCommand(string command)
+        {
+            var parsedCommand = JsonConvert.DeserializeObject<Command>(command, new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+            CommandsIn.Enqueue(parsedCommand);
         }
     }
 }

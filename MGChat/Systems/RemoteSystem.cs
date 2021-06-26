@@ -18,34 +18,60 @@ namespace MGChat.Systems
 
             #region Remote In
 
-            List<Network.NetInput> netInputs = Network.Receive();
-            List<string> existingPlayers = new List<string>();
-            
+            var receiveCommands = Network.ReceiveCommands();
+
             // Update Existing Remote Players
             var components = ECS.Manager.Instance.Query<RemoteInputComponent, CommandComponent>();
-            if (components != null && netInputs != null)
+            if (components != null && receiveCommands != null)
             {
                 EntitiesPerFrame = components.Count;
                 foreach (var entity in components)
                 {
                     var _remote = (RemoteInputComponent) entity[0];
                     var _command = (CommandComponent) entity[1];
-                    Network.NetInput _netInput = default;
-                    existingPlayers.Add(_remote.NetId);
 
                     // Get new positional data, update component
-                    foreach (var netInput in netInputs)
+                    for (int i = receiveCommands.Count - 1; i >= 0; i--)
                     {
-                        if (netInput.NetId == _remote.NetId)
+                        var command = receiveCommands[i];
+                        if (command is SetRemotePositionCommand remotePositionCommand)
                         {
-                            _netInput = netInput;
-                            break;
+                            if (_remote.NetId == remotePositionCommand.NetId)
+                            {
+                                UpdateRemotePlayer(_remote, _command, remotePositionCommand);
+                                receiveCommands.RemoveAt(i);
+                            }
+
+                            continue;
                         }
                     }
-                    if (Equals(_netInput, default(Network.NetInput))) { continue; }
-                    
-                    #region Remote Input
+                }
+            }
+            
+            // Spawn new Remote Players
+            if (receiveCommands.Count != 0)
+            {
+                foreach (var command in receiveCommands)
+                {
+                    if (command is SetRemotePositionCommand remotePositionCommand)
+                    {
+                        var remotePlayer = Factories.PlayerFactory.CreateRemotePlayer("RemotePlayer.json", remotePositionCommand);
+                    }
+                }
+            }
 
+            #endregion
+
+            base.Update(gameTime);
+        }
+
+        private void UpdateRemotePlayer(RemoteInputComponent remoteComponent, CommandComponent commandComponent, SetRemotePositionCommand remoteCommand)
+        {
+            commandComponent.AddCommand(new SetPositionCommand(remoteCommand.Position));
+            
+            // TODO: Re-implement animation state changes based on old and new direction
+            /*
+             * 
                     _remote.LastDirection = _remote.NewDirection;
                     var oldNew = _remote.NewPosition;
                     _remote.NewPosition = _netInput.Position;
@@ -69,44 +95,7 @@ namespace MGChat.Systems
                         _command.AddCommand(new ChangeStateCommand("Walk"));
                     }
 
-                    #endregion
-                }
-            }
-            
-            // Spawn new Remote Players
-            if (netInputs != null)
-            {
-                foreach (var input in netInputs)
-                {
-                    if (existingPlayers.Contains(input.NetId)) { continue; }
-                
-                    var remotePlayer = Factories.PlayerFactory.CreateRemotePlayer("RemotePlayer.json", input);
-                    Debug.WriteLine(input.Position);
-                }
-            }
-
-            #endregion
-
-            #region Remote Out
-
-            List<Network.NetInput> exports = new List<Network.NetInput>();
-            components = ECS.Manager.Instance.Query<RemoteExportComponent, TransformComponent>();
-            if (components == null) { return; }
-
-            foreach (var entity in components)
-            {
-                var _remote = (RemoteExportComponent) entity[0];
-                var _transform = (TransformComponent) entity[1];
-                
-                // Make a NetInput object, and add it to the list
-                var export = new Network.NetInput(_remote.NetId, _transform.Position);
-                exports.Add(export);
-            }
-
-            Network.Send(exports);
-            #endregion
-            
-            base.Update(gameTime);
+             */
         }
     }
 }

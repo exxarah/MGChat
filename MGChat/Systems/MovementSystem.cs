@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using MGChat.Commands;
 using MGChat.Components;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 
 namespace MGChat.Systems
@@ -20,10 +21,17 @@ namespace MGChat.Systems
                 var _command = (CommandComponent) entity[0];
                 var _transform = (TransformComponent) entity[1];
 
-                SetPositionCommand _setPos = _command.GetCommand<SetPositionCommand>();
-                if (_setPos is not null)
+                var _setPositions = _command.GetAllCommands<SetPositionCommand>();
+                if (_setPositions.Count < 1)
                 {
-                    _transform.Position = new Vector2(_setPos.Position.X, _setPos.Position.Y);
+                    continue;
+                }
+
+                var _setPos = _setPositions[^1];
+                _transform.Position = new Vector2(_setPos.Position.X, _setPos.Position.Y);
+                if (ECS.Manager.Instance.Fetch<RemoteExportComponent>(_transform.Parent).Count != 0)
+                {
+                    Network.SendCommand(_setPos);
                 }
             }
             base.Update(gameTime);

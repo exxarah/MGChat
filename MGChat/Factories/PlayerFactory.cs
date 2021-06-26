@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using MGChat.Abilities;
+using MGChat.Commands;
 using MGChat.Components;
 using MGChat.Util;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +15,7 @@ namespace MGChat.Factories
     {
         public static string DataPath = ScreenManager.ContentMgr.RootDirectory + "/Data/Actors/";
 
-        public static int CreateRemotePlayer(string jsonPath, Util.Network.NetInput input)
+        public static int CreateRemotePlayer(string jsonPath, SetRemotePositionCommand input)
         {
             string data = FileParser.ReadJson(DataPath + jsonPath);
             int remotePlayer = ECS.Manager.Instance.CreateEntity(data);
