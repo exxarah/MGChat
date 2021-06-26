@@ -85,7 +85,10 @@ namespace MGChat.Systems
                     }
                 }
                 // Accessing a command removes it, so need to save it and add it back
-                _command.AddCommand(_newPosCommand);
+                if (_newPosCommand is not null)
+                {
+                    _command.AddCommand(_newPosCommand);
+                }
             }
             #endregion
             base.Update(gameTime);
