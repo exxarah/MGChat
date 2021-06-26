@@ -18,13 +18,13 @@ namespace MGChat.Systems
         {
             StartUpdate = gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            var components = Manager.Instance.Query<CommandComponent>();
+            var components = Manager.Instance.Query<CommandComponent, PhysicsComponent>();
             if (components == null) { return; }
             EntitiesPerFrame = components.Count;
 
             foreach (var entity in components)
             {
-                var _command = (CommandComponent) entity;
+                var _command = (CommandComponent) entity[0];
                 var _colList = ECS.Manager.Instance.FetchAny<Collider2D>(_command.Parent);
                 if (_colList.Count == 0)
                 {
