@@ -18,7 +18,6 @@ namespace MGChat.Abilities
         
         public override void Execute(int parent)
         {
-            Debug.WriteLine("~~emote~~");
             CreateAbilityEntity(parent);
         }
 

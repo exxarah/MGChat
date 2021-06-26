@@ -67,6 +67,7 @@
   - [X] EmoteAbility automatically disappears
   - [X] Make all Emote Abilities
   - [ ] UI hookups for ability bar
+  - [ ] Make it work in multiplayer
 - [ ] Rewrite GameStateManager, to be a better FSM
   - [X] Rewrite
   - [ ] Add transitions and stuff

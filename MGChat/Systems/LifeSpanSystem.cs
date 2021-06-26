@@ -20,7 +20,6 @@ namespace MGChat.Systems
                 var lifeSpan = (LifeSpanComponent) component;
                 if (CheckIfDead(gameTime, lifeSpan))
                 {
-                    Debug.WriteLine("dead");
                     ECS.Manager.Instance.DestroyEntity(lifeSpan.Parent);
                 }
             }
