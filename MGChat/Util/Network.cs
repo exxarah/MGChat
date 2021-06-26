@@ -62,12 +62,13 @@ namespace MGChat.Util
             Debug.WriteLine("Connecting to server");
             byte[] bytes = new byte[1024];
 
-            //IPHostEntry ipHostInfo = Dns.GetHostEntry("home.ss23.geek.nz");  
-            //IPAddress ipAddress = ipHostInfo.AddressList[0];
-            IPAddress ipAddress = IPAddress.Loopback;
+            IPHostEntry ipHostInfo = Dns.GetHostEntry("home.ss23.geek.nz");  
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            //IPAddress ipAddress = IPAddress.Loopback;
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, 1272);
             
             conn = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            conn.NoDelay = true;
             
             Debug.WriteLine("Attempting to connect...");
             conn.Connect(remoteEP);  
@@ -90,7 +91,7 @@ namespace MGChat.Util
             while (true)
             {
                 // send 2 server
-                Thread.Sleep(8);
+                Thread.Sleep(2);
                 List<Command> commandsToSend = new List<Command>();
                 Command mostRecentPosition = null;
                 Command queuedCommand;
@@ -109,8 +110,6 @@ namespace MGChat.Util
                 {
                     commandsToSend.Add(mostRecentPosition);
                 }
-                
-                Debug.WriteLine(commandsToSend.Count);
                 foreach (var commandToSend in commandsToSend)
                 {
                     // Send the command for real now
