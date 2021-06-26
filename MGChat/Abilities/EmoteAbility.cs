@@ -39,6 +39,8 @@ namespace MGChat.Abilities
                 ParentTransform = parentTransform,
             };
 
+            var lifeSpan = new LifeSpanComponent(ability, 2.5f);
+
             return ability;
         }
     }

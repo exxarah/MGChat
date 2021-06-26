@@ -64,8 +64,8 @@
   - [X] InputSystem sends Commands to CommandComponent/AbilityUserComponent, with the skill button pressed
   - [ ] Something similar for RemoteSystem
   - [X] AbilitySystem takes CommandComponent/AbilityUserComponent, executes the correct ability
-  - [ ] EmoteAbility automatically disappears
-  - [ ] Make all Emote Abilities
+  - [X] EmoteAbility automatically disappears
+  - [X] Make all Emote Abilities
   - [ ] UI hookups for ability bar
 - [ ] Rewrite GameStateManager, to be a better FSM
   - [X] Rewrite

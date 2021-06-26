@@ -12,6 +12,7 @@ namespace MGChat.Screens
 {
     public class PlayGameScreen : GameScreen
     {
+        private LifeSpanSystem _lifeSpanSystem;
         private InputSystem _inputSystem;
         private RemoteSystem _remoteSystem;
         private MovementSystem _movementSystem;
@@ -33,6 +34,7 @@ namespace MGChat.Screens
         
         public override void Initialize()
         {
+            _lifeSpanSystem = new LifeSpanSystem();
             _inputSystem = new InputSystem();
             _remoteSystem = new RemoteSystem();
             _movementSystem = new MovementSystem();
@@ -88,6 +90,8 @@ namespace MGChat.Screens
                     ScreenManager.RemoveScreen(ScreenManager.GetScreen("Debug"));
                 }
             }
+
+            _lifeSpanSystem.Update(gameTime);
             
             _inputSystem.Update(gameTime);
             _remoteSystem.Update(gameTime);
