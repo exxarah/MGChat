@@ -174,8 +174,12 @@ namespace MGChat.ECS
 
         public List<Component> Fetch<T>(int entity)
         {
-            LinkedList<Component> list = _components[typeof(T)];
             List<Component> listFinal = new List<Component>();
+            if (!_components.ContainsKey(typeof(T)))
+            {
+                return listFinal;
+            }
+            LinkedList<Component> list = _components[typeof(T)];
 
             foreach (var component in list)
             {
