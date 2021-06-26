@@ -18,7 +18,7 @@ namespace MGChat.Components
         public void UseAbility(int index)
         {
             if (_abilities[index] is null) { return; }
-            _abilities[index].Execute();
+            _abilities[index].Execute(Parent);
         }
 
         public void AddAbility(int index, Ability ability)

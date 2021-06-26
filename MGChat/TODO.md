@@ -56,15 +56,16 @@
   - [X] Only draw currently on screen tiles (each chunk can handle this itself using camera?)
   - [X] OPTIMISE!!!!!
 - [ ] Ability Bar
-  - [ ] Ability (Probably external to ECS)
-    - [ ] Abstract class for abilities to inherit from
-    - [ ] Execute()
-  - [ ] AbilityUserComponent
-    - [ ] Array of Len(abilityBarAmount), can be an Ability, or null
-  - [ ] InputSystem sends Commands to CommandComponent/InputComponent/AbilityUserComponent, with the skill button pressed
+  - [X] Ability (Probably external to ECS)
+    - [X] Abstract class for abilities to inherit from
+    - [X] Execute()
+  - [X] AbilityUserComponent
+    - [X] Array of Len(abilityBarAmount), can be an Ability, or null
+  - [X] InputSystem sends Commands to CommandComponent/AbilityUserComponent, with the skill button pressed
   - [ ] Something similar for RemoteSystem
-  - [ ] AbilitySystem takes CommandComponent/AbilityUserComponent, executes the correct ability
-  - [ ] Make Emote Abilities
+  - [X] AbilitySystem takes CommandComponent/AbilityUserComponent, executes the correct ability
+  - [ ] EmoteAbility automatically disappears
+  - [ ] Make all Emote Abilities
   - [ ] UI hookups for ability bar
 - [ ] Rewrite GameStateManager, to be a better FSM
   - [X] Rewrite
@@ -76,6 +77,7 @@
 - [X] Only render entities that are in camera view
 - [X] Fix the Framerate averaging, it currently throws an error if it's still infinity. Might just be a spritefont issue, with no default set?
 - [ ] Split up Physics system so that collision is separate(?)
+- [ ] Refactor InputSystem to use Commands for movement, consolidate MoveKeys and AbilityKeys, need to figure out how ot handle multi-dir movement then
 </details>
 
 <details>

@@ -8,7 +8,8 @@ namespace MGChat.Components
         private Vector2 _position;
         
         public Vector2 LastPosition;
-        public Vector2 Position { get => _position;
+        public Vector2 Position {
+            get => _position + (ParentTransform?.Position ?? Vector2.Zero);
             set
             {
                 LastPosition = _position;
@@ -18,6 +19,8 @@ namespace MGChat.Components
         public Vector2 Scale;
         public Vector2 RotOrigin;
         public float Rotation;
+
+        public TransformComponent ParentTransform;
         
         public TransformComponent(int parent, int startX=0, int startY=0) : base(parent)
         {

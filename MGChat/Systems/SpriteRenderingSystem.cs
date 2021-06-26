@@ -54,7 +54,7 @@ namespace MGChat.Systems
                     sprite.SpriteWidth, sprite.SpriteHeight);
                 Rectangle destinationRectangle = new Rectangle(
                     (int)transform.Position.X, (int) transform.Position.Y,
-                    sprite.SpriteWidth * (int)transform.Scale.X, sprite.SpriteHeight * (int)transform.Scale.Y);
+                    (int)(sprite.SpriteWidth * transform.Scale.X), (int)(sprite.SpriteHeight * transform.Scale.Y));
 
                 if (camera == null || camera.InView(destinationRectangle))
                 {

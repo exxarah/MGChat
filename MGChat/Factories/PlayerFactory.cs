@@ -44,7 +44,7 @@ namespace MGChat.Factories
             info.Name = name;
 
             var abilities = (AbilityUserComponent) ECS.Manager.Instance.Fetch<AbilityUserComponent>(localPlayer)[0];
-            abilities.AddAbility(0, new EmoteAbility());
+            abilities.AddAbility(0, new HappyEmoteAbility());
 
             return localPlayer;
         }
