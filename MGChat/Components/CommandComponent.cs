@@ -25,7 +25,9 @@ namespace MGChat.Components
         {
             var command = _commands.OfType<T>().FirstOrDefault();
             //_pastCommands.Push(command);
-            _commands.Remove(command);
+            if (command is not null) {
+                _commands.Remove(command);
+            }
             return command;
         }
 
