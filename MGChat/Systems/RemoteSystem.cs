@@ -34,15 +34,10 @@ namespace MGChat.Systems
                     for (int i = receiveCommands.Count - 1; i >= 0; i--)
                     {
                         var command = receiveCommands[i];
-                        if (command is SetRemotePositionCommand remotePositionCommand)
+                        if (command is RemoteCommand remoteCommand && remoteCommand.NetId == _remote.NetId)
                         {
-                            if (_remote.NetId == remotePositionCommand.NetId)
-                            {
-                                UpdateRemotePlayer(_remote, _command, remotePositionCommand);
-                                receiveCommands.RemoveAt(i);
-                            }
-
-                            continue;
+                            UpdateRemotePlayer(_command, remoteCommand);
+                            receiveCommands.RemoveAt(i);
                         }
                     }
                 }
@@ -65,37 +60,30 @@ namespace MGChat.Systems
             base.Update(gameTime);
         }
 
-        private void UpdateRemotePlayer(RemoteInputComponent remoteComponent, CommandComponent commandComponent, SetRemotePositionCommand remoteCommand)
+        private void UpdateRemotePlayer(CommandComponent commandComponent, Command remoteCommand)
         {
-            commandComponent.AddCommand(new SetPositionCommand(remoteCommand.Position));
-            
-            // TODO: Re-implement animation state changes based on old and new direction
-            /*
-             * 
-                    _remote.LastDirection = _remote.NewDirection;
-                    var oldNew = _remote.NewPosition;
-                    _remote.NewPosition = _netInput.Position;
-                    _remote.LastPosition = oldNew;
+            Command newCommand = null;
 
-                    // Send Appropriate Commands
-                    Vector2 newDir = _remote.NewDirection;
-                    if (_remote.NewDirection != Vector2.Zero)
-                    {
-                        _command.AddCommand(new SetPositionCommand(_remote.NewPosition));
-                        _command.AddCommand(new ChangeDirectionCommand(Conversion.VectorToDirection(newDir)));
-                    }
+            // Convert remoteCommand to a local Command
+            if (remoteCommand is SetRemotePositionCommand remotePositionCommand)
+            {
+                newCommand = new SetPositionCommand(remotePositionCommand.Position);
+            }
 
-                    if (newDir == Vector2.Zero && _remote.LastDirection != Vector2.Zero)
-                    {
-                        _command.AddCommand(new ChangeStateCommand("Idle"));
-                    }
+            else if (remoteCommand is SetRemoteDirectionCommand remoteDirectionCommand)
+            {
+                newCommand = new ChangeDirectionCommand(remoteDirectionCommand.Direction);
+            }
 
-                    if (newDir != Vector2.Zero && _remote.LastDirection == Vector2.Zero)
-                    {
-                        _command.AddCommand(new ChangeStateCommand("Walk"));
-                    }
+            else if (remoteCommand is SetRemoteStateCommand remoteStateCommand)
+            {
+                newCommand = new ChangeStateCommand(remoteStateCommand.State);
+            }
 
-             */
+            if (newCommand != null)
+            {
+                commandComponent.AddCommand(newCommand);
+            }
         }
     }
 }

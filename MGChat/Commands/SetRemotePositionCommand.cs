@@ -2,15 +2,13 @@
 
 namespace MGChat.Commands
 {
-    public class SetRemotePositionCommand : Command
+    public class SetRemotePositionCommand : RemoteCommand
     {
         public Vector2 Position;
-        public string NetId;
 
-        public SetRemotePositionCommand(Vector2 position, string netId)
+        public SetRemotePositionCommand(Vector2 position, string netId) : base(netId)
         {
             Position = position;
-            NetId = netId;
         }
     }
 }

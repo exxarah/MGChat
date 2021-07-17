@@ -155,6 +155,7 @@ namespace MGChat.Util
 
         private static void ParseReceivedCommand(string command)
         {
+            Debug.WriteLine(command);
             var parsedCommand = JsonConvert.DeserializeObject<Command>(command, new JsonSerializerSettings()
             {
                 TypeNameHandling = TypeNameHandling.Auto

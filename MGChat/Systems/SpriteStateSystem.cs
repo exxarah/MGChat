@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using MGChat.Commands;
 using MGChat.Components;
+using MGChat.Util;
 using Microsoft.Xna.Framework;
 
 namespace MGChat.Systems
@@ -22,10 +23,15 @@ namespace MGChat.Systems
                 var _command = (CommandComponent) entity[2];
 
                 bool changed = false;
+                bool remoteExport = (ECS.Manager.Instance.Fetch<RemoteExportComponent>(_sprite.Parent).Count != 0);
 
-                ChangeDirectionCommand dirCommand = _command.GetCommand<ChangeDirectionCommand>();
+                    ChangeDirectionCommand dirCommand = _command.GetCommand<ChangeDirectionCommand>();
                 if (dirCommand != null)
                 {
+                    if (_spriteState.Direction != dirCommand.Direction && remoteExport)
+                    {
+                        Network.SendCommand(dirCommand);
+                    }
                     _spriteState.ChangeState(newDir: dirCommand.Direction);
                     changed = true;
                 }
@@ -33,6 +39,10 @@ namespace MGChat.Systems
                 ChangeStateCommand stateCommand = _command.GetCommand<ChangeStateCommand>();
                 if (stateCommand != null)
                 {
+                    if (_spriteState.State != stateCommand.State && remoteExport)
+                    {
+                        Network.SendCommand(stateCommand);
+                    }
                     _spriteState.ChangeState(newState: stateCommand.State);
                     changed = true;
                 }
