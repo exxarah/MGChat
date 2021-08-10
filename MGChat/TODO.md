@@ -86,8 +86,25 @@
 
 - [ ] Tooling
   - [ ] Entity Designer Tool
+      - [ ] Dynamically fetch all possible components https://stackoverflow.com/questions/5411694/get-all-inherited-classes-of-an-abstract-class
+      - [ ] Dynamically generate form from components
+          - [ ] https://actualrandy.wordpress.com/2014/10/01/auto-generate-forms-and-class-by-reverse-engineering-your-class-or-web-reference/
+          - [ ] Backup is that I create a form for each component
+      - [ ] List of components on one side, with representation of the entity in the main view
+          - [ ] Click on component, blind opens with variables, can edit them there
+          - [ ] Button to add new, from dropdown
+      - [ ] Figure out how to use mgchat systems?
+          - [ ] If there's no easy way, have a button that will instead launch a monogame instance that CAN use them, even if it's in a separate window
+      - [ ] Automatically add it into MGCB (is that even possible lmfao)
+      - [ ] Load and edit existing entities
   - [ ] SpriteSheet Packer
+      - [ ] Align spritesheets for animation appropriately. Probably requires some reworking of the existing animation system, variable size etc
+      - [ ] Similar to Entity Designer, include visual representation, to check that it's looking good, fps, etc
   - [ ] Map Designer Tool
+      - [ ] Build levelmaps, like Tiled
+      - [ ] Place entities, based on json
+      - [ ] Grid/not-grid
+      - [ ] Rework existing chunking/map loading to use binary for larger maps
 </details>
 
 <details>
@@ -98,4 +115,6 @@
 - [ ] Thread new chunk loading/unloading
 - [ ] Quadtrees/Collision Detection optimisation
 - [ ] Revisit Shaders (http://rbwhitaker.wikidot.com/hlsl-tutorials)
+- [ ] Rewrite network code to generate normal commands, rather than having separate ones (maybe)
+    - [ ] Lookup correct entity by netId, and add the command to them instead?
 </details>
